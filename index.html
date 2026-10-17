@@ -1,0 +1,2350 @@
+<!doctype html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════════╗
+  ║  BARYS FAN SHOP: redesign concept (single file, no build step)       ║
+  ║  Concept only. Not an official store, checkout is non-functional.    ║
+  ╠══════════════════════════════════════════════════════════════════════╣
+  ║  DESIGN TOKENS (edit in :root below)                                 ║
+  ║   Navy          --navy      #0A2A5C   primary background             ║
+  ║   Navy 700      --navy-700  #071B3D   depth / alt sections           ║
+  ║   Navy 900      --navy-900  #04112A   footer                         ║
+  ║   Steel         --steel     #8FAFD3   display headings               ║
+  ║   Ice           --ice       #CFE0F3   light UI / secondary buttons   ║
+  ║   White         --white     #FFFFFF                                  ║
+  ║   Accent        --accent    #F5B642   CTAs, sale badges (sparingly)  ║
+  ║   Cyan          --cyan      #1BA3D6   emblem-derived detail colour   ║
+  ║  FONTS                                                               ║
+  ║   Display  "Unbounded" 700–800, uppercase, tracked (Google Fonts)    ║
+  ║   Body/UI  "Manrope" 400–800 (Google Fonts)                          ║
+  ║  MOTION   --ease cubic-bezier(.22,1,.36,1), 300–700 ms               ║
+  ║  RADII    12 / 16 / 24 px   SPACING  8 px grid                       ║
+  ║  LOGOS    hotlinked → ./assets/*.png → inline SVG monogram fallback  ║
+  ╚══════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BARYS Fan Shop</title>
+<meta name="description" content="Концепт редизайна фан-шопа ХК «Барыс», Астана.">
+<meta name="theme-color" content="#0A2A5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  /* palette */
+  --navy:#0A2A5C; --navy-600:#0E3470; --navy-700:#071B3D; --navy-800:#06163A; --navy-900:#04112A;
+  --steel:#8FAFD3; --ice:#CFE0F3; --white:#FFFFFF;
+  --accent:#F5B642; --accent-hi:#FFC85E; --accent-ink:#1B1405;
+  --cyan:#1BA3D6;
+  --text:#EEF4FB; --muted:#AFC4DE; --subtle:#8EA9CB;
+  --line:rgba(143,175,211,.16); --line-strong:rgba(143,175,211,.32);
+  --glass:rgba(14,52,112,.38); --glass-strong:rgba(7,27,61,.78);
+  /* type */
+  --font-display:"Unbounded","Montserrat","Arial Black",system-ui,sans-serif;
+  --font-body:"Manrope","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --fs-hero:clamp(2.05rem,.9rem + 4.7vw,5.6rem);
+  --fs-h2:clamp(1.7rem,1rem + 2.4vw,3.3rem);
+  --fs-team:clamp(1.85rem,.6rem + 5.4vw,6.2rem);
+  --fs-lead:clamp(1rem,.94rem + .3vw,1.2rem);
+  /* shape & motion */
+  --r-sm:12px; --r-md:16px; --r-lg:24px; --r-xl:32px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --gutter:clamp(16px,4vw,48px);
+  --hdr:84px;
+  --shadow-1:0 10px 30px -12px rgba(2,10,28,.55);
+  --shadow-2:0 30px 70px -30px rgba(2,10,28,.75);
+  /* tone-on-tone wave / wing swoosh tile */
+  --pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%238FAFD3' fill-opacity='.075'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M20 56c12-10 30-14 46-8-16 0-30 6-40 14z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3Cpath d='M90 126c12-10 30-14 46-8-16 0-30 6-40 14z'/%3E%3C/g%3E%3C/svg%3E");
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:90px}
+html.locked{overflow:hidden}
+body{margin:0;font-family:var(--font-body);font-size:16px;line-height:1.55;color:var(--text);background:var(--navy);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+img,svg{display:block;max-width:100%}
+button,input,select{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+ul{list-style:none;margin:0;padding:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--accent);color:var(--accent-ink)}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.container{width:min(100% - 2*var(--gutter),1360px);margin-inline:auto}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic-sm{width:16px;height:16px}.ic-lg{width:24px;height:24px}
+.display{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:1}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--steel)}
+.kicker::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+
+/* ── buttons ─────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-weight:700;font-size:15px;letter-spacing:.01em;white-space:nowrap;transform:translate3d(var(--mx,0),var(--my,0),0);transition:transform .45s var(--ease),background-color .3s,box-shadow .45s var(--ease),border-color .3s,color .3s}
+.btn .ic{transition:transform .45s var(--ease)}
+.btn:hover .ic-go{transform:translateX(4px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 12px 32px -12px rgba(245,182,66,.6)}
+.btn-primary:hover{background:var(--accent-hi);box-shadow:0 16px 44px -12px rgba(245,182,66,.8)}
+.btn-ghost{border:1px solid rgba(207,224,243,.34);background:rgba(255,255,255,.04);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(207,224,243,.7)}
+.btn-ice{background:var(--ice);color:var(--navy)}
+.btn-ice:hover{background:#fff}
+.btn-sm{height:40px;padding:0 18px;font-size:14px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.icon-btn{position:relative;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;transition:background-color .3s,transform .4s var(--ease),color .3s}
+.icon-btn:hover{background:rgba(255,255,255,.09)}
+.icon-btn:active{transform:scale(.92)}
+.count-badge{position:absolute;top:3px;right:1px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:800;line-height:18px;text-align:center;transform:scale(0);transition:transform .45s var(--ease)}
+.count-badge.show{transform:scale(1)}
+.count-badge.bump{animation:bump .5s var(--ease)}
+@keyframes bump{40%{transform:scale(1.45)}}
+.link-arrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ice);transition:color .3s,gap .4s var(--ease)}
+.link-arrow:hover{color:#fff;gap:12px}
+
+/* ── header ──────────────────────────────────────────── */
+.hdr{position:fixed;inset:0 0 auto;z-index:60;border-bottom:1px solid transparent;transition:background-color .45s var(--ease),border-color .45s,-webkit-backdrop-filter .45s,backdrop-filter .45s}
+.hdr.scrolled,.hdr.solid{background:rgba(7,27,61,.74);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-color:var(--line)}
+.hdr-in{display:flex;align-items:center;gap:20px;height:var(--hdr);transition:height .45s var(--ease)}
+.hdr.scrolled .hdr-in{height:66px}
+.logo{display:flex;align-items:center;gap:12px;flex:none;border-radius:12px}
+.logo-img{height:46px;width:auto;aspect-ratio:960/833;object-fit:contain;filter:drop-shadow(0 0 .6px rgba(255,255,255,.9)) drop-shadow(0 6px 14px rgba(0,0,0,.35));transition:transform .45s var(--ease)}
+.hdr.scrolled .logo-img{transform:scale(.84)}
+.logo-text{display:flex;flex-direction:column;line-height:1.1}
+.logo-text b{font-family:var(--font-display);font-weight:800;font-size:17px;letter-spacing:.12em}
+.logo-text small{font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--steel)}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{position:relative;padding:10px 14px;border-radius:10px;font-size:14.5px;font-weight:600;color:var(--muted);transition:color .3s}
+.nav a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.nav a:hover{color:#fff}
+.nav a:hover::after{transform:scaleX(.4)}
+.nav a.active{color:#fff}
+.nav a.active::after{transform:scaleX(1)}
+.hdr-actions{display:flex;align-items:center;gap:4px;margin-left:8px}
+.burger{display:none}
+.lang{display:flex;padding:3px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(4,17,42,.35);margin-right:6px}
+.lang button{height:30px;min-width:38px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--muted);transition:background-color .3s,color .3s}
+.lang button:hover{color:#fff}
+.lang button[aria-pressed="true"]{background:var(--ice);color:var(--navy)}
+.menu .lang{align-self:flex-start;margin:0 0 8px}
+@media (max-width:560px){.hdr-actions .lang{display:none}}
+html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
+@media (max-width:1023px){.nav{display:none}.hdr-actions{margin-left:auto}.burger{display:grid}}
+@media (max-width:420px){.logo-text small{display:none}.logo-text b{font-size:15px}.logo-img{height:40px}.hdr-actions{gap:0}.icon-btn{width:40px;height:40px}}
+
+/* ── pages / transitions ─────────────────────────────── */
+.page{min-height:100vh}
+.bg-pattern{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.bg-pattern .pp{position:absolute;inset:-200px;transform:translate3d(var(--px,0px),var(--py,0px),0);transition:transform 1.4s var(--ease)}
+.bg-pattern .pp::before{content:"";position:absolute;inset:0;background-image:var(--pattern);background-size:140px 140px}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translate3d(0,28px,0);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--d,0) * 90ms)}
+.rv.rv-scale{transform:scale(.96) translate3d(0,16px,0)}
+.rv.in{opacity:1;transform:none}
+
+/* ── hero ────────────────────────────────────────────── */
+.hero-zone{position:relative;isolation:isolate;overflow:hidden;
+  background:radial-gradient(1100px 700px at 78% 380px,rgba(27,163,214,.2),transparent 70%),radial-gradient(900px 700px at 8% 85%,rgba(143,175,211,.1),transparent 70%),linear-gradient(180deg,var(--navy) 0%,#0B2858 45%,var(--navy-700) 100%)}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--hdr) + 32px) 0 120px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);align-items:center;gap:clamp(32px,5vw,72px)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ice)}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(245,182,66,.6);animation:pulse 2.4s var(--ease) infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(245,182,66,0)}100%{box-shadow:0 0 0 0 rgba(245,182,66,0)}}
+.hero-title{font-family:var(--font-display);font-weight:800;font-size:var(--fs-hero);line-height:.98;letter-spacing:-.005em;text-transform:uppercase;margin:28px 0 26px}
+.hero-title .line{display:block;overflow:hidden;padding:.22em 0 .06em;margin:-.17em 0}
+.hero.settled .hero-title .line{overflow:visible}
+.hero-title .l1{color:#fff}
+.hero-title .l2{color:var(--steel)}
+.w{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;transform:translate3d(0,110%,0);opacity:0}
+.play .ch{animation:chIn .95s var(--ease) forwards;animation-delay:calc(var(--i) * 32ms + 120ms)}
+@keyframes chIn{to{transform:none;opacity:1}}
+.hero-fade{opacity:0;transform:translate3d(0,20px,0)}
+.play .hero-fade{animation:fadeUp .9s var(--ease) forwards;animation-delay:calc(var(--d,0) * 110ms + 450ms)}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.hero-sub{max-width:520px;font-size:var(--fs-lead);color:var(--muted)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:28px;margin-top:48px;color:var(--muted);font-size:13.5px}
+.hero-meta span{display:inline-flex;align-items:center;gap:8px}
+.hero-meta .ic{color:var(--steel)}
+.scroll-ind{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--subtle)}
+.mouse{width:24px;height:38px;border:1.5px solid rgba(207,224,243,.5);border-radius:14px;position:relative}
+.mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--ice);animation:wheel 1.8s var(--ease) infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* club ID card */
+.card-stage{position:relative;display:grid;place-items:center;perspective:1200px;min-height:420px}
+.card-float{position:relative;animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translate3d(0,-14px,0)}}
+.idcard{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;width:clamp(230px,24vw,350px);aspect-ratio:5/7;border-radius:26px;overflow:hidden;color:var(--navy);
+  background:radial-gradient(120% 80% at 20% 0%,#FFFFFF 0%,rgba(255,255,255,0) 60%),linear-gradient(155deg,#F6F9FE 0%,#DFEAF7 45%,#BCD1EA 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(255,255,255,.55) inset,0 40px 80px -30px rgba(0,0,0,.65),0 0 80px -20px rgba(27,163,214,.45);
+  transform:rotateZ(-7deg) rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .7s var(--ease),box-shadow .5s;cursor:default}
+.idcard.tracking{transition:transform .12s linear}
+.idcard::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 140 140'%3E%3Cg fill='%230A2A5C' fill-opacity='.05'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3C/g%3E%3C/svg%3E");background-size:90px}
+.idc-in{position:relative;height:100%;display:flex;flex-direction:column;padding:22px 22px 20px}
+.idc-top{display:flex;justify-content:space-between;align-items:flex-start;font-size:10px;font-weight:800;letter-spacing:.24em;text-transform:uppercase}
+.idc-top span:last-child{opacity:.6}
+.idc-chip{width:38px;height:28px;border-radius:6px;background:linear-gradient(135deg,#E9C77F,#B9935A 60%,#E6CB92);box-shadow:inset 0 0 0 1px rgba(90,60,20,.35);position:relative;margin-top:10px}
+.idc-chip::after{content:"";position:absolute;inset:6px 9px;border:1px solid rgba(90,60,20,.35);border-radius:3px}
+.idc-logo{flex:1;display:grid;place-items:center;padding:8px 6px 4px}
+.idc-logo img{width:100%;height:auto;max-height:100%;aspect-ratio:1/1;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(10,42,92,.25))}
+.idc-bottom{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(10,42,92,.15);padding-top:12px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(10,42,92,.7)}
+.idc-bottom b{display:block;margin-top:3px;font-family:var(--font-display);font-size:12px;letter-spacing:.12em;color:var(--navy)}
+.idc-holo{position:absolute;inset:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.18;transition:opacity .5s var(--ease);
+  background:linear-gradient(115deg,transparent 20%,rgba(255,120,200,.55) 36%,rgba(120,220,255,.6) 46%,rgba(255,240,140,.55) 56%,transparent 72%);background-size:220% 220%;background-position:var(--mx) var(--my)}
+.idc-gloss{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 45% at var(--mx) var(--my),rgba(255,255,255,.6),transparent 70%);opacity:0;transition:opacity .5s var(--ease)}
+.idc-stripe{position:absolute;top:0;bottom:0;right:16px;width:6px;border-radius:3px;background:linear-gradient(180deg,#9fd8ff,#e3b8ff,#ffe7a3,#9fffe0,#9fd8ff);opacity:.55}
+.idcard:hover .idc-holo{opacity:.55}
+.idcard:hover .idc-gloss{opacity:.55}
+.idcard-back{position:absolute;width:clamp(230px,24vw,350px);aspect-ratio:5/7;border-radius:26px;transform:translate3d(14%,6%,-80px) rotateZ(8deg);
+  background:linear-gradient(160deg,rgba(143,175,211,.25),rgba(14,52,112,.15));border:1px solid rgba(207,224,243,.22);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--shadow-2);display:grid;place-items:end start;padding:22px;overflow:hidden}
+.idcard-back img{position:absolute;right:-18%;bottom:-6%;width:85%;opacity:.16;filter:grayscale(1) brightness(1.8)}
+.idcard-back span{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:.26em;color:var(--ice);opacity:.85;writing-mode:vertical-rl;transform:rotate(180deg)}
+.stage-ring{position:absolute;width:118%;aspect-ratio:1;border-radius:50%;border:1px dashed rgba(143,175,211,.18);animation:spin 80s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width:899px){
+  .hero{padding-bottom:110px}
+  .hero-grid{grid-template-columns:1fr;text-align:left}
+  .card-stage{min-height:0;padding:8px 0 24px}
+  .idcard,.idcard-back{width:min(50vw,230px)}
+  .hero-meta{gap:16px 22px;margin-top:36px}
+  .scroll-ind{display:none}
+}
+@media (max-width:420px){.hero-cta .btn{flex:1 1 100%}.eyebrow{font-size:10.5px;letter-spacing:.1em;padding:7px 14px 7px 10px}}
+
+/* ── sections common ─────────────────────────────────── */
+.section{position:relative;padding:clamp(72px,9vw,136px) 0;isolation:isolate}
+.section-alt{background:var(--navy-700)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(28px,4vw,48px);flex-wrap:wrap}
+.sec-title{font-family:var(--font-display);font-weight:800;font-size:var(--fs-h2);text-transform:uppercase;line-height:1.02;margin-top:14px;color:#fff}
+.sec-title em{font-style:normal;color:var(--steel)}
+.sec-desc{max-width:440px;color:var(--muted);margin-top:12px}
+
+/* team selector */
+.teams{text-align:center;padding-top:clamp(24px,4vw,64px)}
+.teams-cap{font-size:13px;font-weight:600;letter-spacing:.06em;color:#fff;margin-bottom:clamp(24px,3vw,40px)}
+.team-list{display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.6vw,8px)}
+.team-item{position:relative;display:inline-flex;align-items:flex-start;gap:.25em;padding:.06em .3em;border-radius:16px;font-family:var(--font-display);font-weight:800;font-size:var(--fs-team);line-height:1.08;letter-spacing:.02em;text-transform:uppercase;color:var(--steel);transition:color .5s var(--ease),transform .6s var(--ease),opacity .5s}
+.team-item sup{font-family:var(--font-body);font-size:max(11px,.15em);font-weight:800;letter-spacing:.14em;margin-top:.9em;padding:4px 8px;border:1px solid currentColor;border-radius:999px;opacity:.6;transition:opacity .4s}
+.team-list:hover .team-item{opacity:.45}
+.team-list .team-item:hover,.team-list .team-item:focus-visible{color:#fff;opacity:1;transform:translateX(14px)}
+.team-item:hover sup{opacity:1}
+.team-preview{position:fixed;left:0;top:0;z-index:40;pointer-events:none;opacity:0;transition:opacity .35s var(--ease)}
+.team-preview.show{opacity:1}
+.tp-in{display:flex;align-items:center;gap:14px;padding:10px 18px 10px 10px;border-radius:20px;background:rgba(10,42,92,.62);border:1px solid rgba(207,224,243,.28);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow-2);transform:scale(.85) rotate(-4deg);transition:transform .5s var(--ease)}
+.team-preview.show .tp-in{transform:none}
+.tp-art{width:72px;height:72px;border-radius:14px;overflow:hidden}
+.tp-in b{display:block;font-family:var(--font-display);font-size:13px;letter-spacing:.06em}
+.tp-in small{color:var(--muted);font-size:12.5px}
+@media (hover:none){.team-preview{display:none}}
+
+/* marquee */
+.marquee{position:relative;overflow:hidden;border-block:1px solid var(--line);background:var(--navy-800);padding:22px 0}
+.marquee-track{display:flex;width:max-content;animation:marq 42s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;gap:36px;padding-right:36px}
+.marquee-group span{font-family:var(--font-display);font-weight:700;font-size:clamp(18px,2.2vw,30px);letter-spacing:.06em;text-transform:uppercase;color:var(--ice);white-space:nowrap}
+.marquee-group span.o{color:transparent;-webkit-text-stroke:1px rgba(143,175,211,.75)}
+.marquee-group .ic{width:22px;height:22px;color:var(--accent)}
+@keyframes marq{to{transform:translate3d(-50%,0,0)}}
+
+/* rail (carousel) */
+.rail-wrap{position:relative}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(250px,24vw,312px);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:8px 4px 24px;margin:-8px -4px 0;scrollbar-width:none;overscroll-behavior-x:contain}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{scroll-snap-align:start}
+.rail-nav{display:flex;gap:10px}
+.rail-nav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;transition:background-color .3s,border-color .3s,transform .4s var(--ease),opacity .3s}
+.rail-nav button:hover{background:rgba(255,255,255,.08);border-color:var(--ice)}
+.rail-nav button:disabled{opacity:.3;cursor:default}
+@media (max-width:600px){.rail{grid-auto-columns:72%}}
+
+/* category bento */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(200px,19vw,270px);gap:20px}
+.tile{position:relative;overflow:hidden;border-radius:var(--r-lg);border:1px solid var(--line);isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,2vw,28px);
+  background:radial-gradient(90% 90% at 80% 20%,rgba(143,175,211,.28),transparent 60%),linear-gradient(160deg,#16437F,#0B2858 70%);transition:border-color .4s,transform .6s var(--ease),box-shadow .6s var(--ease)}
+.tile::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--pattern);background-size:120px;opacity:.8}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(4,17,42,.88) 0%,rgba(4,17,42,.2) 55%,transparent 80%);transition:opacity .5s}
+.tile-art{position:absolute;z-index:-1;right:-2%;top:2%;width:60%;height:74%;display:grid;place-items:center;transition:transform .9s var(--ease)}
+.tile-art svg{width:100%;height:100%;filter:drop-shadow(0 24px 30px rgba(0,0,0,.35))}
+.tile:hover{border-color:rgba(207,224,243,.4);transform:translateY(-4px);box-shadow:var(--shadow-2)}
+.tile:hover .tile-art{transform:scale(1.08) rotate(-3deg)}
+.tile:hover::after{opacity:.75}
+.tile h3{font-family:var(--font-display);font-size:clamp(17px,1.5vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:#fff}
+.tile p{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:14px;margin-top:6px}
+.tile .go{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);transition:background-color .4s,color .4s,transform .5s var(--ease)}
+.tile:hover .go{background:var(--accent);color:var(--accent-ink);transform:rotate(-45deg)}
+.tile.big{grid-column:span 2;grid-row:span 2}
+.tile.big .tile-art{width:80%;height:90%;right:-6%;top:-2%}
+.tile.big h3{font-size:clamp(24px,2.6vw,40px)}
+.tile.wide{grid-column:span 4}
+.tile.wide .tile-art{width:38%;right:4%}
+@media (max-width:899px){.bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px;gap:14px}.tile.big{grid-column:span 2;grid-row:span 2}.tile.wide{grid-column:span 2}.tile.wide .tile-art{width:55%}}
+@media (max-width:899px){.tile:not(.big):not(.wide) .tile-art{width:64%;height:60%;top:4%;right:-4%}}
+@media (max-width:420px){.bento{grid-auto-rows:160px}.tile p span{display:none}.tile h3{font-size:14.5px}}
+
+/* stats */
+.stats{background:linear-gradient(180deg,var(--navy-700),var(--navy-800));border-block:1px solid var(--line);padding:clamp(56px,7vw,96px) 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat{padding:8px 24px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{display:block;font-family:var(--font-display);font-weight:800;font-size:clamp(30px,3.6vw,54px);line-height:1;background:linear-gradient(180deg,#fff,var(--steel));-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:12px;color:var(--muted);font-size:14.5px;max-width:220px}
+@media (max-width:899px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:36px 16px}.stat{border-left:0;padding:0}}
+
+/* newsletter */
+.news{position:relative;overflow:hidden;border-radius:var(--r-xl);padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center;
+  background:radial-gradient(70% 120% at 100% 0%,rgba(27,163,214,.28),transparent 60%),linear-gradient(140deg,rgba(143,175,211,.16),rgba(143,175,211,.04));border:1px solid var(--line-strong);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.news::before{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--pattern);background-size:120px}
+.news h2{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,2.8vw,42px);text-transform:uppercase;line-height:1.05}
+.news p{color:var(--muted);margin-top:14px;max-width:440px}
+.news-form{display:flex;gap:10px;padding:6px;border-radius:999px;background:rgba(4,17,42,.5);border:1px solid var(--line-strong);transition:border-color .3s,box-shadow .3s}
+.news-form:focus-within{border-color:var(--ice);box-shadow:0 0 0 4px rgba(207,224,243,.12)}
+.news-form input{flex:1;min-width:0;background:none;border:0;outline:0;padding:0 18px;font-size:15px}
+.news-form input::placeholder{color:var(--subtle)}
+.news small{display:block;margin-top:12px;color:var(--subtle);font-size:12.5px}
+@media (max-width:899px){.news{grid-template-columns:1fr}}
+@media (max-width:480px){.news-form{flex-direction:column;border-radius:20px}.news-form input{height:48px}}
+
+/* footer */
+.footer{background:var(--navy-900);border-top:1px solid var(--line);padding:72px 0 28px;position:relative;isolation:isolate;overflow:hidden}
+.footer::before{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--pattern);background-size:140px;opacity:.5}
+.f-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
+.f-brand p{color:var(--muted);font-size:14.5px;margin:18px 0 22px;max-width:320px}
+.f-mini{display:inline-flex;align-items:center;gap:14px;padding:12px 18px 12px 12px;border-radius:18px;background:linear-gradient(150deg,#F6F9FE,#C7D9EE);color:var(--navy);transform:rotate(-3deg);box-shadow:var(--shadow-1);transition:transform .6s var(--ease)}
+.f-mini:hover{transform:rotate(0) translateY(-3px)}
+.f-mini img{width:48px;height:48px;object-fit:contain}
+.f-mini b{font-family:var(--font-display);font-size:14px;letter-spacing:.14em;display:block}
+.f-mini small{font-size:10px;letter-spacing:.22em;font-weight:700;opacity:.7;text-transform:uppercase}
+.f-col h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--steel);margin-bottom:16px}
+.f-col a{display:inline-block;padding:5px 0;color:var(--muted);font-size:14.5px;transition:color .3s,transform .4s var(--ease)}
+.f-col a:hover{color:#fff;transform:translateX(4px)}
+.socials{display:flex;gap:10px}
+.socials a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);color:var(--ice);transition:background-color .3s,color .3s,transform .4s var(--ease),border-color .3s}
+.socials a:hover{background:var(--ice);color:var(--navy);transform:translateY(-3px);border-color:var(--ice)}
+.f-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--subtle)}
+.f-legal{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.pay{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.pay-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
+.pay-list{display:flex;gap:8px}
+.pay-card{width:56px;height:36px;border-radius:8px;display:grid;place-items:center;background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 6px 14px -8px rgba(0,0,0,.6);transition:transform .4s var(--ease)}
+.pay-card:hover{transform:translateY(-2px)}
+.pay-card svg{width:42px;height:24px}
+.pay-card.kaspi{background:#F14635}
+.concept-note{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;border:1px dashed var(--line-strong);color:var(--muted)}
+@media (max-width:899px){.f-grid{grid-template-columns:1fr 1fr}.f-brand{grid-column:span 2}}
+@media (max-width:420px){.f-grid{gap:28px 16px}}
+
+/* ── product card ────────────────────────────────────── */
+.card{--rx:0deg;--ry:0deg;--lift:0px;position:relative;display:flex;flex-direction:column;border-radius:22px;padding:8px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid var(--line);
+  transform:perspective(1000px) translate3d(0,var(--lift),0) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .6s var(--ease),border-color .4s,box-shadow .6s var(--ease),background-color .4s}
+.card.tilting{transition:transform .15s linear,border-color .4s,box-shadow .6s var(--ease)}
+@media (hover:hover){.card:hover{--lift:-6px;border-color:rgba(143,175,211,.5);box-shadow:0 30px 60px -28px rgba(0,0,0,.7),0 0 0 1px rgba(143,175,211,.18),0 0 48px -12px rgba(27,163,214,.4)}}
+.card-top{position:relative;container-type:inline-size}
+.media{position:relative;display:block;width:100%;aspect-ratio:1/1.06;border-radius:16px;overflow:hidden;cursor:pointer;background:radial-gradient(110% 90% at 50% 18%,var(--bg0,#EAF2FB),var(--bg1,#C6DAF0))}
+.media::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%230A2A5C' fill-opacity='.045'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3C/g%3E%3C/svg%3E");background-size:110px}
+.art{position:absolute;inset:6% 8% 4%;transition:opacity .55s var(--ease),transform .8s var(--ease)}
+.art svg{width:100%;height:100%;overflow:visible}
+.art-b{opacity:0;transform:scale(1.04)}
+@media (hover:hover){.card:hover .art-f{opacity:0;transform:scale(.97)}.card:hover .art-b{opacity:1;transform:scale(1)}}
+.badges{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 60px);pointer-events:none}
+.badge{height:24px;padding:0 9px;border-radius:999px;display:inline-flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--navy);color:#fff;white-space:nowrap}
+.badge-sale{background:var(--accent);color:var(--accent-ink)}
+.badge-hit{background:#fff;color:var(--navy)}
+.badge-low{gap:7px;background:rgba(7,27,61,.82);color:#fff;text-transform:none;letter-spacing:.01em;font-weight:700;font-size:11.5px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 16px -8px rgba(4,17,42,.7)}
+.badge-low i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(245,182,66,.28);animation:pulse 2.4s var(--ease) infinite}
+.badge-out{background:#5B6B82;color:#fff}
+.wish{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.75);color:var(--navy);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px -4px rgba(10,42,92,.35);transition:transform .4s var(--ease),background-color .3s,color .3s}
+.wish:hover{transform:scale(1.1);background:#fff}
+.wish[aria-pressed="true"]{color:#D9822B}
+.wish[aria-pressed="true"] .ic{fill:currentColor;animation:heart .5s var(--ease)}
+@keyframes heart{40%{transform:scale(1.35)}}
+.cta{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:8px}
+.cta .add{flex:1;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;box-shadow:0 10px 24px -10px rgba(4,17,42,.7);transition:background-color .3s,transform .4s var(--ease)}
+.cta .add:hover{background:#123A75}
+.cta .add:disabled{background:#5B6B82;cursor:not-allowed}
+.cta .qv{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.88);color:var(--navy);box-shadow:0 10px 24px -12px rgba(4,17,42,.5);transition:background-color .3s,transform .4s var(--ease)}
+.cta .qv:hover{background:#fff}
+@media (hover:hover){.cta{opacity:0;transform:translate3d(0,14px,0);transition:opacity .45s var(--ease),transform .5s var(--ease)}.card:hover .cta,.card:focus-within .cta{opacity:1;transform:none}}
+@container (max-width:200px){.cta .add span{display:none}.cta .add{flex:0 0 42px}.cta{justify-content:flex-end}}
+.card-body{display:flex;flex-direction:column;gap:6px;padding:14px 8px 8px;flex:1}
+.card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.team-tag{display:inline-flex;align-items:center;gap:6px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:10.5px;color:var(--steel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.team-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dot,var(--cyan));flex:none}
+.rating{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.rating .ic{width:13px;height:13px;color:var(--accent);fill:var(--accent);stroke:none}
+.card-title{font-size:15.5px;font-weight:700;line-height:1.3;color:#fff}
+.card-title button{text-align:left;transition:color .3s}
+.card-title button:hover{color:var(--ice)}
+.card-sub{font-size:13px;color:var(--subtle);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:6px}
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.price b{font-size:17px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price s{font-size:13px;color:var(--subtle);white-space:nowrap}
+.price.sale b{color:var(--accent)}
+.swatches{display:flex;gap:6px}
+.sw{width:18px;height:18px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);position:relative;transition:transform .3s var(--ease)}
+.sw::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid transparent;transition:border-color .3s}
+.sw:hover{transform:scale(1.12)}
+.sw[aria-pressed="true"]::after{border-color:var(--ice)}
+.card-desc{display:none}
+.card.enter{animation:cardIn .7s var(--ease) backwards;animation-delay:calc(var(--i,0) * 55ms)}
+@keyframes cardIn{from{opacity:0;transform:perspective(1000px) translate3d(0,24px,0)}}
+@media (max-width:480px){.card{border-radius:18px;padding:6px}.card-body{padding:10px 4px 4px}.card-title{font-size:14px}.card-sub{display:none}.price b{font-size:15px}.swatches .sw{width:14px;height:14px}.card-meta .rating span{display:none}.badge{height:20px;font-size:9.5px;padding:0 7px}.wish{width:34px;height:34px}.wish .ic{width:17px;height:17px}}
+
+/* skeleton */
+.skel{border-radius:22px;padding:8px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.skel i{display:block;border-radius:12px;background:rgba(143,175,211,.1);position:relative;overflow:hidden}
+.skel i::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(207,224,243,.12),transparent);animation:shimmer 1.2s var(--ease) infinite}
+@keyframes shimmer{to{transform:translateX(100%)}}
+.skel .s-img{aspect-ratio:1/1.06;border-radius:16px}
+.skel .s-l{height:12px;margin:14px 8px 0;width:40%}
+.skel .s-t{height:16px;margin:10px 8px 0;width:85%}
+.skel .s-p{height:18px;margin:18px 8px 10px;width:35%}
+
+/* ── shop page ───────────────────────────────────────── */
+.shop-hero{position:relative;isolation:isolate;overflow:hidden;padding:calc(var(--hdr) + 40px) 0 32px;background:radial-gradient(60% 120% at 85% 0%,rgba(27,163,214,.18),transparent 60%),linear-gradient(180deg,var(--navy),var(--navy-700))}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px;color:var(--subtle)}
+.crumbs a{color:var(--muted);transition:color .3s}.crumbs a:hover{color:#fff}
+.crumbs .ic{width:14px;height:14px;opacity:.6}
+.crumbs [aria-current]{color:#fff}
+.shop-title{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;margin-top:22px}
+.shop-title h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,1.2rem + 3.4vw,68px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.shop-title h1 small{display:block;font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:.24em;color:var(--steel);margin-bottom:12px}
+.result-count{color:var(--muted);font-size:15px}
+.result-count b{color:#fff;font-variant-numeric:tabular-nums}
+.cat-pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:28px;padding-bottom:4px}
+.cat-pills::-webkit-scrollbar{display:none}
+.pill{flex:none;height:40px;padding:0 18px;border-radius:999px;border:1px solid var(--line-strong);font-size:14px;font-weight:600;color:var(--muted);transition:background-color .3s,color .3s,border-color .3s,transform .4s var(--ease)}
+.pill:hover{color:#fff;border-color:var(--ice)}
+.pill[aria-pressed="true"]{background:var(--ice);color:var(--navy);border-color:var(--ice)}
+.shop-layout{display:grid;grid-template-columns:292px minmax(0,1fr);gap:clamp(24px,3vw,40px);align-items:start;padding:24px 0 96px}
+
+/* filters */
+.filters{position:sticky;top:calc(66px + 16px);max-height:calc(100vh - 66px - 32px);display:flex;flex-direction:column;border-radius:var(--r-lg);border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));overflow:hidden}
+.sheet-head{display:none}
+.f-scroll{overflow-y:auto;padding:8px 20px 20px;scrollbar-width:thin;scrollbar-color:rgba(143,175,211,.3) transparent;overscroll-behavior:contain}
+.f-group{border-bottom:1px solid var(--line);padding:16px 0}
+.f-group:last-child{border-bottom:0}
+.f-group summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);border-radius:8px}
+.f-group summary::-webkit-details-marker{display:none}
+.f-group summary .ic{width:16px;height:16px;transition:transform .4s var(--ease);color:var(--subtle)}
+.f-group[open] summary .ic{transform:rotate(180deg)}
+.f-body{padding-top:14px}
+.search-box{position:relative}
+.search-box .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--subtle);pointer-events:none}
+.input{width:100%;height:46px;border-radius:14px;border:1px solid var(--line-strong);background:rgba(4,17,42,.45);padding:0 14px;outline:0;transition:border-color .3s,box-shadow .3s;font-size:15px}
+.input::placeholder{color:var(--subtle)}
+.input:focus{border-color:var(--ice);box-shadow:0 0 0 4px rgba(207,224,243,.12)}
+.search-box .input{padding-left:42px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chk{position:relative;display:inline-flex}
+.chk input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chk span{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong);font-size:13.5px;font-weight:600;color:var(--muted);transition:background-color .3s,color .3s,border-color .3s;pointer-events:none}
+.chk span em{font-style:normal;font-size:11.5px;opacity:.6}
+.chk span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--dot,var(--steel));display:none}
+.chk.team span::before{display:block}
+.chk:hover span{border-color:var(--ice);color:#fff}
+.chk input:checked+span{background:var(--ice);border-color:var(--ice);color:var(--navy)}
+.chk input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sizes .chk span{justify-content:center;width:100%;padding:0;border-radius:12px}
+.sizes .chk{display:flex}
+.colors{display:flex;flex-wrap:wrap;gap:12px}
+.colors .chk span{width:32px;height:32px;padding:0;border-radius:50%;background:var(--c);border:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 0 0 2px transparent;transition:box-shadow .3s,transform .3s var(--ease)}
+.colors .chk:hover span{transform:scale(1.08)}
+.colors .chk input:checked+span{background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 0 0 2px var(--navy-700),0 0 0 4px var(--ice)}
+.colors .chk span svg{opacity:0;color:var(--tick,#fff);margin:auto;transition:opacity .3s}
+.colors .chk input:checked+span svg{opacity:1}
+.range{position:relative;height:28px;margin:4px 0 14px}
+.range-track{position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:rgba(143,175,211,.2)}
+.range-fill{position:absolute;top:0;bottom:0;border-radius:2px;background:linear-gradient(90deg,var(--steel),var(--ice))}
+.range input{position:absolute;inset:0;width:100%;height:28px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;outline:0}
+.range input::-webkit-slider-runnable-track{background:none;height:28px}
+.range input::-moz-range-track{background:none}
+.range input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;margin-top:3px;border-radius:50%;background:#fff;border:4px solid var(--navy);box-shadow:0 0 0 1.5px var(--steel),0 4px 12px rgba(0,0,0,.45);cursor:grab;transition:transform .3s var(--ease)}
+.range input::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:#fff;border:4px solid var(--navy);box-shadow:0 0 0 1.5px var(--steel),0 4px 12px rgba(0,0,0,.45);cursor:grab}
+.range input:active::-webkit-slider-thumb{transform:scale(1.15);cursor:grabbing}
+.range input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--accent)}
+.price-inputs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;color:var(--subtle)}
+.price-inputs label{position:relative}
+.price-inputs .input{height:42px;padding-right:28px;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.price-inputs .input::-webkit-outer-spin-button,.price-inputs .input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.price-inputs label::after{content:"₸";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--subtle);font-size:14px}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;cursor:pointer;font-size:14.5px;font-weight:600;color:var(--muted);transition:color .3s;position:relative}
+.switch:hover{color:#fff}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch i{position:relative;width:42px;height:24px;border-radius:12px;background:rgba(143,175,211,.25);transition:background-color .35s var(--ease);flex:none}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);transition:transform .45s var(--ease)}
+.switch input:checked~i{background:var(--accent)}
+.switch input:checked~i::after{transform:translateX(18px)}
+.switch input:focus-visible~i{outline:2px solid var(--accent);outline-offset:3px}
+.f-foot{display:flex;gap:10px;padding:14px 20px 18px;border-top:1px solid var(--line);background:rgba(4,17,42,.35)}
+.f-foot .apply{display:none}
+.f-foot .btn{flex:1;min-width:0;padding:0 14px}
+
+/* toolbar */
+.toolbar{position:sticky;top:66px;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 0;margin-bottom:8px;background:linear-gradient(180deg,var(--navy) 70%,rgba(10,42,92,0))}
+.toolbar .grow{flex:1}
+.open-filters{display:none}
+.select{position:relative}
+.select select{-webkit-appearance:none;appearance:none;height:44px;padding:0 42px 0 16px;border-radius:14px;border:1px solid var(--line-strong);background:rgba(4,17,42,.45);font-size:14px;font-weight:600;cursor:pointer;outline:0;transition:border-color .3s}
+.select select:hover,.select select:focus-visible{border-color:var(--ice)}
+.select select option{background:var(--navy-700);color:#fff}
+.select .ic{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;width:16px;height:16px;color:var(--subtle)}
+.seg{display:flex;padding:4px;border-radius:14px;border:1px solid var(--line-strong);background:rgba(4,17,42,.45)}
+.seg button{width:36px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--subtle);transition:background-color .3s,color .3s}
+.seg button:hover{color:#fff}
+.seg button[aria-pressed="true"]{background:var(--ice);color:var(--navy)}
+.active-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.active-chips:empty{display:none}
+.a-chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 8px 0 14px;border-radius:999px;background:rgba(207,224,243,.12);border:1px solid var(--line-strong);font-size:13px;font-weight:600;transition:background-color .3s,border-color .3s,transform .4s var(--ease);animation:chipIn .4s var(--ease)}
+.a-chip:hover{background:rgba(207,224,243,.2);border-color:var(--ice)}
+.a-chip .ic{width:15px;height:15px;opacity:.75}
+.a-chip.clear{background:none;border-style:dashed;padding:0 14px;color:var(--muted)}
+@keyframes chipIn{from{opacity:0;transform:scale(.85)}}
+.grid{--cols:4;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:20px}
+.grid.c3{--cols:3}
+@media (max-width:1280px){.grid{--cols:3}}
+@media (max-width:1023px){.grid,.grid.c3{--cols:3}}
+@media (max-width:760px){.grid,.grid.c3{--cols:2;gap:12px}}
+/* list view */
+.grid.list{--cols:1!important;grid-template-columns:1fr;gap:16px}
+.grid.list .card{flex-direction:row;gap:8px;align-items:stretch}
+.grid.list .card-top{width:clamp(130px,26%,230px);flex:none}
+.grid.list .media{aspect-ratio:1/1}
+.grid.list .card-body{padding:16px 16px 12px;gap:8px}
+.grid.list .card-title{font-size:19px}
+.grid.list .card-desc{display:block;color:var(--muted);font-size:14.5px;max-width:560px}
+.grid.list .card-sub{display:block}
+@media (max-width:600px){.grid.list .card-desc{display:none}.grid.list .card-title{font-size:15px}.grid.list .card-body{padding:8px 6px 6px}}
+.empty{text-align:center;padding:72px 20px;border-radius:var(--r-lg);border:1px dashed var(--line-strong);animation:rise .6s var(--ease) both}
+.empty-ill{width:120px;margin:0 auto 22px;opacity:.9}
+.empty h3{font-family:var(--font-display);font-size:24px;text-transform:uppercase}
+.empty p{color:var(--muted);margin:10px auto 24px;max-width:380px}
+.more{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:44px;color:var(--muted);font-size:14px}
+.more-bar{width:220px;height:3px;border-radius:2px;background:rgba(143,175,211,.2);overflow:hidden}
+.more-bar i{display:block;height:100%;background:var(--ice);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .6s var(--ease)}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite}
+
+@media (max-width:1023px){
+  .shop-layout{grid-template-columns:minmax(0,1fr)}
+  .open-filters{display:inline-flex}
+  .filters{position:fixed;z-index:90;left:0;right:0;bottom:0;top:auto;max-height:88vh;max-height:88dvh;border-radius:24px 24px 0 0;background:var(--navy-700);border:1px solid var(--line-strong);border-bottom:0;box-shadow:0 -30px 60px -20px rgba(0,0,0,.6);transform:translate3d(0,102%,0);visibility:hidden;transition:transform .55s var(--ease),visibility 0s linear .55s}
+  .filters.open{transform:none;visibility:visible;transition:transform .55s var(--ease),visibility 0s}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 6px 20px;position:relative}
+  .sheet-head::before{content:"";position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:rgba(143,175,211,.35)}
+  .sheet-head h2{font-family:var(--font-display);font-size:18px;text-transform:uppercase;margin-top:12px}
+  .f-foot .apply{display:inline-flex}
+  .f-foot{padding-bottom:max(18px,env(safe-area-inset-bottom))}
+  .density{display:none}
+}
+@media (max-width:560px){.toolbar .rc,.toolbar .grow{display:none}.toolbar{gap:8px}.toolbar .open-filters{flex:1;min-width:0;padding:0 14px;gap:8px}.toolbar .select{flex:1;min-width:0}.select select{width:100%;padding:0 34px 0 12px;font-size:13.5px}.hide-sm{display:none}}
+@media (max-width:400px){.toolbar .view-seg{display:none}}
+.sheet-backdrop{position:fixed;inset:0;z-index:85;background:rgba(2,9,24,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s linear .45s}
+.sheet-backdrop.open{opacity:1;visibility:visible;transition:opacity .45s var(--ease),visibility 0s}
+
+/* ── layers: drawer, modal, search, menu ─────────────── */
+.layer{position:fixed;inset:0;z-index:100}
+.backdrop{position:absolute;inset:0;background:rgba(2,9,24,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .5s var(--ease)}
+.layer.open .backdrop{opacity:1}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(440px,100%);display:flex;flex-direction:column;background:linear-gradient(180deg,var(--navy-700),var(--navy-800));border-left:1px solid var(--line-strong);box-shadow:-40px 0 80px -30px rgba(0,0,0,.6);transform:translate3d(100%,0,0);transition:transform .6s var(--ease)}
+.layer.open .drawer{transform:none}
+.d-head{display:flex;align-items:center;gap:14px;padding:18px 16px 18px 22px;border-bottom:1px solid var(--line)}
+.d-head img{width:38px;height:38px;object-fit:contain}
+.d-head h2{flex:1;font-family:var(--font-display);font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.d-head h2 small{display:block;font-family:var(--font-body);font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--steel);margin-top:2px}
+.ship{padding:16px 22px;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.ship b{color:#fff}
+.ship-bar{height:6px;border-radius:3px;background:rgba(143,175,211,.18);margin-top:10px;overflow:hidden}
+.ship-bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--steel),var(--accent));transform-origin:left;transform:scaleX(var(--p,0));transition:transform .7s var(--ease)}
+.ship.done .ship-bar i{background:var(--accent)}
+.d-items{flex:1;overflow-y:auto;padding:8px 22px;overscroll-behavior:contain}
+.cline{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);animation:rise .5s var(--ease) both}
+.line-img{width:84px;height:92px;border-radius:14px;overflow:hidden;position:relative;background:radial-gradient(110% 90% at 50% 18%,var(--bg0),var(--bg1))}
+.line-img svg{position:absolute;inset:8%;width:84%;height:84%}
+.cline h3{font-size:14.5px;font-weight:700;line-height:1.3}
+.cline .opts{font-size:12.5px;color:var(--subtle);margin-top:3px;display:flex;align-items:center;gap:6px}
+.cline .opts i{width:10px;height:10px;border-radius:50%;background:var(--c);display:inline-block;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.line-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.line-row b{font-variant-numeric:tabular-nums}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line-strong);border-radius:12px;height:36px}
+.stepper button{width:34px;height:100%;display:grid;place-items:center;color:var(--muted);border-radius:12px;transition:color .3s,background-color .3s}
+.stepper button:hover{color:#fff;background:rgba(255,255,255,.07)}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.stepper output{min-width:26px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.stepper.lg{height:52px;border-radius:16px}
+.stepper.lg button{width:46px;border-radius:16px}
+.rm{font-size:12.5px;color:var(--subtle);display:inline-flex;align-items:center;gap:4px;transition:color .3s}
+.rm:hover{color:#fff}
+.d-foot{padding:18px 22px max(22px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(4,17,42,.45)}
+.sum-row{display:flex;justify-content:space-between;font-size:14.5px;color:var(--muted);margin-bottom:8px}
+.sum-row.total{font-size:18px;color:#fff;font-weight:800;margin:14px 0 18px}
+.d-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;flex:1;padding:40px 30px;color:var(--muted)}
+.d-empty .ill{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:rgba(143,175,211,.1);border:1px solid var(--line);color:var(--steel)}
+.d-empty .ill .ic{width:40px;height:40px;stroke-width:1.4}
+.d-empty h3{font-family:var(--font-display);color:#fff;text-transform:uppercase;font-size:18px}
+
+.modal-wrap{display:grid;place-items:center;padding:24px}
+.modal{position:relative;width:min(1040px,100%);max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow:auto;display:grid;grid-template-columns:1.05fr 1fr;border-radius:28px;background:linear-gradient(180deg,var(--navy-700),var(--navy-800));border:1px solid var(--line-strong);box-shadow:0 60px 120px -40px rgba(0,0,0,.8);opacity:0;transform:translate3d(0,24px,0) scale(.96);transition:opacity .45s var(--ease),transform .6s var(--ease);overscroll-behavior:contain}
+.layer.open .modal{opacity:1;transform:none}
+.modal .x{position:absolute;top:14px;right:14px;z-index:3;background:rgba(10,42,92,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.qv-media{position:relative;min-height:440px;background:radial-gradient(110% 90% at 50% 18%,var(--bg0),var(--bg1));display:flex;flex-direction:column}
+.qv-media::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%230A2A5C' fill-opacity='.05'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3C/g%3E%3C/svg%3E");background-size:140px}
+.qv-stage{position:relative;flex:1;display:grid;place-items:center;padding:40px 40px 10px}
+.qv-stage svg{width:min(100%,420px);height:auto;aspect-ratio:1;animation:qvArt .6s var(--ease)}
+@keyframes qvArt{from{opacity:0;transform:scale(.94)}}
+.qv-thumbs{position:relative;display:flex;justify-content:center;gap:10px;padding:0 20px 22px}
+.qv-thumbs button{width:64px;height:64px;border-radius:14px;background:rgba(255,255,255,.6);border:2px solid transparent;padding:6px;transition:border-color .3s,background-color .3s}
+.qv-thumbs button[aria-pressed="true"]{border-color:var(--navy);background:#fff}
+.qv-thumbs svg{width:100%;height:100%}
+.qv-info{padding:clamp(24px,3.4vw,44px);display:flex;flex-direction:column;gap:18px}
+.qv-info h2{font-family:var(--font-display);font-weight:700;font-size:clamp(20px,2vw,28px);line-height:1.2;text-transform:none;padding-right:40px}
+.qv-rating{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+.stars{--r:4.5;font-size:15px;letter-spacing:2px;background:linear-gradient(90deg,var(--accent) calc(var(--r) / 5 * 100%),rgba(143,175,211,.35) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.qv-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.qv-price b{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
+.qv-price.sale b{color:var(--accent)}
+.qv-price s{color:var(--subtle)}
+.qv-desc{color:var(--muted);font-size:15px}
+.opt-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);margin-bottom:10px}
+.opt-label span{font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--muted)}
+.size-row{display:flex;flex-wrap:wrap;gap:8px}
+.size-row button{min-width:52px;height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line-strong);font-weight:700;font-size:14px;transition:background-color .3s,color .3s,border-color .3s}
+.size-row button:hover:not(:disabled){border-color:var(--ice)}
+.size-row button[aria-pressed="true"]{background:var(--ice);color:var(--navy);border-color:var(--ice)}
+.size-row button:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.color-row{display:flex;gap:12px}
+.color-row button{width:36px;height:36px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);position:relative;transition:transform .3s var(--ease)}
+.color-row button::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;transition:border-color .3s}
+.color-row button[aria-pressed="true"]::after{border-color:var(--ice)}
+.color-row button:hover{transform:scale(1.08)}
+.qv-buy{display:flex;gap:12px;flex-wrap:wrap}
+.qv-buy .btn-primary{flex:1;min-width:180px}
+.qv-buy .wish-lg{width:52px;height:52px;border-radius:16px;border:1px solid var(--line-strong);display:grid;place-items:center;transition:border-color .3s,color .3s}
+.qv-buy .wish-lg:hover{border-color:var(--ice)}
+.qv-buy .wish-lg[aria-pressed="true"]{color:var(--accent)}
+.qv-buy .wish-lg[aria-pressed="true"] .ic{fill:currentColor}
+.perks{display:grid;gap:10px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.perks span{display:flex;align-items:center;gap:10px}
+.perks .ic{color:var(--steel)}
+@media (max-width:820px){
+  .modal-wrap{padding:0;place-items:end stretch}
+  .modal{grid-template-columns:1fr;border-radius:26px 26px 0 0;max-height:94vh;max-height:94dvh;transform:translate3d(0,60px,0)}
+  .qv-media{min-height:0}
+  .qv-stage{padding:28px 40px 6px}
+  .qv-stage svg{width:min(70vw,300px)}
+  .qv-info{padding-bottom:max(28px,env(safe-area-inset-bottom))}
+}
+
+.search-panel{position:absolute;top:0;left:0;right:0;background:linear-gradient(180deg,var(--navy-700),var(--navy-800));border-bottom:1px solid var(--line-strong);box-shadow:var(--shadow-2);padding:22px 0 28px;transform:translate3d(0,-100%,0);transition:transform .6s var(--ease)}
+.layer.open .search-panel{transform:none}
+.s-row{display:flex;align-items:center;gap:14px}
+.s-row .ic{color:var(--steel)}
+.s-row input{flex:1;min-width:0;height:56px;background:none;border:0;outline:0;font-family:var(--font-display);font-size:clamp(18px,2.4vw,30px);font-weight:600;color:#fff}
+.s-row input::placeholder{color:rgba(143,175,211,.55)}
+.s-hints{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.s-results{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.s-item{display:flex;align-items:center;gap:14px;padding:8px;border-radius:16px;text-align:left;transition:background-color .3s}
+.s-item:hover,.s-item:focus-visible{background:rgba(255,255,255,.07)}
+.s-item .line-img{width:56px;height:56px;border-radius:12px;flex:none}
+.s-item b{display:block;font-size:14.5px;line-height:1.3}
+.s-item small{color:var(--muted);font-variant-numeric:tabular-nums}
+.s-all{margin-top:16px}
+
+.menu{position:absolute;inset:0;background:var(--navy);display:flex;flex-direction:column;opacity:0;transition:opacity .45s var(--ease);overflow-y:auto;isolation:isolate}
+.layer.open .menu{opacity:1}
+.menu-head{display:flex;align-items:center;justify-content:space-between;height:72px}
+.menu nav{display:flex;flex-direction:column;gap:4px;padding:24px 0}
+.menu nav a{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,8vw,44px);text-transform:uppercase;color:var(--steel);transform:translate3d(0,24px,0);opacity:0;transition:color .3s,transform .6s var(--ease),opacity .6s var(--ease);transition-delay:calc(var(--i) * 50ms + 80ms)}
+.layer.open .menu nav a{transform:none;opacity:1}
+.menu nav a:hover,.menu nav a.active{color:#fff}
+.menu .m-teams{margin-top:auto;padding:24px 0 36px;border-top:1px solid var(--line)}
+.menu .m-teams p{font-size:12px;letter-spacing:.06em;margin-bottom:14px}
+
+/* toasts */
+.toasts{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;width:min(92vw,440px)}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:12px;width:100%;padding:12px 12px 12px 16px;border-radius:18px;background:rgba(7,27,61,.88);border:1px solid var(--line-strong);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow-2);font-size:14px;opacity:0;transform:translate3d(0,20px,0) scale(.96);transition:opacity .45s var(--ease),transform .55s var(--ease)}
+.toast.show{opacity:1;transform:none}
+.toast .t-ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:rgba(245,182,66,.16);color:var(--accent);flex:none}
+.toast span{flex:1}
+.toast button{height:34px;padding:0 14px;border-radius:10px;background:var(--ice);color:var(--navy);font-weight:700;font-size:13px;white-space:nowrap}
+
+.skip:focus{position:fixed!important;left:16px;top:16px;width:auto;height:auto;clip:auto;margin:0;padding:10px 16px;z-index:300;background:var(--accent);color:var(--accent-ink);border-radius:10px;font-weight:700}
+#qvLayer{z-index:110}
+@keyframes rise{from{opacity:0;transform:translate3d(0,16px,0)}}
+
+/* reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.2s!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .marquee-track,.card-float,.stage-ring{animation:none!important}
+  .bg-pattern .pp{transform:none!important}
+  .rv{transform:none}
+  .ch,.hero-fade{transform:none}
+  .play .ch,.play .hero-fade{animation:fadeOnly .5s ease forwards!important;animation-duration:.5s!important}
+  .marquee{overflow-x:auto}
+  .card{transform:none!important}
+  .team-list .team-item:hover{transform:none}
+}
+@keyframes fadeOnly{to{opacity:1}}
+</style>
+</head>
+<body>
+<script>
+/* Logo sources: hotlink first, then the local copy in ./assets, then an inline SVG monogram. */
+(function(){
+  var mono = function(withWord){
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 ' + (withWord ? 240 : 200) + '">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17498C"/><stop offset="1" stop-color="#0A2A5C"/></linearGradient></defs>' +
+      '<circle cx="100" cy="100" r="92" fill="url(#g)" stroke="#CFE0F3" stroke-width="6"/>' +
+      '<circle cx="100" cy="100" r="78" fill="none" stroke="#8FAFD3" stroke-width="2" stroke-dasharray="3 6"/>' +
+      '<path d="M44 128c22-30 62-38 100-22-36-6-66 4-88 30z" fill="#1BA3D6" opacity=".9"/>' +
+      '<text x="100" y="124" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="86" fill="#FFFFFF">B</text>' +
+      (withWord ? '<text x="100" y="232" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="40" letter-spacing="4" fill="#0A2A5C">BARYS</text>' : '') +
+      '</svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+  };
+  window.LOGO_SRC = {
+    emblem: ['https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png', 'assets/emblem.png'],
+    wordmark: ['https://cdn.ruwiki.ru/ruwiki/files/thumb/5/52/%D0%A5%D0%BE%D0%BA%D0%BA%D0%B5%D0%B9%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1_%D0%91%D0%B0%D1%80%D1%8B%D1%81.svg/600px-%D0%A5%D0%BE%D0%BA%D0%BA%D0%B5%D0%B9%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1_%D0%91%D0%B0%D1%80%D1%8B%D1%81.svg.png', 'assets/emblem-wordmark.png']
+  };
+  window.LOGO_FALLBACK = { emblem: mono(false), wordmark: mono(true) };
+  window.__logoFail = function(img){
+    var k = img.getAttribute('data-logo'), list = LOGO_SRC[k] || [], i = (+img.getAttribute('data-try') || 0) + 1;
+    img.setAttribute('data-try', i);
+    if (i < list.length) { img.src = list[i]; }
+    else { img.onerror = null; img.src = LOGO_FALLBACK[k] || LOGO_FALLBACK.emblem; img.classList.add('logo-fallback'); }
+  };
+})();
+</script>
+
+<!-- icon sprite (Lucide-style strokes) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></symbol>
+  <symbol id="i-cols3" viewBox="0 0 24 24"><rect x="3" y="4" width="4.5" height="16" rx="1.2"/><rect x="9.75" y="4" width="4.5" height="16" rx="1.2"/><rect x="16.5" y="4" width="4.5" height="16" rx="1.2"/></symbol>
+  <symbol id="i-cols4" viewBox="0 0 24 24"><rect x="2.5" y="4" width="3.4" height="16" rx="1"/><rect x="7.7" y="4" width="3.4" height="16" rx="1"/><rect x="12.9" y="4" width="3.4" height="16" rx="1"/><rect x="18.1" y="4" width="3.4" height="16" rx="1"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><rect x="3" y="4" width="6" height="6" rx="1.5"/><rect x="3" y="14" width="6" height="6" rx="1.5"/><path d="M13 6h8M13 9h5M13 16h8M13 19h5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6H2v12h2M14 9h4l4 4v5h-2M14 18H9"/><circle cx="6.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-return" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M4.5 7 19.5 17M19.5 7 4.5 17M9 4l3 2 3-2M9 20l3-2 3 2"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+</svg>
+
+<a class="sr-only skip" href="#app" data-action="skip" data-i18n="skip">К содержимому</a>
+
+<header class="hdr" id="hdr">
+  <div class="container hdr-in">
+    <a class="logo" href="#/" aria-label="BARYS Fan Shop: на главную" data-i18n-attr="aria-label:aHomeLink">
+      <img class="logo-img" data-logo="emblem" src="https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png" alt="" width="46" height="40" onerror="__logoFail(this)">
+      <span class="logo-text"><b>BARYS</b><small>Fan shop · Дүкен</small></span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация" data-i18n-attr="aria-label:aNav">
+      <a href="#/" data-nav="home" data-i18n="navHome">Главная</a>
+      <a href="#/shop" data-nav="shop" data-i18n="navShop">Магазин</a>
+      <a href="#/shop?cat=jersey" data-nav="jersey" data-i18n="navJersey">Джерси</a>
+      <a href="#/shop?cat=accessories" data-nav="accessories" data-i18n="navAcc">Аксессуары</a>
+      <a href="#/shop?cat=souvenirs" data-nav="souvenirs" data-i18n="navSouv">Сувениры</a>
+    </nav>
+    <div class="hdr-actions">
+      <div class="lang" role="group" aria-label="Язык / Тіл"><button type="button" data-action="lang" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-action="lang" data-lang="kz" aria-pressed="false">KZ</button></div>
+      <button class="icon-btn" data-action="open-search" aria-label="Поиск" data-i18n-attr="aria-label:aSearch"><svg class="ic"><use href="#i-search"/></svg></button>
+      <a class="icon-btn" href="#/shop?wish=1" aria-label="Избранное" data-i18n-attr="aria-label:wishlist"><svg class="ic"><use href="#i-heart"/></svg><span class="count-badge" id="wishCount">0</span></a>
+      <button class="icon-btn" data-action="open-cart" aria-label="Корзина" data-i18n-attr="aria-label:aCart"><svg class="ic"><use href="#i-bag"/></svg><span class="count-badge" id="cartCount">0</span></button>
+      <button class="icon-btn burger" data-action="open-menu" aria-label="Меню" data-i18n-attr="aria-label:aMenu"><svg class="ic"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="app" tabindex="-1">
+
+<!-- ═════════════ PAGE 1: LANDING ═════════════ -->
+<div class="page" id="page-home" data-page="home">
+
+  <div class="hero-zone" id="heroZone">
+  <div class="bg-pattern" aria-hidden="true"><div class="pp" id="heroPattern"></div></div>
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-fade" style="--d:0"><span class="dot"></span><span data-i18n="eyebrow">Сезон 25/26 · Новая коллекция</span></span>
+        <h1 class="hero-title" id="heroTitle" aria-label="Твоя игра. Твой стиль." data-i18n-attr="aria-label:heroAria">
+          <span class="line l1" aria-hidden="true" data-split="hero1">Твоя игра.</span>
+          <span class="line l2" aria-hidden="true" data-split="hero2">Твой стиль.</span>
+        </h1>
+        <p class="hero-sub hero-fade" style="--d:1" data-i18n="heroSub">Официальная атрибутика ХК «Барыс»: игровые джерси, тёплые худи, шарфы и сувениры для тех, кто болеет всерьёз. Из Астаны с любовью к хоккею.</p>
+        <div class="hero-cta hero-fade" style="--d:2">
+          <a class="btn btn-primary magnetic" href="#/shop"><span data-i18n="toShop">В магазин</span> <svg class="ic ic-go"><use href="#i-arrow"/></svg></a>
+          <button class="btn btn-ghost magnetic" data-action="scroll" data-target="#new" data-i18n="newColl">Новая коллекция</button>
+        </div>
+        <div class="hero-meta hero-fade" style="--d:3">
+          <span><svg class="ic"><use href="#i-truck"/></svg><span data-i18n="meta1">Доставка по Казахстану</span></span>
+          <span><svg class="ic"><use href="#i-shield"/></svg><span data-i18n="meta2">Официальный мерч</span></span>
+          <span><svg class="ic"><use href="#i-return"/></svg><span data-i18n="meta3">Возврат 14 дней</span></span>
+        </div>
+      </div>
+      <div class="card-stage hero-fade" style="--d:1">
+        <div class="stage-ring" aria-hidden="true"></div>
+        <div class="card-float">
+          <div class="idcard-back" aria-hidden="true">
+            <img data-logo="emblem" src="https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png" alt="" onerror="__logoFail(this)">
+            <span>ASTANA · KZ</span>
+          </div>
+          <div class="idcard" id="idcard" role="img" aria-label="Клубная карта болельщика ХК «Барыс»">
+            <div class="idc-stripe"></div>
+            <div class="idc-in">
+              <div class="idc-top"><div><span>HC Barys</span><div class="idc-chip"></div></div><span>Fan ID</span></div>
+              <div class="idc-logo"><img data-logo="wordmark" src="https://cdn.ruwiki.ru/ruwiki/files/thumb/5/52/%D0%A5%D0%BE%D0%BA%D0%BA%D0%B5%D0%B9%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1_%D0%91%D0%B0%D1%80%D1%8B%D1%81.svg/600px-%D0%A5%D0%BE%D0%BA%D0%BA%D0%B5%D0%B9%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1_%D0%91%D0%B0%D1%80%D1%8B%D1%81.svg.png" alt="Эмблема ХК «Барыс»" onerror="__logoFail(this)"></div>
+              <div class="idc-bottom"><div><span data-i18n="fan">Болельщик</span><b>№ 1999 0001</b></div><div style="text-align:right">Астана<b>KZ</b></div></div>
+            </div>
+            <div class="idc-holo"></div><div class="idc-gloss"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-ind" aria-hidden="true"><span class="mouse"></span><span data-i18n="scroll">Листайте</span></div>
+  </section>
+
+  <section class="section teams" aria-labelledby="teamsCap">
+    <div class="container">
+      <p class="teams-cap rv" id="teamsCap">Команданы таңдаңыз</p>
+      <ul class="team-list" id="teamList"></ul>
+    </div>
+    <div class="team-preview" id="teamPreview" aria-hidden="true"><div class="tp-in"><div class="tp-art"></div><div><b></b><small></small></div></div></div>
+  </section>
+  </div>
+
+  <div class="marquee"><span class="sr-only">BARYS · ASTANA · KHL · Hockey is our game</span>
+    <div class="marquee-track" aria-hidden="true" id="marquee"></div>
+  </div>
+
+  <section class="section" id="new" aria-labelledby="newTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div class="rv">
+          <span class="kicker" data-i18n="newKicker">Жаңа · Новинки</span>
+          <h2 class="sec-title" id="newTitle" data-i18n="newTitle">Только что <em>на льду</em></h2>
+        </div>
+        <div class="rail-nav rv" style="--d:1">
+          <button data-action="rail" data-dir="-1" aria-label="Назад" data-i18n-attr="aria-label:aPrev"><svg class="ic"><use href="#i-left"/></svg></button>
+          <button data-action="rail" data-dir="1" aria-label="Вперёд" data-i18n-attr="aria-label:aNext"><svg class="ic"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+      <div class="rail-wrap rv" style="--d:1">
+        <div class="rail" id="rail" tabindex="0" aria-label="Новинки, прокручиваемый список" data-i18n-attr="aria-label:aRail"></div>
+      </div>
+      <div style="margin-top:28px" class="rv"><a class="link-arrow" href="#/shop?new=1"><span data-i18n="allNew">Все новинки</span> <svg class="ic"><use href="#i-arrow"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-labelledby="catTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div class="rv">
+          <span class="kicker" data-i18n="catKicker">Категории</span>
+          <h2 class="sec-title" id="catTitle" data-i18n="catTitle">Собери <em>свой</em> комплект</h2>
+        </div>
+        <p class="sec-desc rv" style="--d:1" data-i18n="catDesc">От игрового джерси до брелока на ключи: всё, чтобы поддержать «Барыс» на трибуне и за её пределами.</p>
+      </div>
+      <div class="bento" id="bento"></div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Клуб в цифрах" data-i18n-attr="aria-label:aStats">
+    <div class="container stats-grid">
+      <div class="stat rv"><b data-count="17" data-suffix="+">0</b><span data-i18n="st1">сезонов в КХЛ: с самого первого розыгрыша лиги</span></div>
+      <div class="stat rv" style="--d:1"><b data-count="11500" data-suffix="+">0</b><span data-i18n="st2">болельщиков на домашних матчах в «Барыс Арене»</span></div>
+      <div class="stat rv" style="--d:2"><b data-count="250" data-suffix="+">0</b><span data-i18n="st3">позиций официального мерча в каталоге</span></div>
+      <div class="stat rv" style="--d:3"><b data-count="30000" data-suffix=" ₸">0</b><span data-i18n="st4">и выше: бесплатная доставка по всему Казахстану</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="newsTitle">
+    <div class="container">
+      <div class="news rv rv-scale">
+        <div>
+          <span class="kicker">Жаңалықтар</span>
+          <h2 id="newsTitle" style="margin-top:14px" data-i18n="newsTitle">Будь в игре<br>раньше всех</h2>
+          <p data-i18n="newsText">Новые коллекции, закрытые распродажи и розыгрыши билетов на матчи — раз в неделю, без спама.</p>
+        </div>
+        <div>
+          <form class="news-form" id="newsForm" novalidate>
+            <label class="sr-only" for="newsEmail" data-i18n="email">Электронная почта</label>
+            <input id="newsEmail" type="email" placeholder="your@email.kz" autocomplete="email" required>
+            <button class="btn btn-primary magnetic" type="submit" data-i18n="subscribe">Подписаться</button>
+          </form>
+          <small data-i18n="newsSmall">Нажимая «Подписаться», вы соглашаетесь получать письма. Отписаться можно в один клик.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════ PAGE 2: SHOP ═════════════ -->
+<div class="page" id="page-shop" data-page="shop" hidden>
+  <section class="shop-hero">
+    <div class="bg-pattern" aria-hidden="true"><div class="pp"></div></div>
+    <div class="container">
+      <nav class="crumbs" aria-label="Хлебные крошки" id="crumbs" data-i18n-attr="aria-label:aCrumbs"></nav>
+      <div class="shop-title">
+        <h1 id="shopTitle"><small>Дүкен · Магазин</small><span id="shopTitleText">Все товары</span></h1>
+        <p class="result-count" aria-live="polite"><span data-i18n="found">Найдено:</span> <b id="resultCount">0</b> <span id="resultWord">товаров</span></p>
+      </div>
+      <div class="cat-pills" id="catPills" role="group" aria-label="Быстрый выбор категории" data-i18n-attr="aria-label:aPills"></div>
+    </div>
+  </section>
+
+  <div class="container shop-layout">
+    <aside class="filters" id="filters" aria-labelledby="filtersTitle">
+      <div class="sheet-head"><h2 id="filtersTitle" data-i18n="filters">Фильтры</h2><button class="icon-btn" data-action="close-sheet" aria-label="Закрыть фильтры" data-i18n-attr="aria-label:aCloseF"><svg class="ic"><use href="#i-x"/></svg></button></div>
+      <div class="f-scroll">
+        <div class="f-group">
+          <label class="search-box"><span class="sr-only" data-i18n="aCatSearch">Поиск по каталогу</span><svg class="ic"><use href="#i-search"/></svg><input class="input" id="fSearch" type="search" placeholder="Поиск: джерси, шарф…" data-i18n-attr="placeholder:phFilter" autocomplete="off"></label>
+        </div>
+        <details class="f-group" open><summary><span data-i18n="fTeam">Команда</span> <svg class="ic"><use href="#i-down"/></svg></summary><div class="f-body chips" id="fTeams"></div></details>
+        <details class="f-group" open><summary><span data-i18n="fCat">Категория</span> <svg class="ic"><use href="#i-down"/></svg></summary><div class="f-body chips" id="fCats"></div></details>
+        <details class="f-group" open><summary><span data-i18n="fPrice">Цена</span> <svg class="ic"><use href="#i-down"/></svg></summary>
+          <div class="f-body">
+            <div class="range" id="priceRange"><div class="range-track"><div class="range-fill" id="rangeFill"></div></div>
+              <input type="range" id="rMin" aria-label="Минимальная цена" data-i18n-attr="aria-label:aMin"><input type="range" id="rMax" aria-label="Максимальная цена" data-i18n-attr="aria-label:aMax"></div>
+            <div class="price-inputs"><label><span class="sr-only" data-i18n="aFrom">Цена от</span><input class="input" id="pMin" type="number" inputmode="numeric"></label><span>—</span><label><span class="sr-only" data-i18n="aTo">Цена до</span><input class="input" id="pMax" type="number" inputmode="numeric"></label></div>
+          </div>
+        </details>
+        <details class="f-group" open><summary><span data-i18n="fSize">Размер</span> <svg class="ic"><use href="#i-down"/></svg></summary><div class="f-body sizes" id="fSizes"></div></details>
+        <details class="f-group" open><summary><span data-i18n="fColor">Цвет</span> <svg class="ic"><use href="#i-down"/></svg></summary><div class="f-body colors" id="fColors"></div></details>
+        <div class="f-group">
+          <label class="switch"><span data-i18n="inStock">В наличии</span><input type="checkbox" role="switch" id="fStock"><i></i></label>
+          <label class="switch"><span data-i18n="onSale">Со скидкой</span><input type="checkbox" role="switch" id="fSale"><i></i></label>
+          <label class="switch"><span data-i18n="newOnly">Новинки</span><input type="checkbox" role="switch" id="fNew"><i></i></label>
+        </div>
+      </div>
+      <div class="f-foot">
+        <button class="btn btn-ghost btn-sm" data-action="reset" data-i18n="resetF">Сбросить<span class="hide-sm">&nbsp;фильтры</span></button>
+        <button class="btn btn-ice btn-sm apply" data-action="close-sheet" id="applyBtn">Показать</button>
+      </div>
+    </aside>
+    <div class="sheet-backdrop" id="sheetBackdrop" data-action="close-sheet"></div>
+
+    <div class="shop-main">
+      <div class="toolbar">
+        <button class="btn btn-ghost btn-sm open-filters" data-action="open-sheet" aria-controls="filters"><svg class="ic ic-sm"><use href="#i-filter"/></svg><span data-i18n="filters">Фильтры</span> <span id="filterCountLbl"></span></button>
+        <span class="rc result-count grow"><b id="resultCount2">0</b> <span id="resultWord2">товаров</span></span>
+        <span class="grow" style="flex:0 1 0"></span>
+        <label class="select"><span class="sr-only" data-i18n="sortLbl">Сортировка</span>
+          <select id="sort">
+            <option value="popular" data-i18n="sPop">Популярные</option>
+            <option value="new" data-i18n="sNew">Новинки</option>
+            <option value="price-asc" data-i18n="sAsc">Цена ↑</option>
+            <option value="price-desc" data-i18n="sDesc">Цена ↓</option>
+            <option value="discount" data-i18n="sDisc">Скидка</option>
+            <option value="name" data-i18n="sName">По названию</option>
+          </select><svg class="ic"><use href="#i-down"/></svg></label>
+        <div class="seg density" role="group" aria-label="Колонок в сетке" data-i18n-attr="aria-label:aCols">
+          <button data-action="cols" data-cols="3" aria-label="3 колонки" data-i18n-attr="aria-label:aC3"><svg class="ic ic-sm"><use href="#i-cols3"/></svg></button>
+          <button data-action="cols" data-cols="4" aria-label="4 колонки" data-i18n-attr="aria-label:aC4"><svg class="ic ic-sm"><use href="#i-cols4"/></svg></button>
+        </div>
+        <div class="seg view-seg" role="group" aria-label="Вид каталога" data-i18n-attr="aria-label:aView">
+          <button data-action="view" data-view="grid" aria-label="Сеткой" data-i18n-attr="aria-label:aGrid"><svg class="ic ic-sm"><use href="#i-grid"/></svg></button>
+          <button data-action="view" data-view="list" aria-label="Списком" data-i18n-attr="aria-label:aList"><svg class="ic ic-sm"><use href="#i-list"/></svg></button>
+        </div>
+      </div>
+      <div class="active-chips" id="activeChips" aria-label="Активные фильтры" data-i18n-attr="aria-label:aActive"></div>
+      <div class="grid" id="grid" aria-live="polite" aria-busy="false"></div>
+      <div class="empty" id="empty" hidden>
+        <svg class="empty-ill" viewBox="0 0 200 120" aria-hidden="true"><ellipse cx="100" cy="104" rx="70" ry="9" fill="#04112A" opacity=".6"/><ellipse cx="100" cy="58" rx="62" ry="22" fill="#1A2233"/><path d="M38 58v20c0 12 28 22 62 22s62-10 62-22V58c0 12-28 22-62 22S38 70 38 58Z" fill="#0E131D"/><ellipse cx="100" cy="58" rx="62" ry="22" fill="none" stroke="#8FAFD3" stroke-opacity=".35"/><text x="100" y="66" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="22" fill="#8FAFD3" opacity=".7">?</text></svg>
+        <h3 data-i18n="nothing">Ничего не найдено</h3>
+        <p data-i18n="emptyText">Попробуйте изменить запрос или ослабить фильтры. Шайба где-то рядом.</p>
+        <button class="btn btn-ice" data-action="reset" data-i18n="resetFull">Сбросить фильтры</button>
+      </div>
+      <div class="more" id="more" hidden>
+        <span id="moreText"></span>
+        <div class="more-bar"><i id="moreBar"></i></div>
+        <button class="btn btn-ghost" data-action="more" id="moreBtn" data-i18n="more">Показать ещё</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="f-grid">
+      <div class="f-brand">
+        <a href="#/" class="f-mini" aria-label="BARYS Fan Shop: на главную" data-i18n-attr="aria-label:aHomeLink">
+          <img data-logo="emblem" src="https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png" alt="" loading="lazy" onerror="__logoFail(this)">
+          <span><b>BARYS</b><small>Fan shop · Астана</small></span>
+        </a>
+        <p data-i18n="fAbout">Атрибутика хоккейного клуба «Барыс» и его команд: «Номад», «Снежные барсы», «Томирис» и «Жастар». Бәрі алға!</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg class="ic"><use href="#i-insta"/></svg></a>
+          <a href="#" aria-label="Telegram"><svg class="ic"><use href="#i-tg"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="ic"><use href="#i-yt"/></svg></a>
+          <a href="https://ru.hcbarys.kz/main/" target="_blank" rel="noopener" aria-label="Официальный сайт клуба" data-i18n-attr="aria-label:aSite"><svg class="ic"><use href="#i-globe"/></svg></a>
+        </div>
+      </div>
+      <div class="f-col"><h4 data-i18n="navShop">Магазин</h4><ul>
+        <li><a href="#/shop?cat=jersey">Джерси</a></li><li><a href="#/shop?cat=hoodie" data-i18n="c_hoodie">Худи и футболки</a></li><li><a href="#/shop?cat=winter" data-i18n="c_winter">Шапки и шарфы</a></li><li><a href="#/shop?cat=souvenirs" data-i18n="navSouv">Сувениры</a></li><li><a href="#/shop?sale=1" data-i18n="sale">Распродажа</a></li></ul></div>
+      <div class="f-col"><h4 data-i18n="fHelp">Помощь</h4><ul>
+        <li><a href="#" data-action="stub" data-i18n="h1">Доставка и оплата</a></li><li><a href="#" data-action="stub" data-i18n="h2">Обмен и возврат</a></li><li><a href="#" data-action="stub" data-i18n="h3">Таблица размеров</a></li><li><a href="#" data-action="stub" data-i18n="h4">Контакты</a></li></ul></div>
+      <div class="f-col"><h4 data-i18n="fClub">Клуб</h4><ul>
+        <li><a href="https://ru.hcbarys.kz/main/" target="_blank" rel="noopener">hcbarys.kz</a></li><li><a href="#" data-action="stub" data-i18n="k1">Билеты на матчи</a></li><li><a href="#" data-action="stub">Барыс Арена</a></li><li><a href="#" data-action="stub" data-i18n="k3">Абонементы</a></li></ul></div>
+    </div>
+    <div class="f-bottom">
+      <div class="f-legal"><span>© 2026 BARYS Fan Shop</span><span class="concept-note">Concept redesign, not an official store</span></div>
+      <div class="pay">
+        <span class="pay-label" id="payLbl" data-i18n="payLbl">Принимаем к оплате</span>
+        <ul class="pay-list" aria-labelledby="payLbl">
+          <li class="pay-card" title="Visa"><svg viewBox="0 0 42 24" role="img" aria-label="Visa"><text x="21" y="17" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-style="italic" font-size="14" letter-spacing="-.3" fill="#1A1F71">VISA</text><path d="M7 19.5h28" stroke="#F7B600" stroke-width="1.6" stroke-linecap="round"/></svg></li>
+          <li class="pay-card" title="Mastercard"><svg viewBox="0 0 42 24" role="img" aria-label="Mastercard"><circle cx="16" cy="12" r="9" fill="#EB001B"/><circle cx="26" cy="12" r="9" fill="#F79E1B"/><path d="M21 4.5a9 9 0 0 1 0 15 9 9 0 0 1 0-15Z" fill="#FF5F00"/></svg></li>
+          <li class="pay-card kaspi" title="Kaspi Pay"><svg viewBox="0 0 42 24" role="img" aria-label="Kaspi Pay"><text x="21" y="12" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="10.5" fill="#fff">Kaspi</text><text x="21" y="20.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="7" letter-spacing="1.2" fill="#fff">PAY</text></svg></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- cart drawer -->
+<div class="layer" id="cartLayer" hidden>
+  <div class="backdrop" data-action="close"></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="d-head">
+      <img data-logo="emblem" src="https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png" alt="" onerror="__logoFail(this)">
+      <h2 id="cartTitle"><span data-i18n="cart">Корзина</span> <small><span data-i18n="cartSub">Себет</span> · <span id="cartTitleCount">0 товаров</span></small></h2>
+      <button class="icon-btn" data-action="close" aria-label="Закрыть корзину" data-i18n-attr="aria-label:aCloseCart"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="ship" id="ship"></div>
+    <div class="d-items" id="cartItems"></div>
+    <div class="d-foot" id="cartFoot"></div>
+  </aside>
+</div>
+
+<!-- quick view -->
+<div class="layer modal-wrap" id="qvLayer" hidden>
+  <div class="backdrop" data-action="close"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="qvTitle" id="qv"></div>
+</div>
+
+<!-- search -->
+<div class="layer" id="searchLayer" hidden>
+  <div class="backdrop" data-action="close"></div>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Поиск по магазину" data-i18n-attr="aria-label:aSearch">
+    <div class="container">
+      <div class="s-row">
+        <svg class="ic ic-lg"><use href="#i-search"/></svg>
+        <label class="sr-only" for="sInput" data-i18n="sLabel">Что ищем?</label>
+        <input id="sInput" type="search" placeholder="Что ищем? Джерси, шарф, шайба…" data-i18n-attr="placeholder:phSearch" autocomplete="off">
+        <button class="icon-btn" data-action="close" aria-label="Закрыть поиск" data-i18n-attr="aria-label:aClose"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="s-hints" id="sHints"></div>
+      <div class="s-results" id="sResults"></div>
+      <div class="s-all" id="sAll"></div>
+    </div>
+  </div>
+</div>
+
+<!-- mobile menu -->
+<div class="layer" id="menuLayer" hidden>
+  <div class="menu" role="dialog" aria-modal="true" aria-label="Меню" data-i18n-attr="aria-label:aMenu">
+    <div class="bg-pattern" aria-hidden="true"><div class="pp"></div></div>
+    <div class="container" style="display:flex;flex-direction:column;flex:1">
+      <div class="menu-head">
+        <a class="logo" href="#/"><img class="logo-img" data-logo="emblem" src="https://thumb.wikimedia.org/wikipedia/ru/thumb/a/a1/HC_Barys_Logo.svg/960px-HC_Barys_Logo.svg.png" alt="" onerror="__logoFail(this)"><span class="logo-text"><b>BARYS</b><small>Fan shop · Дүкен</small></span></a>
+        <button class="icon-btn" data-action="close" aria-label="Закрыть меню" data-i18n-attr="aria-label:aClose"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="lang" role="group" aria-label="Язык / Тіл"><button type="button" data-action="lang" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-action="lang" data-lang="kz" aria-pressed="false">KZ</button></div>
+      <nav aria-label="Мобильная навигация" data-i18n-attr="aria-label:aNav">
+        <a href="#/" data-nav="home" style="--i:0" data-i18n="navHome">Главная</a>
+        <a href="#/shop" data-nav="shop" style="--i:1" data-i18n="navShop">Магазин</a>
+        <a href="#/shop?cat=jersey" data-nav="jersey" style="--i:2" data-i18n="navJersey">Джерси</a>
+        <a href="#/shop?cat=accessories" data-nav="accessories" style="--i:3" data-i18n="navAcc">Аксессуары</a>
+        <a href="#/shop?cat=souvenirs" data-nav="souvenirs" style="--i:4" data-i18n="navSouv">Сувениры</a>
+        <a href="#/shop?wish=1" style="--i:5" data-i18n="wishlist">Избранное</a>
+      </nav>
+      <div class="m-teams"><p>Команданы таңдаңыз</p><div class="chips" id="mTeams"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<script>
+(() => {
+'use strict';
+
+/* ── utils ───────────────────────────────────────────── */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const RM = matchMedia('(prefers-reduced-motion: reduce)');
+const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
+const DESKTOP = matchMedia('(min-width: 1024px)');
+const reduced = () => RM.matches;
+const EASE = 'cubic-bezier(.22,1,.36,1)';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const group3 = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const fmt = n => group3(n) + ' ₸';
+const plural = (n, f) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? f[0] : a >= 2 && a <= 4 && (b < 12 || b > 14) ? f[1] : f[2]; };
+const PW = ['товар', 'товара', 'товаров'];
+let LANG = store0('barys.lang') === 'kz' ? 'kz' : 'ru';
+const L = (ru, kz) => LANG === 'kz' ? kz : ru;
+const items = n => L(plural(n, PW), 'тауар');
+const revW = n => L(plural(n, ['отзыв', 'отзыва', 'отзывов']), 'пікір');
+function store0(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+const ic = (n, cls = '') => `<svg class="ic ${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const norm = s => String(s).toLowerCase().replace(/ё/g, 'е').trim();
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+};
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+/* ── data ────────────────────────────────────────────── */
+const TEAMS = {
+  barys:   { name: 'БАРЫС',          kz: 'БАРЫС',          latin: 'BARYS',   league: 'КХЛ',    leagueKz: 'КХЛ',          bg: ['#EEF4FB', '#C3D7EE'], dot: '#1BA3D6' },
+  nomad:   { name: 'НОМАД',          kz: 'НОМАД',          latin: 'NOMAD',   league: 'Резерв', leagueKz: 'Резерв',       bg: ['#F6F1E7', '#DFCFAF'], dot: '#E0A63A' },
+  snow:    { name: 'СНЕЖНЫЕ БАРСЫ',  kz: 'ҚАР БАРЫСТАРЫ',  latin: 'BARSY',   league: 'МХЛ',    leagueKz: 'МХЛ',          bg: ['#F1F7FB', '#C9E2EF'], dot: '#7FD1F0' },
+  tomiris: { name: 'ТОМИРИС',        kz: 'ТОМИРИС',        latin: 'TOMIRIS', league: 'ЖХЛ',    leagueKz: 'ЖХЛ',          bg: ['#F3F1FA', '#D6D0EF'], dot: '#B4A5F2' },
+  zhastar: { name: 'ЖАСТАР',         kz: 'ЖАСТАР',         latin: 'ZHASTAR', league: 'Юниоры', leagueKz: 'Жасөспірімдер', bg: ['#EDF7F3', '#C6E5D8'], dot: '#5CCAA5' }
+};
+const TEAM_KEYS = Object.keys(TEAMS);
+const CATS = {
+  jersey: 'Джерси', hoodie: 'Худи и футболки', winter: 'Шапки и шарфы', accessories: 'Аксессуары',
+  souvenirs: 'Сувениры', kids: 'Детская коллекция', gear: 'Клюшки и шайбы'
+};
+const CATS_KZ = {
+  jersey: 'Джерси', hoodie: 'Худи мен футболкалар', winter: 'Бас киімдер мен шарфтар', accessories: 'Аксессуарлар',
+  souvenirs: 'Кәдесыйлар', kids: 'Балалар коллекциясы', gear: 'Таяқтар мен шайбалар'
+};
+const COLORS_KZ = { navy: 'Қою көк', white: 'Ақ', cyan: 'Көгілдір', black: 'Қара', grey: 'Сұр меланж', gold: 'Алтын', ice: 'Мұзды' };
+const tn = k => L(TEAMS[k].name, TEAMS[k].kz);
+const lg = k => L(TEAMS[k].league, TEAMS[k].leagueKz);
+const cn = k => L(CATS[k], CATS_KZ[k]);
+const coln = k => L(COLORS[k].name, COLORS_KZ[k]);
+const desc = k => L(DESC[k], DESC_KZ[k]);
+const pn = p => L(p.name, p.kzName);
+const ps = p => L(p.sub, p.kzSub);
+const COLORS = {
+  navy:  { name: 'Тёмно-синий',  hex: '#163E7A', trim: ['#1BA3D6', '#FFFFFF'] },
+  white: { name: 'Белый',        hex: '#F5F8FC', trim: ['#0A2A5C', '#1BA3D6'] },
+  cyan:  { name: 'Бирюзовый',    hex: '#1BA3D6', trim: ['#0A2A5C', '#FFFFFF'] },
+  black: { name: 'Чёрный',       hex: '#1B202B', trim: ['#8FAFD3', '#FFFFFF'] },
+  grey:  { name: 'Серый меланж', hex: '#A3AFC0', trim: ['#0A2A5C', '#FFFFFF'] },
+  gold:  { name: 'Золотой',      hex: '#D9A441', trim: ['#0A2A5C', '#FFFFFF'] },
+  ice:   { name: 'Ледяной',      hex: '#CFE0F3', trim: ['#0A2A5C', '#1BA3D6'] }
+};
+const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
+const SZ = (a, b) => SIZES.slice(SIZES.indexOf(a), SIZES.indexOf(b) + 1);
+const DESC = {
+  jersey: 'Реплика игровой формы: дышащая сетка, вышитая эмблема, усиленные локти и свободная посадка поверх свитера.',
+  hoodie: 'Мягкий плотный трикотаж, аккуратная вышивка и посадка, в которой удобно и на трибуне, и в городе.',
+  winter: 'Тёплая мягкая пряжа для зимних матчей: не колется и держит форму после стирки.',
+  accessories: 'Прочные материалы, фирменная фурнитура и продуманные детали на каждый день.',
+  souvenirs: 'Сувенир в цветах клуба: отличный подарок болельщику и память о сезоне.',
+  kids: 'Мягкие гипоаллергенные материалы и удобный крой для юных болельщиков.',
+  gear: 'Экипировка и коллекционные предметы с символикой «Барыса».'
+};
+const DESC_KZ = {
+  jersey: 'Ойын формасының репликасы: тыныс алатын тор, кестеленген эмблема, бекітілген шынтақтар және свитердің үстінен еркін отырады.',
+  hoodie: 'Жұмсақ әрі тығыз трикотаж, ұқыпты кестелеу және трибунада да, қалада да ыңғайлы пішін.',
+  winter: 'Қысқы матчтарға арналған жылы, жұмсақ жіп: шаншымайды, жуғаннан кейін пішінін сақтайды.',
+  accessories: 'Берік материалдар, фирмалық фурнитура және күнделікті қолдануға ойластырылған бөлшектер.',
+  souvenirs: 'Клуб түстеріндегі кәдесый: жанкүйерге тамаша сыйлық әрі маусым естелігі.',
+  kids: 'Жас жанкүйерлерге арналған жұмсақ гипоаллергенді материалдар мен ыңғайлы пішім.',
+  gear: '«Барыс» символикасы бар экипировка мен коллекциялық заттар.'
+};
+// Kazakh product names & subtitles, index-aligned with RAW
+const RAW_KZ = [
+  ['BARYS 25/26 ойын джерсиі (қою)', 'Маусымның үй формасы, кестеленген эмблема'],
+  ['BARYS 25/26 ойын джерсиі (ашық)', 'Қонақ жиынтығы, тыныс алатын тор'],
+  ['BARYS 1999 ретро-джерсиі', 'Клуб мерейтойына арналған шектеулі серия'],
+  ['НОМАД үй джерсиі', '«Номад» ойын формасының репликасы'],
+  ['«Қар барыстары» МХЛ джерсиі', 'Жастар командасы, 25/26 маусымы'],
+  ['ТОМИРИС әйелдер джерсиі', 'Денеге қонымды пішім, жұмсақ тор'],
+  ['ЖАСТАР жаттығу джерсиі', 'Жеңіл жаттығу моделі'],
+  ['«Қар барысы» худиі', 'Тығыз футер 380 г/м², кестелеу'],
+  ['BARYS ASTANA оверсайз худиі', 'Еркін силуэт, іші жүнді'],
+  ['«Hockey is our game» футболкасы', '100% мақта, кеудедегі принт'],
+  ['НОМАД Classic футболкасы', 'Логотипі бар базалық модель'],
+  ['ТОМИРИС свитшоты', 'Жұмсақ трикотаж, кестеленген жазу'],
+  ['BARYS жанкүйер шарфы', 'Екі жақты тоқыма шарф, 150 см'],
+  ['«Бәрі алға!» шарфы', 'Ұраны бар жаккард тоқыма'],
+  ['BARYS шашақты бас киімі', 'Қос тоқыма, флис астар'],
+  ['Логотипі кестеленген кепка', 'Реттелетін ілгек, мақта'],
+  ['НОМАД snapback кепкасы', 'Тік күнқағар, 3D кестелеу'],
+  ['ЖАСТАР бас киімі', 'Қайырмасы бар жылы бас киім'],
+  ['Team Astana рюкзагы', '15 дюймдік ноутбук бөлімі, 24 л'],
+  ['ТОМИРИС мини-рюкзагы', 'Ықшам қалалық формат'],
+  ['BARYS спорттық бөтелкесі, 750 мл', 'BPA-сыз тритан, ішетін клапан'],
+  ['«Қар барыстары» термобөтелкесі', 'Жылуды 12 сағатқа дейін сақтайды'],
+  ['BARYS термокесесі', 'Болат, 350 мл, сырғымалы қақпақ'],
+  ['НОМАД керамикалық кесесі', 'Керамика, 330 мл'],
+  ['BARYS жанкүйер туы, 90×135', 'Трибунаға және қонақ матчтарына'],
+  ['ЖАСТАР туы', 'Екі жақты басылым, 60×90'],
+  ['«Барыс» брелогы', 'Металл, эмаль, карабин'],
+  ['ТОМИРИС брелок-шайбасы', 'Сақинадағы шағын шайба'],
+  ['НОМАД балалар джерсиі', '6–12 жастағы жас жанкүйерлерге'],
+  ['BARYS балалар джерсиі', 'Үлкендердікі сияқты, тек кішірек'],
+  ['«Барыс күшігі» балалар бас киімі', 'Шашағы мен жұмсақ қайырмасы бар'],
+  ['ЖАСТАР балалар худиі', 'Жұмсақ футер, күләпара'],
+  ['BARYS коллекциялық шайбасы', 'Ресми ойын шайбасы'],
+  ['Команда қолтаңбалары бар шайба', 'Негізгі құрам ойыншыларының қолтаңбалары'],
+  ['Кәдесый мини-таяқ', 'Ұзындығы 45 см, сыйлық қаптамасы'],
+  ['Barys Pro SR ойын таяғы', 'Карбон, P92 иілімі, флекс 75']
+];
+// [name, team, cat, art, price, oldPrice, colors, sizes, rating, reviews, stock, flags, subtitle, extra]
+const RAW = [
+  ['Игровое джерси BARYS 25/26 (тёмное)', 'barys', 'jersey', 'jersey', 34990, 0, ['navy'], SZ('S', '3XL'), 4.9, 212, 40, 'new hit', 'Домашняя форма сезона, вышитая эмблема', { num: 17 }],
+  ['Игровое джерси BARYS 25/26 (светлое)', 'barys', 'jersey', 'jersey', 34990, 0, ['white'], SZ('S', '3XL'), 4.8, 148, 25, 'new', 'Гостевой комплект, дышащая сетка', { num: 91 }],
+  ['Ретро-джерси BARYS 1999', 'barys', 'jersey', 'jersey', 29990, 37490, ['cyan'], SZ('M', 'XXL'), 4.7, 64, 4, '', 'Лимитированная серия к юбилею клуба', { num: 99 }],
+  ['Джерси НОМАД домашнее', 'nomad', 'jersey', 'jersey', 27990, 0, ['black', 'gold'], SZ('S', 'XXL'), 4.6, 38, 18, '', 'Реплика игровой формы «Номада»', { num: 8 }],
+  ['Джерси «Снежные барсы» МХЛ', 'snow', 'jersey', 'jersey', 24990, 0, ['ice', 'navy'], SZ('XS', 'XL'), 4.7, 41, 22, 'new', 'Молодёжная команда, сезон 25/26', { num: 23 }],
+  ['Женское джерси ТОМИРИС', 'tomiris', 'jersey', 'jersey', 26990, 0, ['navy', 'white'], SZ('XS', 'L'), 4.9, 57, 12, 'new', 'Приталенный крой, мягкая сетка', { num: 7 }],
+  ['Тренировочное джерси ЖАСТАР', 'zhastar', 'jersey', 'jersey', 19990, 24990, ['cyan', 'white'], SZ('XS', 'XL'), 4.5, 22, 30, '', 'Лёгкая тренировочная модель', { num: 11 }],
+  ['Худи «Снежный барс»', 'barys', 'hoodie', 'hoodie', 24990, 0, ['navy', 'grey', 'black'], SZ('XS', '3XL'), 4.8, 301, 60, 'hit', 'Плотный футер 380 г/м², вышивка'],
+  ['Худи оверсайз BARYS ASTANA', 'barys', 'hoodie', 'hoodie', 27990, 0, ['ice', 'navy'], SZ('S', 'XXL'), 4.7, 86, 35, 'new', 'Свободный силуэт, начёс внутри'],
+  ['Футболка «Hockey is our game»', 'barys', 'hoodie', 'tshirt', 9990, 0, ['white', 'navy', 'black'], SZ('XS', '3XL'), 4.6, 174, 80, 'hit', 'Хлопок 100%, принт на груди', { text: ['HOCKEY', 'IS OUR', 'GAME'] }],
+  ['Футболка НОМАД Classic', 'nomad', 'hoodie', 'tshirt', 8990, 11990, ['black', 'grey'], SZ('S', 'XXL'), 4.4, 29, 40, '', 'Базовая модель с логотипом', { text: ['NOMAD'] }],
+  ['Свитшот ТОМИРИС', 'tomiris', 'hoodie', 'hoodie', 18990, 0, ['ice', 'grey'], SZ('XS', 'L'), 4.8, 33, 15, 'new', 'Мягкий трикотаж, вышитая надпись'],
+  ['Шарф болельщика BARYS', 'barys', 'winter', 'scarf', 6990, 0, ['navy', 'cyan'], [], 4.9, 412, 120, 'hit', 'Двусторонний вязаный шарф, 150 см', { text: 'BARYS' }],
+  ['Шарф «Бәрі алға!»', 'barys', 'winter', 'scarf', 7990, 0, ['cyan', 'white'], [], 4.8, 96, 45, 'new', 'Жаккардовая вязка с кричалкой', { text: 'БӘРІ АЛҒА' }],
+  ['Шапка с помпоном BARYS', 'barys', 'winter', 'beanie', 7490, 0, ['navy', 'white', 'cyan'], [], 4.7, 188, 70, '', 'Двойная вязка, флисовая подкладка'],
+  ['Кепка с вышитым логотипом', 'barys', 'winter', 'cap', 8990, 0, ['navy', 'black', 'white'], [], 4.8, 203, 55, 'hit', 'Регулируемая застёжка, хлопок'],
+  ['Кепка НОМАД snapback', 'nomad', 'winter', 'cap', 7990, 9990, ['black', 'gold'], [], 4.5, 31, 3, '', 'Прямой козырёк, 3D-вышивка'],
+  ['Шапка ЖАСТАР', 'zhastar', 'winter', 'beanie', 5490, 0, ['cyan', 'black'], [], 4.6, 18, 24, '', 'Тёплая шапка с отворотом'],
+  ['Рюкзак Team Astana', 'barys', 'accessories', 'backpack', 21990, 0, ['navy', 'black'], [], 4.8, 77, 16, '', 'Отделение для ноутбука 15", 24 л'],
+  ['Мини-рюкзак ТОМИРИС', 'tomiris', 'accessories', 'backpack', 16990, 0, ['ice', 'navy'], [], 4.7, 19, 9, 'new', 'Компактный городской формат'],
+  ['Бутылка спортивная BARYS 750 мл', 'barys', 'accessories', 'bottle', 4990, 0, ['navy', 'white'], [], 4.6, 58, 90, '', 'Тритан без BPA, клапан-поилка'],
+  ['Термобутылка «Снежные барсы»', 'snow', 'accessories', 'bottle', 7990, 9990, ['ice', 'black'], [], 4.7, 26, 0, '', 'Держит тепло до 12 часов'],
+  ['Кружка термо BARYS', 'barys', 'souvenirs', 'mug', 6490, 0, ['navy', 'white'], [], 4.8, 143, 48, 'hit', 'Сталь, 350 мл, крышка-слайдер', { lid: true }],
+  ['Кружка керамическая НОМАД', 'nomad', 'souvenirs', 'mug', 3990, 0, ['white', 'black'], [], 4.5, 27, 60, '', 'Керамика, 330 мл'],
+  ['Флаг болельщика BARYS 90×135', 'barys', 'souvenirs', 'flag', 5990, 0, ['navy'], [], 4.9, 121, 35, 'hit', 'Для трибуны и выездных матчей'],
+  ['Флаг ЖАСТАР', 'zhastar', 'souvenirs', 'flag', 3990, 4990, ['cyan'], [], 4.4, 12, 20, '', 'Двусторонняя печать, 60×90'],
+  ['Брелок «Барыс»', 'barys', 'souvenirs', 'keychain', 1990, 0, ['navy', 'cyan'], [], 4.7, 88, 4, '', 'Металл, эмаль, карабин'],
+  ['Брелок-шайба ТОМИРИС', 'tomiris', 'souvenirs', 'keychain', 1790, 0, ['black'], [], 4.6, 14, 40, 'new', 'Мини-шайба на кольце', { puck: true }],
+  ['Детское джерси НОМАД', 'nomad', 'kids', 'jersey', 17990, 0, ['gold', 'black'], ['XS', 'S', 'M'], 4.8, 23, 14, '', 'Для юных болельщиков 6–12 лет', { num: 10 }],
+  ['Детское джерси BARYS', 'barys', 'kids', 'jersey', 19990, 0, ['navy', 'white'], ['XS', 'S', 'M'], 4.9, 64, 26, 'new', 'Как у взрослых, только меньше', { num: 1 }],
+  ['Детская шапка «Барсёнок»', 'barys', 'kids', 'beanie', 4990, 5990, ['ice', 'cyan'], [], 4.8, 39, 18, '', 'С помпоном и мягким отворотом'],
+  ['Детское худи ЖАСТАР', 'zhastar', 'kids', 'hoodie', 14990, 0, ['cyan', 'grey'], ['XS', 'S', 'M'], 4.7, 15, 0, '', 'Мягкий футер, капюшон'],
+  ['Шайба коллекционная BARYS', 'barys', 'gear', 'puck', 2990, 0, ['black'], [], 4.9, 256, 150, 'hit', 'Официальная игровая шайба'],
+  ['Шайба с автографами команды', 'barys', 'gear', 'puck', 14990, 0, ['black'], [], 5.0, 9, 2, 'new', 'Подписи игроков основного состава', { sign: true }],
+  ['Клюшка сувенирная мини', 'barys', 'gear', 'stick', 5990, 0, ['navy', 'white'], [], 4.6, 44, 30, '', 'Длина 45 см, подарочная упаковка'],
+  ['Клюшка игровая Barys Pro SR', 'barys', 'gear', 'stick', 64990, 79990, ['black'], [], 4.8, 17, 6, '', 'Карбон, загиб P92, флекс 75']
+];
+const ART_WORDS = { jersey: 'джерси форма свитер', hoodie: 'худи толстовка свитшот', tshirt: 'футболка', scarf: 'шарф', beanie: 'шапка', cap: 'кепка бейсболка', backpack: 'рюкзак сумка', bottle: 'бутылка', mug: 'кружка чашка', flag: 'флаг', keychain: 'брелок', puck: 'шайба', stick: 'клюшка' };
+const PRODUCTS = RAW.map((r, i) => {
+  const [name, team, cat, art, price, oldPrice, colors, sizes, rating, reviews, stock, flags, sub, extra] = r;
+  const p = {
+    id: 'p' + (i + 1), order: i, name, team, cat, art, price, oldPrice: oldPrice || 0, colors, sizes, rating, reviews, stock,
+    isNew: flags.includes('new'), isHit: flags.includes('hit'), sub, extra: extra || {}, kzName: RAW_KZ[i][0], kzSub: RAW_KZ[i][1],
+    soldOut: sizes.length > 4 && i % 3 === 0 ? [sizes[0]] : [],
+    tags: [team, cat, art]
+  };
+  p.search = norm([name, sub, RAW_KZ[i][0], RAW_KZ[i][1], TEAMS[team].name, TEAMS[team].kz, TEAMS[team].latin, CATS[cat], CATS_KZ[cat], ART_WORDS[art] || ''].join(' '));
+  return p;
+});
+const PMAP = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+const PRICE_MAX = Math.ceil(Math.max(...PRODUCTS.map(p => p.price)) / 5000) * 5000;
+const FREE_SHIP = 30000, SHIP_COST = 1990, PAGE = 12;
+const discount = p => p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+const score = p => p.rating * Math.log(p.reviews + 2) + (p.isHit ? 3 : 0);
+const maxQty = p => Math.max(1, Math.min(10, p.stock));
+const defaultSize = p => {
+  if (!p.sizes.length) return null;
+  const ok = p.sizes.filter(s => !p.soldOut.includes(s));
+  return ok.includes('M') ? 'M' : ok[Math.floor(ok.length / 2)] || null;
+};
+
+/* ── logo (for prints on product art) ────────────────── */
+const LOGO = { emblem: null };
+function probeLogo() {
+  const list = (window.LOGO_SRC && window.LOGO_SRC.emblem) || [];
+  let i = 0;
+  const next = () => {
+    if (i >= list.length) return;
+    const url = list[i++], im = new Image();
+    im.onload = () => { LOGO.emblem = url; refreshArt(); };
+    im.onerror = next;
+    im.src = url;
+  };
+  next();
+}
+
+/* ── product illustrations (inline SVG, tinted per colour) ── */
+let UID = 0;
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16), t = amt < 0 ? 0 : 255, p = Math.abs(amt);
+  const ch = v => Math.round((t - v) * p + v);
+  return '#' + ((1 << 24) | (ch(n >> 16) << 16) | (ch((n >> 8) & 255) << 8) | ch(n & 255)).toString(16).slice(1);
+}
+function isLight(hex) { const n = parseInt(hex.slice(1), 16); return (((n >> 16) * 299) + (((n >> 8) & 255) * 587) + ((n & 255) * 114)) / 1000 > 165; }
+const ink = c => isLight(c) ? '#0A2A5C' : '#FFFFFF';
+const edge = c => isLight(c) ? '#94A9C4' : shade(c, -.45);
+const grad = (id, c) => `<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${shade(c, .2)}"/><stop offset=".55" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -.24)}"/></linearGradient>`;
+const shadow = (rx = 66, cy = 189) => `<ellipse cx="100" cy="${cy}" rx="${rx}" ry="7" fill="#0A2A5C" opacity=".16"/>`;
+const T = (x, y, size, fill, txt, extra = '') => `<text x="${x}" y="${y}" text-anchor="middle" font-family="Unbounded, 'Arial Black', sans-serif" font-weight="800" font-size="${size}" fill="${fill}" ${extra}>${txt}</text>`;
+function crest(cx, cy, w, ring) {
+  if (LOGO.emblem) return `<image href="${LOGO.emblem}" x="${cx - w / 2}" y="${cy - w * .434}" width="${w}" height="${w * .868}" preserveAspectRatio="xMidYMid meet"/>`;
+  const r = w * .42;
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#0A2A5C" stroke="${ring || '#CFE0F3'}" stroke-width="${r * .14}"/>${T(cx, cy + r * .36, r * 1.05, '#fff', 'B')}`;
+}
+const ART = {
+  jersey(c, t, view, p, id) {
+    const body = 'M64 28 L82 21 Q100 31 118 21 L136 28 L172 48 L190 100 L162 111 L154 90 L156 176 Q100 186 44 176 L46 90 L38 111 L10 100 L28 48 Z';
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${body}"/></clipPath></defs>${shadow(72)}`;
+    s += `<path d="${body}" fill="url(#${id}g)"/>`;
+    s += `<g clip-path="url(#${id}c)">
+      <rect x="0" y="144" width="200" height="10" fill="${t[0]}"/><rect x="0" y="158" width="200" height="4" fill="${t[1]}"/>
+      <g transform="rotate(21 24 90)"><rect x="-8" y="80" width="54" height="9" fill="${t[0]}"/><rect x="-8" y="92" width="54" height="3.5" fill="${t[1]}"/></g>
+      <g transform="rotate(-21 176 90)"><rect x="154" y="80" width="54" height="9" fill="${t[0]}"/><rect x="154" y="92" width="54" height="3.5" fill="${t[1]}"/></g>
+      <path d="M50 92 Q62 130 54 178M150 92 Q138 130 146 178" stroke="#000" stroke-opacity=".08" stroke-width="7" fill="none"/>
+      <path d="M40 40 Q70 60 66 180" stroke="#fff" stroke-opacity=".08" stroke-width="16" fill="none"/></g>`;
+    s += `<path d="${body}" fill="none" stroke="${edge(c)}" stroke-width="1.6" stroke-linejoin="round"/>`;
+    if (view === 'front') {
+      s += `<path d="M82 21 Q100 31 118 21 L113 34 Q100 46 87 34 Z" fill="${t[1]}" stroke="${edge(c)}" stroke-width="1"/>`;
+      s += `<path d="M96 38 L104 38 M95 42 L105 42" stroke="${t[0]}" stroke-width="1.4"/>`;
+      s += crest(100, 86, 50, t[0]);
+    } else {
+      s += `<path d="M82 21 Q100 30 118 21 L116 27 Q100 35 84 27 Z" fill="${t[0]}"/>`;
+      s += T(100, 64, 12, t[1] === '#FFFFFF' ? '#FFFFFF' : ink(c), TEAMS[p.team].latin, 'letter-spacing="2.5"');
+      s += T(100, 128, 52, ink(c) === '#FFFFFF' ? '#FFFFFF' : t[0], p.extra.num || 17, `stroke="${t[0] === '#0A2A5C' ? t[1] : t[0]}" stroke-width="2.5" paint-order="stroke"`);
+    }
+    return s;
+  },
+  hoodie(c, t, view, p, id) {
+    const body = 'M60 42 L80 32 Q100 40 120 32 L140 42 L168 62 L184 150 L162 156 L152 96 L154 176 Q100 186 46 176 L48 96 L38 156 L16 150 L32 62 Z';
+    const dk = shade(c, -.14), dd = shade(c, -.3);
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${body}"/></clipPath></defs>${shadow(72)}`;
+    if (view === 'front') s += `<path d="M72 42 Q72 10 100 10 Q128 10 128 42 Q114 54 100 54 Q86 54 72 42 Z" fill="${dk}" stroke="${edge(c)}" stroke-width="1.4"/>`;
+    s += `<path d="${body}" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6" stroke-linejoin="round"/>`;
+    s += `<g clip-path="url(#${id}c)"><path d="M46 168 Q100 178 154 168 L154 190 L46 190 Z" fill="${dk}"/><path d="M40 40 Q70 60 66 180" stroke="#fff" stroke-opacity=".08" stroke-width="16" fill="none"/></g>`;
+    s += `<path d="M16 150 L38 156 L36 166 L14 160 Z M184 150 L162 156 L164 166 L186 160 Z" fill="${dk}" stroke="${edge(c)}" stroke-width="1.2"/>`;
+    if (view === 'front') {
+      s += `<path d="M66 132 L134 132 L144 166 Q100 172 56 166 Z" fill="${shade(c, -.06)}" stroke="${edge(c)}" stroke-opacity=".6" stroke-width="1.2"/>`;
+      s += `<path d="M82 38 Q100 62 118 38 Q100 48 82 38 Z" fill="${dd}"/>`;
+      s += `<path d="M93 50 L91 80 M107 50 L109 80" stroke="${t[1] === '#FFFFFF' ? '#F2F6FB' : t[1]}" stroke-width="2.6" stroke-linecap="round"/><circle cx="91" cy="82" r="2.4" fill="${t[0]}"/><circle cx="109" cy="82" r="2.4" fill="${t[0]}"/>`;
+      s += crest(100, 104, 34, t[0]) + T(100, 126, 9, ink(c), 'BARYS', 'letter-spacing="3"');
+    } else {
+      s += `<path d="M70 42 Q70 8 100 8 Q130 8 130 42 L124 72 Q100 82 76 72 Z" fill="${dk}" stroke="${edge(c)}" stroke-width="1.4"/><path d="M100 10 L100 78" stroke="${dd}" stroke-width="1.2"/>`;
+      s += T(100, 122, 21, ink(c), TEAMS[p.team].latin.length > 6 ? TEAMS[p.team].latin.slice(0, 7) : TEAMS[p.team].latin, 'letter-spacing="1"') + T(100, 140, 7.5, isLight(c) ? '#1BA3D6' : t[0], 'ASTANA · EST. 1999', 'letter-spacing="2"');
+    }
+    return s;
+  },
+  tshirt(c, t, view, p, id) {
+    const body = 'M64 30 L84 23 Q100 33 116 23 L136 30 L168 52 L156 84 L140 78 L142 176 Q100 183 58 176 L60 78 L44 84 L32 52 Z';
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${body}"/></clipPath></defs>${shadow(64)}`;
+    s += `<path d="${body}" fill="url(#${id}g)"/><g clip-path="url(#${id}c)"><path d="M40 40 Q70 60 66 180" stroke="#fff" stroke-opacity=".1" stroke-width="16" fill="none"/><path d="M60 82 Q70 130 62 178M140 82 Q130 130 138 178" stroke="#000" stroke-opacity=".07" stroke-width="6" fill="none"/></g>`;
+    s += `<path d="${body}" fill="none" stroke="${edge(c)}" stroke-width="1.6" stroke-linejoin="round"/>`;
+    s += `<path d="M38 66 L52 74 M162 66 L148 74" stroke="${shade(c, -.2)}" stroke-width="1.2"/>`;
+    if (view === 'front') {
+      s += `<path d="M84 23 Q100 40 116 23" stroke="${shade(c, -.25)}" stroke-width="4" fill="none"/>`;
+      const lines = p.extra.text || ['BARYS'];
+      const fs = lines.length > 1 ? 14 : 18, y0 = 92 - (lines.length - 1) * fs * .6;
+      lines.forEach((l, i) => { s += T(100, y0 + i * fs * 1.15, fs, i === lines.length - 1 && lines.length > 1 ? (isLight(c) ? '#1BA3D6' : t[0]) : ink(c), l, 'letter-spacing="1"'); });
+      s += `<path d="M76 ${y0 + lines.length * fs * 1.15 - 4} q24 -8 48 0" stroke="${isLight(c) ? '#1BA3D6' : t[0]}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+    } else {
+      s += `<path d="M84 23 Q100 30 116 23" stroke="${shade(c, -.25)}" stroke-width="3" fill="none"/>` + crest(100, 52, 22, t[0]) + T(100, 160, 8, ink(c), 'ASTANA · KZ', 'letter-spacing="3" opacity=".8"');
+    }
+    return s;
+  },
+  cap(c, t, _v, p, id) {
+    const dk = shade(c, -.14), sm = shade(c, -.3);
+    let s = `<defs>${grad(id + 'g', c)}</defs>${shadow(72, 168)}`;
+    s += `<path d="M44 132 Q40 60 100 52 Q160 60 156 132 Z" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<path d="M100 52 Q97 92 100 132 M100 52 Q68 70 64 132 M100 52 Q132 70 136 132" stroke="${sm}" stroke-opacity=".55" stroke-width="1.2" fill="none"/>`;
+    s += `<circle cx="100" cy="54" r="5" fill="${dk}"/><circle cx="76" cy="78" r="2" fill="${sm}"/><circle cx="124" cy="78" r="2" fill="${sm}"/>`;
+    s += `<path d="M30 130 Q100 112 170 130 Q176 154 100 164 Q24 154 30 130 Z" fill="${dk}" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<path d="M34 131 Q100 120 166 131" stroke="${sm}" stroke-width="3" fill="none" opacity=".7"/><path d="M40 142 Q100 132 160 142" stroke="#fff" stroke-opacity=".12" stroke-width="5" fill="none"/>`;
+    s += crest(100, 96, 46, t[0]);
+    if (p.team !== 'barys') s += T(100, 126, 7, ink(c), TEAMS[p.team].latin, 'letter-spacing="2.5" opacity=".9"');
+    return s;
+  },
+  beanie(c, t, _v, p, id) {
+    const dome = 'M50 128 Q46 62 100 58 Q154 62 150 128 Z', cuff = 'M44 120 Q100 112 156 120 L158 160 Q100 152 42 160 Z';
+    const pom = t[1] === '#FFFFFF' ? '#F2F6FB' : t[1];
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}d"><path d="${dome}"/></clipPath><clipPath id="${id}c"><path d="${cuff}"/></clipPath></defs>${shadow(64, 172)}`;
+    s += `<circle cx="100" cy="50" r="19" fill="${pom}" stroke="${edge(pom)}" stroke-width="1.2"/>`;
+    for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2; s += `<circle cx="${(100 + Math.cos(a) * 16).toFixed(1)}" cy="${(50 + Math.sin(a) * 16).toFixed(1)}" r="5" fill="${pom}"/>`; }
+    s += `<path d="${dome}" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<g clip-path="url(#${id}d)"><rect x="40" y="88" width="120" height="10" fill="${t[0]}"/><rect x="40" y="102" width="120" height="4" fill="${t[1]}"/><path d="M60 64 Q56 90 58 128" stroke="#fff" stroke-opacity=".12" stroke-width="10" fill="none"/></g>`;
+    s += `<path d="${cuff}" fill="${shade(c, -.1)}" stroke="${edge(c)}" stroke-width="1.6"/><g clip-path="url(#${id}c)">`;
+    for (let x = 48; x < 156; x += 7) s += `<path d="M${x} 112 L${x} 162" stroke="${shade(c, -.26)}" stroke-opacity=".45" stroke-width="1.4"/>`;
+    s += `</g>` + crest(100, 138, 30, t[0]);
+    return s;
+  },
+  scarf(c, t, _v, p, id) {
+    const txt = p.extra.text || 'BARYS', fs = txt.length > 6 ? 11.5 : 15;
+    let s = `<defs>${grad(id + 'g', c)}</defs>${shadow(70, 182)}<g transform="rotate(-14 100 100)">`;
+    s += `<rect x="40" y="108" width="132" height="44" rx="4" fill="${shade(c, -.22)}"/>`;
+    s += `<rect x="22" y="62" width="156" height="52" rx="4" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.4"/>`;
+    s += `<rect x="22" y="67" width="156" height="4" fill="${t[1]}"/><rect x="22" y="105" width="156" height="4" fill="${t[1]}"/>`;
+    s += `<rect x="22" y="62" width="22" height="52" fill="${t[0]}"/><rect x="156" y="62" width="22" height="52" fill="${t[0]}"/>`;
+    s += `<path d="M33 72 l-6 8 6 8 6 -8z M33 92 l-6 8 6 8 6 -8z M167 72 l-6 8 6 8 6 -8z M167 92 l-6 8 6 8 6 -8z" fill="${t[1]}" opacity=".85"/>`;
+    s += T(100, 93 + fs * .02, fs, ink(c), esc(txt), 'letter-spacing="1.5"');
+    for (let k = 0; k < 9; k++) {
+      const y = 65 + k * 5.8;
+      s += `<path d="M22 ${y} l-12 ${k % 2 ? 2 : -1}M178 ${y} l12 ${k % 2 ? -1 : 2}" stroke="${t[0]}" stroke-width="2.6" stroke-linecap="round"/>`;
+    }
+    return s + '</g>';
+  },
+  puck(c, t, _v, p, id) {
+    let s = `<defs><radialGradient id="${id}r" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#3A4252"/><stop offset="1" stop-color="#14181F"/></radialGradient></defs>${shadow(80, 146)}`;
+    s += `<path d="M28 96 L28 124 A72 23 0 0 0 172 124 L172 96 Z" fill="#11151C"/>`;
+    for (let x = 34; x < 168; x += 6) s += `<path d="M${x} ${104 + Math.sin((x - 28) / 144 * Math.PI) * 12} l3 10" stroke="#2C3442" stroke-width="1.6"/>`;
+    s += `<ellipse cx="100" cy="96" rx="72" ry="23" fill="url(#${id}r)"/><ellipse cx="100" cy="96" rx="71" ry="22" fill="none" stroke="#fff" stroke-opacity=".14"/>`;
+    s += `<g transform="translate(100 96) scale(1 .34)">${crest(0, 0, 76, '#CFE0F3')}</g>`;
+    if (p.extra.sign) s += `<path d="M48 90 q8 -10 14 0 t14 -2 M112 104 q6 -8 12 -2 t10 -4 t12 2 M70 106 q10 6 18 -2 M120 84 q8 -6 18 2" stroke="#E7C27A" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+    return s;
+  },
+  mug(c, t, _v, p, id) {
+    const body = 'M58 58 L138 58 L134 168 Q98 178 62 168 Z';
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${body}"/></clipPath></defs>${shadow(64, 182)}`;
+    if (!p.extra.lid) s += `<path d="M136 82 Q172 82 170 114 Q168 146 133 144" stroke="${edge(c)}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M136 82 Q172 82 170 114 Q168 146 133 144" stroke="${shade(c, -.06)}" stroke-width="11" fill="none" stroke-linecap="round"/>`;
+    s += `<path d="${body}" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<g clip-path="url(#${id}c)"><rect x="50" y="146" width="100" height="7" fill="${t[0]}"/><rect x="50" y="156" width="100" height="3" fill="${t[1]}"/><rect x="66" y="64" width="8" height="96" rx="4" fill="#fff" opacity=".22"/></g>`;
+    if (p.extra.lid) s += `<path d="M55 58 L55 44 Q98 32 141 44 L141 58 Q98 68 55 58 Z" fill="#1B202B"/><ellipse cx="98" cy="44" rx="43" ry="9" fill="#2A3140"/><rect x="104" y="38" width="22" height="7" rx="3.5" fill="#0E1218"/>`;
+    else s += `<ellipse cx="98" cy="58" rx="40" ry="9" fill="${shade(c, -.32)}" stroke="${edge(c)}" stroke-width="1.4"/><ellipse cx="98" cy="60" rx="34" ry="6" fill="${shade(c, -.5)}" opacity=".5"/>`;
+    s += crest(98, 104, 56, t[0]);
+    return s;
+  },
+  backpack(c, t, _v, p, id) {
+    const dk = shade(c, -.12), dd = shade(c, -.3);
+    let s = `<defs>${grad(id + 'g', c)}</defs>${shadow(64, 188)}`;
+    s += `<path d="M84 34 Q100 14 116 34" stroke="${dd}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+    s += `<path d="M52 52 Q52 30 100 30 Q148 30 148 52 L154 168 Q154 182 140 182 L60 182 Q46 182 46 168 Z" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<path d="M58 58 Q100 42 142 58" stroke="${t[1] === '#FFFFFF' ? '#E8EEF6' : t[1]}" stroke-width="1.6" stroke-dasharray="2.5 2.5" fill="none"/>`;
+    s += `<path d="M46 156 L154 156 L154 168 Q154 182 140 182 L60 182 Q46 182 46 168 Z" fill="${dd}" opacity=".55"/>`;
+    s += `<path d="M64 110 L136 110 L138 164 Q138 172 130 172 L70 172 Q62 172 62 164 Z" fill="${dk}" stroke="${edge(c)}" stroke-width="1.4"/>`;
+    s += `<path d="M66 121 L134 121" stroke="${t[0]}" stroke-width="2.2"/><rect x="124" y="118" width="6" height="12" rx="2" fill="${t[1] === '#FFFFFF' ? '#DDE6F1' : t[1]}"/>`;
+    s += `<path d="M62 50 Q66 120 60 176" stroke="#fff" stroke-opacity=".08" stroke-width="10" fill="none"/>`;
+    s += crest(100, 80, 40, t[0]) + T(100, 150, 8, ink(dk), p.team === 'barys' ? 'TEAM ASTANA' : TEAMS[p.team].latin, 'letter-spacing="2.5"');
+    return s;
+  },
+  bottle(c, t, _v, p, id) {
+    const body = 'M72 58 L128 58 Q134 58 134 66 L136 172 Q136 184 124 184 L76 184 Q64 184 64 172 L66 66 Q66 58 72 58 Z';
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${body}"/></clipPath></defs>${shadow(50, 190)}`;
+    s += `<path d="M88 28 Q100 10 112 28" stroke="${t[0]}" stroke-width="4.5" fill="none"/><rect x="80" y="26" width="40" height="26" rx="7" fill="${t[0]}"/><rect x="84" y="50" width="32" height="9" fill="${shade(c, -.25)}"/>`;
+    s += `<path d="${body}" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.6"/>`;
+    s += `<g clip-path="url(#${id}c)"><rect x="60" y="134" width="80" height="20" fill="${shade(c, -.12)}"/><rect x="74" y="68" width="6" height="104" rx="3" fill="#fff" opacity=".25"/></g>`;
+    s += crest(100, 100, 46, t[0]) + T(100, 148, 8, ink(shade(c, -.12)), TEAMS[p.team].latin, 'letter-spacing="2.5"');
+    return s;
+  },
+  flag(c, t, _v, p, id) {
+    const cloth = 'M41 28 Q76 14 112 30 T182 32 L182 122 Q148 108 112 124 T41 118 Z';
+    let s = `<defs>${grad(id + 'g', c)}<clipPath id="${id}c"><path d="${cloth}"/></clipPath></defs>${shadow(56, 192)}`;
+    s += `<path d="M38 18 L38 190" stroke="#8792A3" stroke-width="5" stroke-linecap="round"/><circle cx="38" cy="14" r="6" fill="#C9A35C"/>`;
+    s += `<path d="${cloth}" fill="url(#${id}g)"/>`;
+    s += `<g clip-path="url(#${id}c)"><rect x="30" y="10" width="160" height="22" fill="${t[0]}" transform="skewY(2)"/><rect x="30" y="108" width="160" height="24" fill="${t[0]}"/><rect x="30" y="102" width="160" height="4" fill="${t[1]}"/><path d="M112 20 Q100 70 112 130" stroke="#000" stroke-opacity=".1" stroke-width="16" fill="none"/><path d="M160 20 Q150 70 160 130" stroke="#fff" stroke-opacity=".1" stroke-width="12" fill="none"/></g>`;
+    s += `<path d="${cloth}" fill="none" stroke="${edge(c)}" stroke-width="1.4"/>`;
+    s += crest(110, 70, 50, t[0]);
+    return s;
+  },
+  keychain(c, t, _v, p, id) {
+    let s = `<defs>${grad(id + 'g', c)}<radialGradient id="${id}r" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#3A4252"/><stop offset="1" stop-color="#14181F"/></radialGradient></defs>${shadow(48, 186)}`;
+    s += `<circle cx="100" cy="38" r="19" fill="none" stroke="#9AA7B8" stroke-width="5.5"/><circle cx="100" cy="38" r="19" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.4" stroke-dasharray="18 100"/>`;
+    s += `<rect x="96" y="54" width="8" height="20" rx="4" fill="none" stroke="#9AA7B8" stroke-width="4"/>`;
+    if (p.extra.puck) {
+      s += `<path d="M48 100 L48 120 A52 16 0 0 0 152 120 L152 100 Z" fill="#11151C"/><ellipse cx="100" cy="100" rx="52" ry="16" fill="url(#${id}r)"/><g transform="translate(100 100) scale(1 .34)">${crest(0, 0, 56, '#CFE0F3')}</g><circle cx="100" cy="86" r="3" fill="#9AA7B8"/>`;
+    } else {
+      s += `<path d="M58 78 Q58 72 64 72 L136 72 Q142 72 142 78 L142 138 Q142 162 100 180 Q58 162 58 138 Z" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.8"/>`;
+      s += `<path d="M66 82 L134 82 L134 136 Q134 156 100 170 Q66 156 66 136 Z" fill="none" stroke="${t[1] === '#FFFFFF' ? '#E1EAF4' : t[1]}" stroke-width="1.6" opacity=".8"/>`;
+      s += `<circle cx="100" cy="78" r="4" fill="${shade(c, -.45)}"/>` + crest(100, 122, 58, t[0]);
+    }
+    return s;
+  },
+  stick(c, t, _v, p, id) {
+    const tape = c === COLORS.black.hex ? '#E9EEF5' : '#1B202B';
+    let s = `<defs>${grad(id + 'g', c)}</defs>${shadow(76, 190)}<g transform="translate(6 -4) rotate(30 100 100)">`;
+    s += `<rect x="95" y="2" width="11" height="160" rx="3" fill="url(#${id}g)" stroke="${edge(c)}" stroke-width="1.2"/>`;
+    s += `<rect x="94" y="2" width="13" height="34" rx="3" fill="${tape}"/>`;
+    for (let y = 6; y < 34; y += 5) s += `<path d="M94 ${y} l13 4" stroke="${shade(tape, isLight(tape) ? -.2 : .2)}" stroke-width="1"/>`;
+    s += `<text x="0" y="0" transform="translate(103.6 120) rotate(-90)" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="800" font-size="7.5" letter-spacing="1.5" fill="${t[0] === '#0A2A5C' && isLight(c) ? '#0A2A5C' : t[1] === '#FFFFFF' ? '#FFFFFF' : t[0]}">BARYS</text>`;
+    s += `<path d="M95 156 L106 156 L107 172 Q105 192 82 194 L34 196 Q24 196 25 188 L27 180 Q64 182 95 166 Z" fill="${shade(c, -.1)}" stroke="${edge(c)}" stroke-width="1.4"/>`;
+    s += `<path d="M58 181 L94 172 L98 186 Q94 191 82 192 L58 193 Z" fill="#F2F5F9" opacity=".9"/>`;
+    return s + '</g>';
+  }
+};
+const GARMENT = new Set(['jersey', 'hoodie', 'tshirt']);
+function artSVG(p, colorKey, view = 'front') {
+  const col = COLORS[colorKey] || COLORS[p.colors[0]];
+  const id = 'a' + (++UID);
+  let inner = ART[p.art](col.hex, col.trim, GARMENT.has(p.art) ? view : 'front', p, id);
+  if (!GARMENT.has(p.art) && view === 'back') inner = `<g transform="translate(100 104) rotate(-9) scale(1.12) translate(-100 -104)">${inner}</g>`;
+  return `<svg viewBox="0 0 200 200" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', другой ракурс', ', басқа ракурс') : ''}">${inner}</svg>`;
+}
+
+/* ── state ───────────────────────────────────────────── */
+let cart = (store.get('barys.cart', []) || []).filter(l => l && PMAP[l.id] && COLORS[l.color]);
+const wish = new Set((store.get('barys.wish', []) || []).filter(id => PMAP[id]));
+const UI = { cols: store.get('barys.cols', 4) === 3 ? 3 : 4, view: store.get('barys.view', 'grid') === 'list' ? 'list' : 'grid' };
+const S = {};
+function resetState() {
+  Object.assign(S, { q: '', teams: new Set(), cats: new Set(), sizes: new Set(), colors: new Set(), min: 0, max: PRICE_MAX, stock: false, sale: false, isNew: false, wish: false, sort: 'popular', limit: PAGE });
+}
+resetState();
+const SORTS = {
+  popular: (a, b) => score(b) - score(a),
+  new: (a, b) => (b.isNew - a.isNew) || (b.order - a.order),
+  'price-asc': (a, b) => a.price - b.price,
+  'price-desc': (a, b) => b.price - a.price,
+  discount: (a, b) => (discount(b) - discount(a)) || (score(b) - score(a)),
+  name: (a, b) => a.name.localeCompare(b.name, 'ru')
+};
+
+/* ── toasts ──────────────────────────────────────────── */
+const toastWrap = $('#toasts');
+function toast(msg, opts = {}) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = `<span class="t-ic">${ic(opts.icon || 'check', 'ic-sm')}</span><span>${msg}</span>${opts.action ? `<button type="button">${opts.action}</button>` : ''}`;
+  if (opts.action) el.querySelector('button').addEventListener('click', () => { opts.onAction && opts.onAction(); kill(); });
+  toastWrap.append(el);
+  while (toastWrap.children.length > 3) toastWrap.firstElementChild.remove();
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+  let gone = false;
+  function kill() { if (gone) return; gone = true; el.classList.remove('show'); setTimeout(() => el.remove(), 500); }
+  setTimeout(kill, opts.ms || 3200);
+}
+
+/* ── layers: focus trap, Esc, scroll lock ────────────── */
+const stack = [];
+const sheetBackdrop = $('#sheetBackdrop');
+const focusables = root => $$('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea,[tabindex]:not([tabindex="-1"])', root)
+  .filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
+function lockScroll(on) {
+  const root = document.documentElement;
+  if (on && !root.classList.contains('locked')) {
+    const sb = innerWidth - root.clientWidth;
+    if (sb > 0) { document.body.style.paddingRight = sb + 'px'; $('#hdr').style.paddingRight = sb + 'px'; }
+    root.classList.add('locked');
+  } else if (!on) {
+    root.classList.remove('locked');
+    document.body.style.paddingRight = ''; $('#hdr').style.paddingRight = '';
+  }
+}
+function openLayer(el, opts = {}) {
+  if (stack.some(s => s.el === el)) return;
+  const entry = { el, ret: document.activeElement, sheet: !!opts.sheet, onClose: opts.onClose };
+  stack.push(entry);
+  if (!entry.sheet) el.hidden = false;
+  lockScroll(true);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    el.classList.add('open');
+    if (entry.sheet) sheetBackdrop.classList.add('open');
+  }));
+  setTimeout(() => {
+    const f = (opts.focus && $(opts.focus, el)) || focusables(el)[0];
+    if (f) f.focus({ preventScroll: true });
+  }, 80);
+}
+function closeLayer(el, { restore = true } = {}) {
+  const i = stack.findIndex(s => s.el === el);
+  if (i < 0) return;
+  const [entry] = stack.splice(i, 1);
+  el.classList.remove('open');
+  if (entry.sheet) sheetBackdrop.classList.remove('open');
+  else setTimeout(() => { if (!el.classList.contains('open')) el.hidden = true; }, 620);
+  if (!stack.length) lockScroll(false);
+  if (entry.onClose) entry.onClose();
+  if (restore && entry.ret && document.contains(entry.ret) && entry.ret.getClientRects().length) entry.ret.focus({ preventScroll: true });
+}
+const closeTop = () => { const t = stack[stack.length - 1]; if (t) closeLayer(t.el); };
+const closeAll = () => { while (stack.length) closeLayer(stack[stack.length - 1].el, { restore: false }); };
+document.addEventListener('keydown', e => {
+  if (!stack.length) return;
+  const top = stack[stack.length - 1].el;
+  if (e.key === 'Escape') { e.preventDefault(); closeTop(); return; }
+  if (e.key !== 'Tab') return;
+  const f = focusables(top);
+  if (!f.length) { e.preventDefault(); return; }
+  const first = f[0], last = f[f.length - 1], a = document.activeElement;
+  if (!top.contains(a)) { e.preventDefault(); first.focus(); }
+  else if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+});
+
+/* ── product card ────────────────────────────────────── */
+function badgesHTML(p, max = 3) {
+  const b = [];
+  if (p.stock === 0) b.push(`<span class="badge badge-out">${L('Нет в наличии', 'Қоймада жоқ')}</span>`);
+  if (p.isNew) b.push('<span class="badge">New</span>');
+  if (p.oldPrice) b.push(`<span class="badge badge-sale">−${discount(p)}%</span>`);
+  if (p.isHit) b.push('<span class="badge badge-hit">Хит</span>');
+  if (p.stock > 0 && p.stock <= 5) b.push(`<span class="badge badge-low"><i aria-hidden="true"></i>${L(`Осталось ${p.stock} шт.`, `${p.stock} дана қалды`)}</span>`);
+  return b.slice(0, max).join('');
+}
+const wishLabel = (p, on) => `${on ? L('Убрать из избранного', 'Таңдаулылардан алып тастау') : L('В избранное', 'Таңдаулыларға')}: ${esc(pn(p))}`;
+function cardHTML(p, i = 0) {
+  const t = TEAMS[p.team], color = p.colors[0], on = wish.has(p.id), out = p.stock === 0;
+  return `<article class="card enter" data-id="${p.id}" data-color="${color}" style="--i:${i}">
+  <div class="card-top">
+    <div class="media" data-action="quick" aria-hidden="true" style="--bg0:${t.bg[0]};--bg1:${t.bg[1]}">
+      <div class="art art-f">${artSVG(p, color, 'front')}</div><div class="art art-b">${artSVG(p, color, 'back')}</div>
+    </div>
+    <div class="badges">${badgesHTML(p)}</div>
+    <button class="wish" type="button" data-action="wish" aria-pressed="${on}" aria-label="${wishLabel(p, on)}">${ic('heart')}</button>
+    <div class="cta">
+      <button class="add" type="button" data-action="add" ${out ? 'disabled' : ''} aria-label="${out ? L('Нет в наличии', 'Қоймада жоқ') : L('В корзину', 'Себетке')}: ${esc(pn(p))}">${ic('bag', 'ic-sm')}<span>${out ? L('Нет в наличии', 'Қоймада жоқ') : L('В корзину', 'Себетке')}</span></button>
+      <button class="qv" type="button" data-action="quick" aria-label="${L('Быстрый просмотр', 'Жылдам қарау')}: ${esc(pn(p))}">${ic('eye', 'ic-sm')}</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-meta"><span class="team-tag" style="--dot:${t.dot}">${tn(p.team)}</span><span class="rating" aria-label="${L('Рейтинг', 'Рейтинг')} ${p.rating.toFixed(1)} / 5, ${p.reviews} ${revW(p.reviews)}">${ic('star')}<b>${p.rating.toFixed(1)}</b><span>(${p.reviews})</span></span></div>
+    <h3 class="card-title"><button type="button" data-action="quick">${esc(pn(p))}</button></h3>
+    <p class="card-sub">${esc(ps(p))}</p>
+    <p class="card-desc">${desc(p.cat)}</p>
+    <div class="card-foot">
+      <div class="price${p.oldPrice ? ' sale' : ''}"><b>${fmt(p.price)}</b>${p.oldPrice ? `<s><span class="sr-only">${L('Старая цена', 'Бұрынғы баға')} </span>${fmt(p.oldPrice)}</s>` : ''}</div>
+      <div class="swatches" role="group" aria-label="${L('Цвет', 'Түс')}">${p.colors.map((c, j) => `<button class="sw" type="button" data-action="swatch" data-c="${c}" style="--c:${COLORS[c].hex}" aria-pressed="${j === 0}" aria-label="${coln(c)}" title="${coln(c)}"></button>`).join('')}</div>
+    </div>
+  </div>
+</article>`;
+}
+function setCardColor(card, c) {
+  const p = PMAP[card.dataset.id];
+  if (!p || card.dataset.color === c) return;
+  card.dataset.color = c;
+  $$('.sw', card).forEach(b => b.setAttribute('aria-pressed', b.dataset.c === c));
+  $('.art-f', card).innerHTML = artSVG(p, c, 'front');
+  $('.art-b', card).innerHTML = artSVG(p, c, 'back');
+}
+const skelHTML = n => Array.from({ length: n }, () => '<div class="skel" aria-hidden="true"><i class="s-img"></i><i class="s-l"></i><i class="s-t"></i><i class="s-p"></i></div>').join('');
+
+/* ── landing: teams, marquee, rail, bento ────────────── */
+function teamCount(k) { return PRODUCTS.filter(p => p.team === k).length; }
+function buildLanding() {
+  $('#teamList').innerHTML = TEAM_KEYS.map((k, i) => `<li class="rv" style="--d:${i}"><a class="team-item" href="#/shop?team=${k}" data-team="${k}">${tn(k)}<sup>${lg(k)}</sup></a></li>`).join('');
+  const words = [['BARYS', ''], ['ASTANA', 'o'], ['KHL', ''], ['Hockey is our game', 'o'], ['Бәрі алға!', ''], ['Est. 1999', 'o']];
+  const grp = `<div class="marquee-group">${words.map(([w, c], i) => `<span class="${c}">${w}</span>${ic(i % 2 ? 'snow' : 'spark')}`).join('')}</div>`;
+  $('#marquee').innerHTML = grp + grp;
+  $('#mTeams').innerHTML = TEAM_KEYS.map(k => `<a class="chk team" style="--dot:${TEAMS[k].dot}" href="#/shop?team=${k}"><span>${tn(k)}</span></a>`).join('');
+}
+function renderRail() {
+  const items = PRODUCTS.filter(p => p.isNew).slice(0, 6);
+  $('#rail').innerHTML = items.map((p, i) => cardHTML(p, i)).join('');
+  updateRailNav();
+}
+const TILES = [
+  { cat: 'jersey', title: ['Джерси', 'Джерси'], sub: ['Игровая форма 25/26', 'Ойын формасы 25/26'], cls: 'big', pid: 'p2', color: 'white' },
+  { cat: 'winter', title: ['Шапки и шарфы', 'Бас киім мен шарф'], sub: ['Тепло на трибуне', 'Трибунада жылы'], pid: 'p13', color: 'cyan' },
+  { cat: 'hoodie', title: ['Худи', 'Худи'], sub: ['Плотный футер', 'Тығыз футер'], pid: 'p9', color: 'ice' },
+  { cat: 'accessories', title: ['Аксессуары', 'Аксессуарлар'], sub: ['Каждый день', 'Күнделікті'], pid: 'p20', color: 'ice' },
+  { cat: 'souvenirs', title: ['Сувениры', 'Кәдесыйлар'], sub: ['Подарки болельщику', 'Жанкүйерге сыйлық'], pid: 'p23', color: 'white' },
+  { cat: 'kids', title: ['Детям', 'Балаларға'], sub: ['Детская коллекция для юных барсов', 'Жас барыстарға арналған балалар коллекциясы'], cls: 'wide', pid: 'p29', color: 'gold' }
+];
+function renderBento() {
+  $('#bento').innerHTML = TILES.map((t, i) => {
+    const n = PRODUCTS.filter(p => p.cat === t.cat).length;
+    return `<a class="tile rv rv-scale ${t.cls || ''}" style="--d:${i % 4}" href="#/shop?cat=${t.cat}">
+      <div class="tile-art" aria-hidden="true">${artSVG(PMAP[t.pid], t.color, 'front')}</div>
+      <h3>${L(...t.title)}</h3><p><span>${L(...t.sub)} · ${n} ${items(n)}</span><span class="go">${ic('arrow-ur', 'ic-sm')}</span></p></a>`;
+  }).join('');
+  observeReveals($('#bento'));
+}
+const rail = $('#rail');
+function updateRailNav() {
+  const [prev, next] = $$('[data-action="rail"]');
+  prev.disabled = rail.scrollLeft < 8;
+  next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+}
+rail.addEventListener('scroll', debounce(updateRailNav, 60), { passive: true });
+
+/* ── shop: filter UI ─────────────────────────────────── */
+const grid = $('#grid'), fSearch = $('#fSearch'), rMin = $('#rMin'), rMax = $('#rMax'), pMin = $('#pMin'), pMax = $('#pMax');
+function buildFilters() {
+  const cnt = (key, v) => PRODUCTS.filter(p => p[key] === v).length;
+  $('#fTeams').innerHTML = TEAM_KEYS.map(k => `<label class="chk team" style="--dot:${TEAMS[k].dot}"><input type="checkbox" name="team" value="${k}"><span>${tn(k)} <em>${cnt('team', k)}</em></span></label>`).join('');
+  $('#fCats').innerHTML = Object.keys(CATS).map(k => `<label class="chk"><input type="checkbox" name="cat" value="${k}"><span>${cn(k)} <em>${cnt('cat', k)}</em></span></label>`).join('');
+  $('#fSizes').innerHTML = SIZES.map(s => `<label class="chk"><input type="checkbox" name="size" value="${s}"><span>${s}</span></label>`).join('');
+  $('#fColors').innerHTML = Object.keys(COLORS).map(k => `<label class="chk" title="${coln(k)}"><input type="checkbox" name="color" value="${k}" aria-label="${coln(k)}"><span style="--c:${COLORS[k].hex};--tick:${ink(COLORS[k].hex)}"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-check"/></svg></span></label>`).join('');
+  $('#catPills').innerHTML = `<button class="pill" type="button" data-action="pill" data-cat="">${L('Все', 'Барлығы')}</button>` + Object.keys(CATS).map(k => `<button class="pill" type="button" data-action="pill" data-cat="${k}">${cn(k)}</button>`).join('');
+  [rMin, rMax].forEach(r => { r.min = 0; r.max = PRICE_MAX; r.step = 500; });
+  [pMin, pMax].forEach(r => { r.min = 0; r.max = PRICE_MAX; r.step = 500; });
+}
+function setRangeUI() {
+  rMin.value = S.min; rMax.value = S.max;
+  if (document.activeElement !== pMin) pMin.value = S.min;
+  if (document.activeElement !== pMax) pMax.value = S.max;
+  const fill = $('#rangeFill');
+  fill.style.left = (S.min / PRICE_MAX * 100) + '%';
+  fill.style.right = (100 - S.max / PRICE_MAX * 100) + '%';
+  rMin.style.zIndex = S.min > PRICE_MAX * .9 ? 3 : 1;
+}
+function syncFilterUI() {
+  fSearch.value = S.q;
+  $$('#filters input[name]').forEach(inp => {
+    const set = { team: S.teams, cat: S.cats, size: S.sizes, color: S.colors }[inp.name];
+    inp.checked = set.has(inp.value);
+  });
+  $('#fStock').checked = S.stock; $('#fSale').checked = S.sale; $('#fNew').checked = S.isNew;
+  $('#sort').value = S.sort;
+  setRangeUI();
+  syncView();
+}
+function syncView() {
+  grid.classList.toggle('c3', UI.cols === 3);
+  grid.classList.toggle('list', UI.view === 'list');
+  $$('[data-action="cols"]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.cols === UI.cols));
+  $$('[data-action="view"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === UI.view));
+}
+
+/* ── shop: query ↔ URL ───────────────────────────────── */
+function parseHash() {
+  const h = location.hash.replace(/^#/, '') || '/';
+  const qi = h.indexOf('?');
+  return { path: qi < 0 ? h : h.slice(0, qi), params: new URLSearchParams(qi < 0 ? '' : h.slice(qi + 1)) };
+}
+function applyParams(params) {
+  resetState();
+  const list = k => (params.get(k) || '').split(',').filter(Boolean);
+  list('team').forEach(k => TEAMS[k] && S.teams.add(k));
+  list('cat').forEach(k => CATS[k] && S.cats.add(k));
+  list('size').forEach(k => SIZES.includes(k) && S.sizes.add(k));
+  list('color').forEach(k => COLORS[k] && S.colors.add(k));
+  const clampP = v => Math.max(0, Math.min(PRICE_MAX, Number(v) || 0));
+  S.q = params.get('q') || '';
+  S.min = clampP(params.get('min'));
+  S.max = params.has('max') ? clampP(params.get('max')) : PRICE_MAX;
+  if (S.min > S.max) [S.min, S.max] = [S.max, S.min];
+  S.stock = params.get('stock') === '1'; S.sale = params.get('sale') === '1'; S.isNew = params.get('new') === '1'; S.wish = params.get('wish') === '1';
+  if (SORTS[params.get('sort')]) S.sort = params.get('sort');
+}
+function toParams() {
+  const p = new URLSearchParams();
+  if (S.q) p.set('q', S.q);
+  if (S.teams.size) p.set('team', [...S.teams].join(','));
+  if (S.cats.size) p.set('cat', [...S.cats].join(','));
+  if (S.sizes.size) p.set('size', [...S.sizes].join(','));
+  if (S.colors.size) p.set('color', [...S.colors].join(','));
+  if (S.min > 0) p.set('min', S.min);
+  if (S.max < PRICE_MAX) p.set('max', S.max);
+  if (S.stock) p.set('stock', 1);
+  if (S.sale) p.set('sale', 1);
+  if (S.isNew) p.set('new', 1);
+  if (S.wish) p.set('wish', 1);
+  if (S.sort !== 'popular') p.set('sort', S.sort);
+  return p;
+}
+function writeURL() {
+  const p = toParams(), qs = p.toString().replace(/%2C/g, ',');
+  history.replaceState(null, '', '#/shop' + (qs ? '?' + qs : ''));
+  updateNav('shop', p);
+}
+
+/* ── shop: filtering & rendering ─────────────────────── */
+let LIST = [], loadT = 0;
+function getList() {
+  const tokens = norm(S.q).split(/\s+/).filter(Boolean);
+  return PRODUCTS.filter(p =>
+    (!S.wish || wish.has(p.id)) &&
+    (!S.teams.size || S.teams.has(p.team)) &&
+    (!S.cats.size || S.cats.has(p.cat)) &&
+    p.price >= S.min && p.price <= S.max &&
+    (!S.sizes.size || p.sizes.some(s => S.sizes.has(s))) &&
+    (!S.colors.size || p.colors.some(c => S.colors.has(c))) &&
+    (!S.stock || p.stock > 0) && (!S.sale || p.oldPrice > 0) && (!S.isNew || p.isNew) &&
+    tokens.every(t => p.search.includes(t))
+  ).sort(SORTS[S.sort]);
+}
+function activeFilters() {
+  const a = [];
+  if (S.wish) a.push(['wish', '', L('Избранное', 'Таңдаулылар')]);
+  if (S.q) a.push(['q', '', `«${S.q}»`]);
+  S.teams.forEach(k => a.push(['team', k, tn(k)]));
+  S.cats.forEach(k => a.push(['cat', k, cn(k)]));
+  if (S.min > 0 || S.max < PRICE_MAX) a.push(['price', '', `${group3(S.min)} – ${fmt(S.max)}`]);
+  S.sizes.forEach(k => a.push(['size', k, L('Размер ', 'Өлшем ') + k]));
+  S.colors.forEach(k => a.push(['color', k, coln(k)]));
+  if (S.stock) a.push(['stock', '', L('В наличии', 'Қоймада бар')]);
+  if (S.sale) a.push(['sale', '', L('Со скидкой', 'Жеңілдікпен')]);
+  if (S.isNew) a.push(['isNew', '', L('Новинки', 'Жаңа өнімдер')]);
+  return a;
+}
+function renderChips() {
+  const a = activeFilters();
+  $('#activeChips').innerHTML = a.map(([t, v, l]) => `<button class="a-chip" type="button" data-action="unchip" data-t="${t}" data-v="${v}" aria-label="${L('Убрать фильтр', 'Сүзгіні алып тастау')}: ${esc(l)}">${esc(l)}${ic('x')}</button>`).join('') +
+    (a.length > 1 ? `<button class="a-chip clear" type="button" data-action="reset">${L('Сбросить всё', 'Барлығын тазарту')}</button>` : '');
+  const n = a.filter(x => x[0] !== 'wish').length;
+  $('#filterCountLbl').textContent = n ? `(${n})` : '';
+}
+const ALL_T = () => L('Все товары', 'Барлық тауарлар');
+function shopTitle() {
+  if (S.wish) return L('Избранное', 'Таңдаулылар');
+  if (S.cats.size === 1 && !S.teams.size) return cn([...S.cats][0]);
+  if (S.teams.size === 1 && !S.cats.size) return TEAMS[[...S.teams][0]].name;
+  if (S.isNew && S.cats.size + S.teams.size === 0) return L('Новинки', 'Жаңа өнімдер');
+  if (S.sale && S.cats.size + S.teams.size === 0) return L('Распродажа', 'Жеңілдіктер');
+  return ALL_T();
+}
+function renderHead(n) {
+  const title = shopTitle();
+  $('#shopTitleText').textContent = title;
+  $('#crumbs').innerHTML = `<a href="#/">${L('Главная', 'Басты бет')}</a>${ic('right')}` + (title === ALL_T() ? `<span aria-current="page">${L('Магазин', 'Дүкен')}</span>` : `<a href="#/shop">${L('Магазин', 'Дүкен')}</a>${ic('right')}<span aria-current="page">${esc(title)}</span>`);
+  ['', '2'].forEach(s => { $('#resultCount' + s).textContent = n; $('#resultWord' + s).textContent = items(n); });
+  $('#applyBtn').textContent = n ? L(`Показать ${n} ${items(n)}`, `${n} тауарды көрсету`) : L('Ничего не найдено', 'Ештеңе табылмады');
+  const single = S.cats.size === 1 ? [...S.cats][0] : (S.cats.size ? null : '');
+  $$('#catPills .pill').forEach(b => b.setAttribute('aria-pressed', single !== null && b.dataset.cat === single));
+  document.title = `${title} · BARYS Fan Shop`;
+}
+function renderShop(loading = true) {
+  LIST = getList();
+  renderHead(LIST.length);
+  renderChips();
+  clearTimeout(loadT);
+  if (loading) {
+    grid.hidden = false; $('#empty').hidden = true; $('#more').hidden = true;
+    grid.setAttribute('aria-busy', 'true');
+    grid.innerHTML = skelHTML(Math.max(4, Math.min(S.limit, LIST.length || 4)));
+    loadT = setTimeout(() => { loadT = 0; renderGrid(); }, 400 + Math.random() * 200);
+  } else renderGrid();
+}
+function renderGrid() {
+  grid.setAttribute('aria-busy', 'false');
+  const show = LIST.slice(0, S.limit);
+  grid.innerHTML = show.map((p, i) => cardHTML(p, i % PAGE)).join('');
+  grid.hidden = !LIST.length;
+  $('#empty').hidden = !!LIST.length;
+  updateMore();
+}
+function updateMore() {
+  const shown = Math.min(S.limit, LIST.length);
+  $('#more').hidden = !LIST.length;
+  $('#moreText').textContent = L(`Показано ${shown} из ${LIST.length}`, `${LIST.length} ішінен ${shown} көрсетілді`);
+  $('#moreBar').style.setProperty('--p', LIST.length ? shown / LIST.length : 0);
+  $('#moreBtn').hidden = shown >= LIST.length;
+}
+function loadMore() {
+  const btn = $('#moreBtn'), from = S.limit;
+  btn.disabled = true; btn.innerHTML = `<span class="spin" aria-hidden="true"></span>${L('Загружаем…', 'Жүктелуде…')}`;
+  setTimeout(() => {
+    S.limit += PAGE;
+    grid.insertAdjacentHTML('beforeend', LIST.slice(from, S.limit).map((p, i) => cardHTML(p, i)).join(''));
+    btn.disabled = false; btn.textContent = L('Показать ещё', 'Тағы көрсету');
+    updateMore();
+    const firstNew = grid.children[from];
+    if (firstNew) { const b = $('.card-title button', firstNew); b && b.focus({ preventScroll: true }); }
+  }, 450);
+}
+function changed(loading = true) { S.limit = PAGE; writeURL(); renderShop(loading); }
+const changedSoon = debounce(() => changed(), 260);
+
+// filter inputs
+$('#filters').addEventListener('change', e => {
+  const inp = e.target;
+  if (inp.name && ['team', 'cat', 'size', 'color'].includes(inp.name)) {
+    const set = { team: S.teams, cat: S.cats, size: S.sizes, color: S.colors }[inp.name];
+    inp.checked ? set.add(inp.value) : set.delete(inp.value);
+    changed();
+  } else if (inp.id === 'fStock' || inp.id === 'fSale' || inp.id === 'fNew') {
+    S[{ fStock: 'stock', fSale: 'sale', fNew: 'isNew' }[inp.id]] = inp.checked;
+    changed();
+  } else if (inp === pMin || inp === pMax) {
+    commitPriceInputs();
+  }
+});
+fSearch.addEventListener('input', debounce(() => { S.q = fSearch.value.trim(); changed(); }, 280));
+rMin.addEventListener('input', () => { S.min = Math.min(+rMin.value, S.max - 1000); S.min = Math.max(0, S.min); setRangeUI(); changedSoon(); });
+rMax.addEventListener('input', () => { S.max = Math.max(+rMax.value, S.min + 1000); S.max = Math.min(PRICE_MAX, S.max); setRangeUI(); changedSoon(); });
+function commitPriceInputs() {
+  let a = Math.max(0, Math.min(PRICE_MAX, Number(pMin.value) || 0)), b = Math.max(0, Math.min(PRICE_MAX, pMax.value === '' ? PRICE_MAX : Number(pMax.value)));
+  if (a > b) [a, b] = [b, a];
+  S.min = a; S.max = b; pMin.value = a; pMax.value = b; setRangeUI(); changed();
+}
+[pMin, pMax].forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commitPriceInputs(); } }));
+$('#sort').addEventListener('change', e => { S.sort = e.target.value; changed(); });
+function removeFilter(t, v) {
+  if (t === 'team') S.teams.delete(v); else if (t === 'cat') S.cats.delete(v);
+  else if (t === 'size') S.sizes.delete(v); else if (t === 'color') S.colors.delete(v);
+  else if (t === 'price') { S.min = 0; S.max = PRICE_MAX; }
+  else if (t === 'q') S.q = '';
+  else S[t] = false;
+  syncFilterUI(); changed();
+}
+function resetFilters() {
+  const sort = S.sort; resetState(); S.sort = sort;
+  syncFilterUI(); changed();
+}
+DESKTOP.addEventListener('change', e => { if (e.matches) closeLayer($('#filters'), { restore: false }); });
+
+/* ── wishlist ────────────────────────────────────────── */
+function updateWishBadge() {
+  const b = $('#wishCount'); b.textContent = wish.size; b.classList.toggle('show', wish.size > 0);
+}
+function toggleWish(id) {
+  const p = PMAP[id], on = !wish.has(id);
+  on ? wish.add(id) : wish.delete(id);
+  store.set('barys.wish', [...wish]);
+  $$(`.card[data-id="${id}"] .wish`).forEach(b => { b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', wishLabel(p, on)); });
+  const qb = $('#qv [data-qv="wish"]');
+  if (qb && QV && QV.p.id === id) qb.setAttribute('aria-pressed', on);
+  updateWishBadge();
+  const b = $('#wishCount'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  toast(on ? `<b>${esc(pn(p))}</b> ${L('в избранном', 'таңдаулыларда')}` : L('Удалено из избранного', 'Таңдаулылардан өшірілді'), on ? { icon: 'heart', action: L('Смотреть', 'Көру'), onAction: () => { location.hash = '#/shop?wish=1'; } } : { icon: 'heart' });
+  if (currentPage === 'shop' && S.wish) { LIST = getList(); renderHead(LIST.length); renderGrid(); }
+}
+
+/* ── cart ────────────────────────────────────────────── */
+const cartKey = (id, size, color) => `${id}|${size || '-'}|${color}`;
+const cartCount = () => cart.reduce((s, l) => s + l.qty, 0);
+const subtotal = () => cart.reduce((s, l) => s + PMAP[l.id].price * l.qty, 0);
+function saveCart() { store.set('barys.cart', cart); }
+function addToCart(id, size, color, qty = 1) {
+  const p = PMAP[id], key = cartKey(id, size, color);
+  const line = cart.find(l => l.key === key);
+  if (line) line.qty = Math.min(maxQty(p), line.qty + qty);
+  else cart.push({ key, id, size, color, qty: Math.min(maxQty(p), qty) });
+  saveCart(); renderCart();
+  const b = $('#cartCount'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  toast(`<b>${esc(pn(p))}</b>${size ? ` (${size})` : ''} ${L('в корзине', 'себетте')}`, { icon: 'bag', action: L('Открыть', 'Ашу'), onAction: openCart });
+}
+function lineHTML(l, i) {
+  const p = PMAP[l.id], t = TEAMS[p.team];
+  return `<div class="cline" data-key="${l.key}" style="animation-delay:${i * 60}ms">
+    <div class="line-img" style="--bg0:${t.bg[0]};--bg1:${t.bg[1]}">${artSVG(p, l.color, 'front')}</div>
+    <div>
+      <h3>${esc(pn(p))}</h3>
+      <div class="opts"><i style="--c:${COLORS[l.color].hex}"></i>${coln(l.color)}${l.size ? ` · ${L('Размер', 'Өлшем')} ${l.size}` : ''}</div>
+      <div class="line-row">
+        <div class="stepper" role="group" aria-label="${L('Количество', 'Саны')}: ${esc(pn(p))}">
+          <button type="button" data-action="qty" data-d="-1" aria-label="${L('Уменьшить', 'Азайту')}" ${l.qty <= 1 ? 'disabled' : ''}>${ic('minus', 'ic-sm')}</button>
+          <output>${l.qty}</output>
+          <button type="button" data-action="qty" data-d="1" aria-label="${L('Увеличить', 'Көбейту')}" ${l.qty >= maxQty(p) ? 'disabled' : ''}>${ic('plus', 'ic-sm')}</button>
+        </div>
+        <b data-line-total>${fmt(p.price * l.qty)}</b>
+      </div>
+      <button class="rm" type="button" data-action="remove">${ic('trash', 'ic-sm')}${L('Удалить', 'Жою')}</button>
+    </div>
+  </div>`;
+}
+function renderTotals() {
+  const n = cartCount(), sub = subtotal(), left = Math.max(0, FREE_SHIP - sub);
+  const badge = $('#cartCount'); badge.textContent = n; badge.classList.toggle('show', n > 0);
+  $('#cartTitleCount').textContent = `${n} ${items(n)}`;
+  const ship = $('#ship');
+  ship.hidden = !n;
+  ship.classList.toggle('done', !left);
+  ship.innerHTML = (left ? L(`До бесплатной доставки осталось <b>${fmt(left)}</b>`, `Тегін жеткізуге дейін <b>${fmt(left)}</b> қалды`) : L(`<b>Бесплатная доставка</b> уже ваша, рахмет!`, `<b>Тегін жеткізу</b> сіздікі, рахмет!`)) + `<div class="ship-bar" role="progressbar" aria-label="${L('Прогресс до бесплатной доставки', 'Тегін жеткізуге дейінгі прогресс')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(Math.min(1, sub / FREE_SHIP) * 100)}"><i style="--p:${Math.min(1, sub / FREE_SHIP)}"></i></div>`;
+  const foot = $('#cartFoot');
+  foot.hidden = !n;
+  if (n) foot.innerHTML = `<div class="sum-row"><span>${L('Товары', 'Тауарлар')}</span><span>${fmt(sub)}</span></div>
+    <div class="sum-row"><span>${L('Доставка', 'Жеткізу')}</span><span>${left ? fmt(SHIP_COST) : L('Бесплатно', 'Тегін')}</span></div>
+    <div class="sum-row total"><span>${L('Итого', 'Барлығы')}</span><span>${fmt(sub + (left ? SHIP_COST : 0))}</span></div>
+    <button class="btn btn-primary btn-block" type="button" data-action="checkout">${L('Оформить заказ', 'Тапсырыс беру')} ${ic('arrow', 'ic-go')}</button>`;
+}
+function renderCart() {
+  renderTotals();
+  $('#cartItems').innerHTML = cart.length ? cart.map(lineHTML).join('') :
+    `<div class="d-empty"><div class="ill">${ic('bag')}</div><h3>${L('Корзина пуста', 'Себет бос')}</h3><p>${L('Самое время собрать комплект к следующему матчу.', 'Келесі матчқа жиынтық жинайтын уақыт келді.')}</p><a class="btn btn-ice btn-sm" href="#/shop">${L('Перейти в магазин', 'Дүкенге өту')}</a></div>`;
+  $('#cartItems').style.display = cart.length ? '' : 'flex';
+}
+function changeQty(lineEl, d) {
+  const l = cart.find(x => x.key === lineEl.dataset.key); if (!l) return;
+  const p = PMAP[l.id];
+  l.qty = Math.max(1, Math.min(maxQty(p), l.qty + d));
+  saveCart();
+  $('output', lineEl).textContent = l.qty;
+  const [minus, plus] = $$('.stepper button', lineEl);
+  minus.disabled = l.qty <= 1; plus.disabled = l.qty >= maxQty(p);
+  if (document.activeElement && document.activeElement.disabled) (minus.disabled ? plus : minus).focus();
+  $('[data-line-total]', lineEl).textContent = fmt(p.price * l.qty);
+  renderTotals();
+}
+function removeLine(lineEl) {
+  const key = lineEl.dataset.key;
+  cart = cart.filter(l => l.key !== key); saveCart();
+  const done = () => { renderCart(); const f = $('#cartItems .stepper button:not([disabled]), #cartItems a'); (f || $('#cartLayer [data-action="close"].icon-btn')).focus(); };
+  if (reduced()) return done();
+  const a = lineEl.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translate3d(40px,0,0)' }], { duration: 320, easing: EASE, fill: 'forwards' });
+  a.onfinish = done;
+}
+function openCart() { renderCart(); openLayer($('#cartLayer'), { focus: '.d-head .icon-btn' }); }
+
+/* ── quick view ──────────────────────────────────────── */
+let QV = null;
+const qvEl = $('#qv');
+function openQuick(id, color) {
+  const p = PMAP[id]; if (!p) return;
+  QV = { p, color: color && p.colors.includes(color) ? color : p.colors[0], size: defaultSize(p), qty: 1, view: 'front' };
+  renderQV();
+  openLayer($('#qvLayer'), { focus: '.x' });
+}
+function renderQV() {
+  const { p, color, size, qty, view } = QV, t = TEAMS[p.team], d = discount(p);
+  qvEl.innerHTML = `
+  <button class="icon-btn x" type="button" data-action="close" aria-label="${L('Закрыть', 'Жабу')}">${ic('x')}</button>
+  <div class="qv-media" style="--bg0:${t.bg[0]};--bg1:${t.bg[1]}">
+    <div class="badges">${badgesHTML(p, 4)}</div>
+    <div class="qv-stage" id="qvStage">${artSVG(p, color, view)}</div>
+    <div class="qv-thumbs" role="group" aria-label="${L('Ракурс', 'Ракурс')}">${['front', 'back'].map(v => `<button type="button" data-qv="view" data-v="${v}" aria-pressed="${v === view}" aria-label="${v === 'front' ? L('Основной вид', 'Негізгі көрініс') : L('Другой ракурс', 'Басқа ракурс')}">${artSVG(p, color, v)}</button>`).join('')}</div>
+  </div>
+  <div class="qv-info">
+    <span class="team-tag" style="--dot:${t.dot}">${tn(p.team)} · ${cn(p.cat)}</span>
+    <h2 id="qvTitle">${esc(pn(p))}</h2>
+    <div class="qv-rating"><span class="stars" style="--r:${p.rating}" aria-hidden="true">★★★★★</span><span>${p.rating.toFixed(1)} · ${p.reviews} ${revW(p.reviews)}</span></div>
+    <div class="qv-price${d ? ' sale' : ''}"><b>${fmt(p.price)}</b>${p.oldPrice ? `<s>${fmt(p.oldPrice)}</s><span class="badge badge-sale">−${d}%</span>` : ''}</div>
+    <p class="qv-desc">${esc(ps(p))}. ${desc(p.cat)}</p>
+    <div><div class="opt-label">${L('Цвет', 'Түс')} <span id="qvColorName">${coln(color)}</span></div>
+      <div class="color-row" role="group" aria-label="${L('Цвет', 'Түс')}">${p.colors.map(c => `<button type="button" data-qv="color" data-v="${c}" style="--c:${COLORS[c].hex}" aria-pressed="${c === color}" aria-label="${coln(c)}" title="${coln(c)}"></button>`).join('')}</div></div>
+    ${p.sizes.length ? `<div><div class="opt-label">${L('Размер', 'Өлшем')} <span id="qvSizeName">${size ? L('Выбран: ', 'Таңдалды: ') + size : L('Выберите размер', 'Өлшемді таңдаңыз')}</span></div>
+      <div class="size-row" role="group" aria-label="${L('Размер', 'Өлшем')}">${p.sizes.map(s => { const so = p.soldOut.includes(s); return `<button type="button" data-qv="size" data-v="${s}" aria-pressed="${s === size}" ${so ? `disabled aria-label="${s}, ${L('нет в наличии', 'қоймада жоқ')}"` : ''}>${s}</button>`; }).join('')}</div></div>` : ''}
+    <div><div class="opt-label">${L('Количество', 'Саны')} ${p.stock > 0 && p.stock <= 5 ? `<span>${L(`Осталось ${p.stock} шт.`, `${p.stock} дана қалды`)}</span>` : ''}</div>
+      <div class="qv-buy">
+        <div class="stepper lg" role="group" aria-label="${L('Количество', 'Саны')}">
+          <button type="button" data-qv="qty" data-d="-1" aria-label="${L('Уменьшить', 'Азайту')}">${ic('minus', 'ic-sm')}</button><output id="qvQty">${qty}</output><button type="button" data-qv="qty" data-d="1" aria-label="${L('Увеличить', 'Көбейту')}">${ic('plus', 'ic-sm')}</button>
+        </div>
+        <button class="btn btn-primary" type="button" data-qv="add" id="qvAdd" ${p.stock === 0 ? 'disabled' : ''}></button>
+        <button class="wish-lg" type="button" data-qv="wish" aria-pressed="${wish.has(p.id)}" aria-label="${L('В избранное', 'Таңдаулыларға')}">${ic('heart')}</button>
+      </div></div>
+    <div class="perks"><span>${ic('truck')}${L('Доставка 1–3 дня по Астане, 3–7 дней по Казахстану', 'Астана бойынша 1–3 күнде, Қазақстан бойынша 3–7 күнде жеткізу')}</span><span>${ic('return')}${L('Обмен и возврат в течение 14 дней', '14 күн ішінде айырбастау және қайтару')}</span><span>${ic('shield')}${L('Официальная продукция ХК «Барыс»', 'ХК «Барыс» ресми өнімі')}</span></div>
+  </div>`;
+  updateQVBuy();
+}
+function updateQVBuy() {
+  const { p, qty } = QV, [minus, plus] = $$('.qv-buy .stepper button', qvEl);
+  $('#qvQty').textContent = qty;
+  minus.disabled = qty <= 1; plus.disabled = qty >= maxQty(p) || p.stock === 0;
+  $('#qvAdd').innerHTML = p.stock === 0 ? L('Нет в наличии', 'Қоймада жоқ') : `${ic('bag')}${L('В корзину', 'Себетке')} · ${fmt(p.price * qty)}`;
+}
+function updateQVArt() {
+  const { p, color, view } = QV;
+  $('#qvStage').innerHTML = artSVG(p, color, view);
+  $$('.qv-thumbs button', qvEl).forEach(b => { b.innerHTML = artSVG(p, color, b.dataset.v); b.setAttribute('aria-pressed', b.dataset.v === view); });
+}
+qvEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-qv]'); if (!b || !QV) return;
+  const k = b.dataset.qv, v = b.dataset.v;
+  if (k === 'view') { QV.view = v; updateQVArt(); }
+  else if (k === 'color') {
+    QV.color = v; updateQVArt();
+    $$('.color-row button', qvEl).forEach(x => x.setAttribute('aria-pressed', x.dataset.v === v));
+    $('#qvColorName').textContent = coln(v);
+  } else if (k === 'size') {
+    QV.size = v;
+    $$('.size-row button', qvEl).forEach(x => x.setAttribute('aria-pressed', x.dataset.v === v));
+    $('#qvSizeName').textContent = L('Выбран: ', 'Таңдалды: ') + v;
+  } else if (k === 'qty') {
+    QV.qty = Math.max(1, Math.min(maxQty(QV.p), QV.qty + +b.dataset.d));
+    updateQVBuy();
+    if (b.disabled) $$('.qv-buy .stepper button', qvEl).find(x => !x.disabled)?.focus();
+  } else if (k === 'add') {
+    if (QV.p.sizes.length && !QV.size) { toast(L('Сначала выберите размер', 'Алдымен өлшемді таңдаңыз'), { icon: 'tag' }); return; }
+    addToCart(QV.p.id, QV.size, QV.color, QV.qty);
+    closeLayer($('#qvLayer'));
+  } else if (k === 'wish') toggleWish(QV.p.id);
+});
+
+/* ── search overlay ──────────────────────────────────── */
+const sInput = $('#sInput');
+const HINTS = ['Джерси', 'Шарф', 'Худи', 'Шайба', 'Кепка', 'Номад', 'Томирис'];
+function renderSearch() {
+  const q = norm(sInput.value), tokens = q.split(/\s+/).filter(Boolean);
+  $('#sHints').innerHTML = q ? '' : `<span class="kicker" style="width:100%">${L('Часто ищут', 'Жиі іздейді')}</span>` + HINTS.map(h => `<button class="pill" type="button" data-action="hint" data-q="${h}">${h}</button>`).join('');
+  if (!q) { $('#sResults').innerHTML = ''; $('#sAll').innerHTML = ''; return; }
+  const res = PRODUCTS.filter(p => tokens.every(t => p.search.includes(t)));
+  $('#sResults').innerHTML = res.length ? res.slice(0, 6).map(p => { const t = TEAMS[p.team]; return `<button class="s-item" type="button" data-action="quick" data-id="${p.id}"><span class="line-img" style="--bg0:${t.bg[0]};--bg1:${t.bg[1]}">${artSVG(p, p.colors[0])}</span><span><b>${esc(pn(p))}</b><small>${tn(p.team)} · ${fmt(p.price)}</small></span></button>`; }).join('') :
+    `<p style="color:var(--muted);padding:12px 0">${L(`По запросу «${esc(sInput.value)}» ничего не нашлось. Попробуйте «джерси» или «шарф».`, `«${esc(sInput.value)}» бойынша ештеңе табылмады. «Джерси» немесе «шарф» деп көріңіз.`)}</p>`;
+  $('#sAll').innerHTML = res.length ? `<a class="link-arrow" href="#/shop?q=${encodeURIComponent(sInput.value.trim())}">${L('Все результаты', 'Барлық нәтижелер')} (${res.length}) ${ic('arrow')}</a>` : '';
+}
+sInput.addEventListener('input', debounce(renderSearch, 120));
+sInput.addEventListener('keydown', e => { if (e.key === 'Enter' && sInput.value.trim()) location.hash = '#/shop?q=' + encodeURIComponent(sInput.value.trim()); });
+function openSearch() { renderSearch(); openLayer($('#searchLayer'), { focus: '#sInput' }); }
+
+/* ── router & page transitions ───────────────────────── */
+let currentPage = null, navToken = 0;
+const hero = $('#hero');
+let settleT = 0;
+function playHero() {
+  hero.classList.remove('play', 'settled'); void hero.offsetWidth; hero.classList.add('play');
+  clearTimeout(settleT); settleT = setTimeout(() => hero.classList.add('settled'), reduced() ? 600 : 1900);
+}
+function updateNav(page, params) {
+  let key = page;
+  if (page === 'shop') {
+    const keys = [...params.keys()], cat = params.get('cat');
+    if (keys.length === 1 && cat && ['jersey', 'accessories', 'souvenirs'].includes(cat)) key = cat;
+  }
+  $$('[data-nav]').forEach(a => { const on = a.dataset.nav === key; a.classList.toggle('active', on); on ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'); });
+}
+function showPage(page) {
+  const next = $('#page-' + page), prev = currentPage ? $('#page-' + currentPage) : null;
+  const token = ++navToken;
+  currentPage = page;
+  const enter = () => {
+    if (token !== navToken) return;
+    $$('.page').forEach(p => { if (p !== next) p.hidden = true; });
+    next.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (page === 'home') { playHero(); document.title = L('BARYS Fan Shop: официальная атрибутика (концепт)', 'BARYS Fan Shop: ресми атрибутика (концепт)'); }
+    else renderShop(true);
+    observeReveals(next);
+    next.animate([{ opacity: 0, transform: 'translate3d(0,24px,0)' }, { opacity: 1, transform: 'none' }], { duration: reduced() ? 200 : 650, easing: EASE });
+  };
+  if (prev && prev !== next) {
+    const a = prev.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translate3d(0,-12px,0)' }], { duration: reduced() ? 120 : 260, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+    a.onfinish = () => { enter(); a.cancel(); };
+  } else enter();
+}
+function route() {
+  const { path, params } = parseHash();
+  const page = path.startsWith('/shop') ? 'shop' : 'home';
+  closeAll();
+  if (page === 'shop') { applyParams(params); syncFilterUI(); }
+  if (page !== currentPage) showPage(page);
+  else if (page === 'shop') { renderShop(true); window.scrollTo({ top: 0, behavior: reduced() ? 'instant' : 'smooth' }); }
+  else window.scrollTo({ top: 0, behavior: reduced() ? 'instant' : 'smooth' });
+  updateNav(page, params);
+}
+addEventListener('hashchange', route);
+
+/* ── reveal on scroll & count-up ─────────────────────── */
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (!en.isIntersecting) return;
+  en.target.classList.add('in'); io.unobserve(en.target);
+}), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+function observeReveals(root = document) { $$('.rv:not(.in)', root).forEach(el => io.observe(el)); }
+const cio = new IntersectionObserver(es => es.forEach(en => {
+  if (!en.isIntersecting) return;
+  cio.unobserve(en.target); countUp(en.target);
+}), { threshold: .5 });
+function countUp(el) {
+  const to = +el.dataset.count, suf = (el.dataset.suffix || '').replace(' ', ' ');
+  const f = n => group3(n) + suf;
+  if (reduced()) { el.textContent = f(to); return; }
+  const t0 = performance.now(), d = 1600;
+  const step = now => { const k = Math.min(1, (now - t0) / d); el.textContent = f(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+/* ── motion: header, parallax, card tilt, magnetic, team preview ── */
+const hdr = $('#hdr');
+const onScroll = () => hdr.classList.toggle('scrolled', scrollY > 24);
+addEventListener('scroll', onScroll, { passive: true });
+
+const heroPattern = $('#heroPattern');
+$('#heroZone').addEventListener('pointermove', e => {
+  if (reduced() || !HOVER.matches) return;
+  const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+  heroPattern.style.setProperty('--px', (x * -28).toFixed(1) + 'px');
+  heroPattern.style.setProperty('--py', (y * -28).toFixed(1) + 'px');
+});
+
+const idcard = $('#idcard'), stage = $('.card-stage');
+stage.addEventListener('pointermove', e => {
+  if (reduced()) return;
+  const r = idcard.getBoundingClientRect();
+  const x = Math.max(-.5, Math.min(.5, (e.clientX - r.left) / r.width - .5)), y = Math.max(-.5, Math.min(.5, (e.clientY - r.top) / r.height - .5));
+  idcard.classList.add('tracking');
+  idcard.style.setProperty('--ry', (x * 22).toFixed(2) + 'deg');
+  idcard.style.setProperty('--rx', (-y * 18).toFixed(2) + 'deg');
+  idcard.style.setProperty('--mx', ((x + .5) * 100).toFixed(1) + '%');
+  idcard.style.setProperty('--my', ((y + .5) * 100).toFixed(1) + '%');
+});
+stage.addEventListener('pointerleave', () => {
+  idcard.classList.remove('tracking');
+  ['--rx', '--ry'].forEach(p => idcard.style.setProperty(p, '0deg'));
+  idcard.style.setProperty('--mx', '50%'); idcard.style.setProperty('--my', '50%');
+});
+
+let tiltCard = null, tiltRaf = 0;
+function resetTilt(c) { c.classList.remove('tilting'); c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); }
+let magEl = null;
+document.addEventListener('pointermove', e => {
+  if (!HOVER.matches || reduced()) return;
+  const card = e.target.closest ? e.target.closest('.card') : null;
+  if (card !== tiltCard) { if (tiltCard) resetTilt(tiltCard); tiltCard = card; }
+  if (card) {
+    cancelAnimationFrame(tiltRaf);
+    tiltRaf = requestAnimationFrame(() => {
+      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      card.classList.add('tilting');
+      card.style.setProperty('--rx', (-y * 5).toFixed(2) + 'deg');
+      card.style.setProperty('--ry', (x * 7).toFixed(2) + 'deg');
+    });
+  }
+  const m = e.target.closest ? e.target.closest('.magnetic') : null;
+  if (magEl && magEl !== m) { magEl.style.setProperty('--mx', '0px'); magEl.style.setProperty('--my', '0px'); }
+  magEl = m;
+  if (m) {
+    const r = m.getBoundingClientRect();
+    m.style.setProperty('--mx', ((e.clientX - r.left - r.width / 2) * .22).toFixed(1) + 'px');
+    m.style.setProperty('--my', ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px');
+  }
+}, { passive: true });
+document.documentElement.addEventListener('pointerleave', () => { if (tiltCard) resetTilt(tiltCard); tiltCard = null; });
+
+const teamList = $('#teamList'), tp = $('#teamPreview');
+let tpOn = false, tpTeam = '', tx = 0, ty = 0, cx = 0, cy = 0;
+function tpLoop() {
+  cx += (tx - cx) * .16; cy += (ty - cy) * .16;
+  tp.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
+  if (tpOn || Math.abs(tx - cx) > .5) requestAnimationFrame(tpLoop);
+}
+teamList.addEventListener('pointerover', e => {
+  const a = e.target.closest('.team-item');
+  if (!a || !HOVER.matches) return;
+  tx = e.clientX + 28; ty = e.clientY - 46;
+  if (a.dataset.team !== tpTeam) {
+    tpTeam = a.dataset.team;
+    const list = PRODUCTS.filter(p => p.team === tpTeam), top = list.slice().sort(SORTS.popular)[0], t = TEAMS[tpTeam];
+    $('.tp-art', tp).style.background = `radial-gradient(110% 90% at 50% 18%,${t.bg[0]},${t.bg[1]})`;
+    $('.tp-art', tp).innerHTML = artSVG(top, top.colors[0]);
+    $('b', tp).textContent = tn(tpTeam);
+    $('small', tp).textContent = `${lg(tpTeam)} · ${list.length} ${items(list.length)} →`;
+  }
+  if (!tpOn) { tpOn = true; cx = tx; cy = ty; tp.classList.add('show'); if (!reduced()) requestAnimationFrame(tpLoop); else tp.style.transform = `translate3d(${tx}px,${ty}px,0)`; }
+});
+teamList.addEventListener('pointermove', e => { tx = e.clientX + 28; ty = e.clientY - 46; if (reduced()) tp.style.transform = `translate3d(${tx}px,${ty}px,0)`; });
+teamList.addEventListener('pointerleave', () => { tpOn = false; tp.classList.remove('show'); });
+
+/* ── global click delegation ─────────────────────────── */
+document.addEventListener('click', e => {
+  const link = e.target.closest('a[href^="#/"]');
+  if (link && link.getAttribute('href') === (location.hash || '#/')) { e.preventDefault(); route(); return; }
+  const t = e.target.closest('[data-action]');
+  if (!t) return;
+  const a = t.dataset.action, card = t.closest('.card'), id = t.dataset.id || (card && card.dataset.id);
+  switch (a) {
+    case 'add': { const p = PMAP[id]; if (p && p.stock > 0) addToCart(id, defaultSize(p), card ? card.dataset.color : p.colors[0]); break; }
+    case 'quick': if (id) openQuick(id, card && card.dataset.color); break;
+    case 'wish': if (id) toggleWish(id); break;
+    case 'swatch': if (card) setCardColor(card, t.dataset.c); break;
+    case 'open-cart': openCart(); break;
+    case 'open-search': openSearch(); break;
+    case 'open-menu': openLayer($('#menuLayer'), { focus: '.menu [data-action="close"]' }); break;
+    case 'close': closeTop(); break;
+    case 'open-sheet': openLayer($('#filters'), { sheet: true, focus: '.sheet-head .icon-btn' }); break;
+    case 'close-sheet': closeLayer($('#filters')); break;
+    case 'reset': resetFilters(); break;
+    case 'unchip': removeFilter(t.dataset.t, t.dataset.v); break;
+    case 'pill': S.cats = new Set(t.dataset.cat ? [t.dataset.cat] : []); syncFilterUI(); changed(); break;
+    case 'cols': UI.cols = +t.dataset.cols; store.set('barys.cols', UI.cols); syncView(); break;
+    case 'view': UI.view = t.dataset.view; store.set('barys.view', UI.view); syncView(); break;
+    case 'more': loadMore(); break;
+    case 'qty': changeQty(t.closest('.cline'), +t.dataset.d); break;
+    case 'remove': removeLine(t.closest('.cline')); break;
+    case 'checkout': toast(L('Это концепт: оформление заказа появится в полной версии', 'Бұл концепт: тапсырыс беру толық нұсқада болады'), { icon: 'package', ms: 3800 }); break;
+    case 'hint': sInput.value = t.dataset.q; renderSearch(); sInput.focus(); break;
+    case 'rail': rail.scrollBy({ left: +t.dataset.dir * rail.clientWidth * .8, behavior: reduced() ? 'auto' : 'smooth' }); break;
+    case 'scroll': { const el = $(t.dataset.target); if (el) el.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); break; }
+    case 'skip': e.preventDefault(); $('#app').focus(); break;
+    case 'lang': setLang(t.dataset.lang); break;
+    case 'stub': e.preventDefault(); toast(L('Раздел появится в полной версии магазина', 'Бұл бөлім дүкеннің толық нұсқасында болады'), { icon: 'spark' }); break;
+  }
+});
+
+$('#newsForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const inp = $('#newsEmail'), ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(inp.value.trim());
+  inp.setAttribute('aria-invalid', !ok);
+  if (!ok) { toast(L('Проверьте адрес электронной почты', 'Электрондық пошта мекенжайын тексеріңіз'), { icon: 'mail' }); inp.focus(); return; }
+  inp.value = '';
+  toast(L('Рахмет! Вы подписаны на новости магазина', 'Рахмет! Сіз дүкен жаңалықтарына жазылдыңыз'), { icon: 'mail' });
+});
+
+/* ── language (RU default, KZ optional) ──────────────── */
+const KZ = {
+  skip: 'Мазмұнға өту', navHome: 'Басты бет', navShop: 'Дүкен', navJersey: 'Джерси', navAcc: 'Аксессуарлар', navSouv: 'Кәдесыйлар', wishlist: 'Таңдаулылар',
+  aNav: 'Негізгі навигация', aSearch: 'Іздеу', aCart: 'Себет', aMenu: 'Мәзір', aClose: 'Жабу', aCloseCart: 'Себетті жабу', aCloseF: 'Сүзгілерді жабу',
+  eyebrow: '25/26 маусымы · Жаңа коллекция', heroAria: 'Сенің ойының. Сенің стилің.', hero1: 'Сенің ойының.', hero2: 'Сенің стилің.',
+  heroSub: 'ХК «Барыс» ресми атрибутикасы: ойын джерсилері, жылы худи, шарфтар мен кәдесыйлар — хоккейге шын жанкүйерлерге арналған. Астанадан, хоккейге деген сүйіспеншілікпен.',
+  toShop: 'Дүкенге', newColl: 'Жаңа коллекция', meta1: 'Қазақстан бойынша жеткізу', meta2: 'Ресми мерч', meta3: '14 күн ішінде қайтару', fan: 'Жанкүйер', scroll: 'Төмен',
+  newKicker: 'Жаңа өнімдер', newTitle: 'Мұзда <em>жаңадан</em>', aPrev: 'Артқа', aNext: 'Алға', aRail: 'Жаңа өнімдер, айналдырылатын тізім', allNew: 'Барлық жаңа өнімдер',
+  catKicker: 'Санаттар', catTitle: 'Өз <em>жиынтығыңды</em> жина', catDesc: 'Ойын джерсиінен кілтке арналған брелокқа дейін: «Барысты» трибунада да, одан тыс жерде де қолдауға қажеттің бәрі.',
+  aStats: 'Клуб сандармен', st1: 'КХЛ-дегі маусым: лиганың ең алғашқы маусымынан бері', st2: '«Барыс Аренадағы» үй матчтарындағы жанкүйерлер', st3: 'каталогтағы ресми мерч түрлері', st4: 'және одан жоғары: бүкіл Қазақстан бойынша тегін жеткізу',
+  newsTitle: 'Ойында<br>бәрінен бұрын бол', newsText: 'Жаңа коллекциялар, жабық жеңілдіктер және матч билеттерінің ұтыс ойындары — аптасына бір рет, спамсыз.', email: 'Электрондық пошта', subscribe: 'Жазылу',
+  newsSmall: '«Жазылу» түймесін басу арқылы хаттар алуға келісесіз. Бір рет басып бас тартуға болады.',
+  aCrumbs: 'Навигация тізбегі', found: 'Табылды:', aPills: 'Санатты жылдам таңдау', filters: 'Сүзгілер', aCatSearch: 'Каталог бойынша іздеу', phFilter: 'Іздеу: джерси, шарф…',
+  fTeam: 'Команда', fCat: 'Санат', fPrice: 'Баға', fSize: 'Өлшем', fColor: 'Түс', aMin: 'Ең төмен баға', aMax: 'Ең жоғары баға', aFrom: 'Баға, бастап', aTo: 'Баға, дейін',
+  inStock: 'Қоймада бар', onSale: 'Жеңілдікпен', newOnly: 'Жаңа өнімдер', resetF: 'Тазарту<span class="hide-sm">&nbsp;сүзгілерді</span>', resetFull: 'Сүзгілерді тазарту',
+  sortLbl: 'Сұрыптау', sPop: 'Танымал', sNew: 'Жаңалары', sAsc: 'Баға ↑', sDesc: 'Баға ↓', sDisc: 'Жеңілдік', sName: 'Атауы бойынша',
+  aCols: 'Тордағы бағандар', aC3: '3 баған', aC4: '4 баған', aView: 'Каталог көрінісі', aGrid: 'Тор', aList: 'Тізім', aActive: 'Белсенді сүзгілер',
+  nothing: 'Ештеңе табылмады', emptyText: 'Сұранысты өзгертіп немесе сүзгілерді азайтып көріңіз. Шайба жақын жерде.', more: 'Тағы көрсету',
+  aHomeLink: 'BARYS Fan Shop: басты бетке', fAbout: '«Барыс» хоккей клубы мен оның командаларының атрибутикасы: «Номад», «Қар барыстары», «Томирис» және «Жастар». Бәрі алға!', aSite: 'Клубтың ресми сайты',
+  fHelp: 'Көмек', fClub: 'Клуб', c_hoodie: 'Худи мен футболкалар', c_winter: 'Бас киімдер мен шарфтар', sale: 'Жеңілдіктер',
+  h1: 'Жеткізу және төлем', h2: 'Айырбастау және қайтару', h3: 'Өлшемдер кестесі', h4: 'Байланыс', k1: 'Матчтарға билеттер', k3: 'Абонементтер', payLbl: 'Төлем түрлері',
+  cart: 'Себет', cartSub: 'Корзина', sLabel: 'Не іздейміз?', phSearch: 'Не іздейміз? Джерси, шарф, шайба…'
+};
+function applyStatic() {
+  $$('[data-i18n]').forEach(el => {
+    if (el._ru == null) el._ru = el.innerHTML;
+    const v = KZ[el.dataset.i18n];
+    el.innerHTML = LANG === 'kz' && v != null ? v : el._ru;
+  });
+  $$('[data-i18n-attr]').forEach(el => el.dataset.i18nAttr.split(',').forEach(pair => {
+    const [attr, key] = pair.split(':'), ru = el._ruA || (el._ruA = {});
+    if (!(attr in ru)) ru[attr] = el.getAttribute(attr);
+    el.setAttribute(attr, LANG === 'kz' && KZ[key] != null ? KZ[key] : ru[attr]);
+  }));
+  $$('[data-action="lang"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === LANG));
+  document.documentElement.lang = LANG === 'kz' ? 'kk' : 'ru';
+}
+function setLang(l) {
+  if (l === LANG) return;
+  LANG = l; store.set('barys.lang', l);
+  applyStatic(); splitHero();
+  buildLanding(); buildFilters(); syncFilterUI(); renderRail(); renderBento(); renderCart();
+  observeReveals($('#page-home'));
+  tpTeam = '';
+  if (currentPage === 'shop') renderShop(false); else document.title = L('BARYS Fan Shop: официальная атрибутика (концепт)', 'BARYS Fan Shop: ресми атрибутика (концепт)');
+  if (QV && !$('#qvLayer').hidden) renderQV();
+  if (!$('#searchLayer').hidden) renderSearch();
+}
+
+/* ── refresh art once the real emblem is confirmed ───── */
+function refreshArt() {
+  renderRail(); renderBento();
+  if (currentPage === 'shop' && !loadT) renderGrid();
+  if (cart.length) renderCart();
+  tpTeam = '';
+}
+
+/* ── init ────────────────────────────────────────────── */
+function splitHero() {
+  let i = 0;
+  $$('[data-split]').forEach(el => {
+    if (el._ru == null) el._ru = el.textContent.trim();
+    const text = LANG === 'kz' ? KZ[el.dataset.split] : el._ru;
+    el.innerHTML = text.split(/\s+/).map(w => `<span class="w">${[...w].map(ch => `<span class="ch" style="--i:${i++}">${ch}</span>`).join('')}</span>`).join(' ');
+  });
+}
+applyStatic();
+splitHero();
+buildLanding();
+buildFilters();
+renderRail();
+renderBento();
+renderCart();
+updateWishBadge();
+$$('[data-count]').forEach(el => cio.observe(el));
+onScroll();
+route();
+probeLogo();
+})();
+</script>
+</body>
+</html>
