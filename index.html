@@ -21,7 +21,7 @@
   ║  LOGOS    hotlinked → ./assets/*.png → inline SVG monogram fallback  ║
   ╚══════════════════════════════════════════════════════════════════════╝
 -->
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -32,11 +32,32 @@
 <link rel="canonical" href="https://barys.store/">
 <link rel="icon" href="assets/emblem.png">
 <meta name="theme-color" content="#0A2A5C">
+<script>
+/* Apply the saved theme before rendering; legacy light links share this page. */
+(() => {
+  const url = new URL(location.href);
+  const requested = url.searchParams.get('theme');
+  let theme = 'dark';
+  try {
+    const saved = JSON.parse(localStorage.getItem('bs.theme'));
+    if (saved === 'light' || saved === 'dark') theme = saved;
+  } catch (e) { /* storage unavailable or invalid */ }
+  if (requested === 'light' || requested === 'dark') {
+    theme = requested;
+    try { localStorage.setItem('bs.theme', JSON.stringify(theme)); } catch (e) { /* storage unavailable */ }
+    url.searchParams.delete('theme');
+    try { history.replaceState(history.state, '', url.href); } catch (e) { /* URL updates unavailable */ }
+  }
+  document.documentElement.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#FFFFFF' : '#0A2A5C';
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
 <style>
 :root{
+  color-scheme:dark;
   /* palette */
   --navy:#0A2A5C; --navy-600:#0E3470; --navy-700:#071B3D; --navy-800:#06163A; --navy-900:#04112A;
   --steel:#8FAFD3; --ice:#CFE0F3; --white:#FFFFFF;
@@ -127,6 +148,7 @@ ul{list-style:none;margin:0;padding:0}
 .nav a.active{color:#fff}
 .nav a.active::after{transform:scaleX(1)}
 .hdr-actions{display:flex;align-items:center;gap:4px;margin-left:8px}
+.theme-toggle{background:var(--fill-1)}
 .burger{display:none}
 .lang{display:flex;padding:3px;border-radius:999px;background:rgba(4,17,42,.35);margin-right:6px}
 .lang button{height:30px;min-width:38px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--muted);transition:background-color .3s,color .3s}
@@ -898,6 +920,95 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
   .team-list .team-item:hover{transform:none}
 }
 @keyframes fadeOnly{to{opacity:1}}
+
+/* Light theme: the same storefront and product art, on the light concept's canvas. */
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#FFFFFF; --bg-alt:#F4F6F9; --surface:#F1F3F6; --surface-2:#E7EBF0;
+  --text:#0B1526; --muted:#5B6475; --subtle:#626D80;
+  --steel:#1F5AA6; --ice:#DCE8F6; --cyan-hi:#1478A8;
+  --accent:#C92D32; --accent-hi:#B52328; --accent-ink:#FFFFFF;
+  --fill-1:rgba(10,42,92,.045); --fill-2:rgba(10,42,92,.08); --fill-3:rgba(10,42,92,.13);
+  --line:rgba(10,42,92,.12); --line-strong:rgba(10,42,92,.25);
+  --r-sm:2px; --r-md:4px; --r-lg:4px; --r-xl:4px; --r-tile:4px;
+  --shadow-1:0 10px 30px -14px rgba(11,21,38,.18);
+  --shadow-2:0 30px 70px -30px rgba(11,21,38,.25);
+  --pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%230A2A5C' fill-opacity='.022'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M20 56c12-10 30-14 46-8-16 0-30 6-40 14z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3Cpath d='M90 126c12-10 30-14 46-8-16 0-30 6-40 14z'/%3E%3C/g%3E%3C/svg%3E");
+}
+html[data-theme="light"] body{background:var(--bg)}
+html[data-theme="light"] :focus-visible{outline-color:var(--steel);border-radius:2px}
+html[data-theme="light"] ::selection{background:var(--navy);color:#fff}
+html[data-theme="light"] .btn{border-radius:2px}
+html[data-theme="light"] .btn-primary{background:var(--navy);color:#fff}
+html[data-theme="light"] .btn-primary:hover{background:#123A75}
+html[data-theme="light"] .btn-ice{background:var(--text);color:var(--bg)}
+html[data-theme="light"] .btn-ice:hover{background:#2A3445}
+html[data-theme="light"] .icon-btn{border-radius:4px}
+html[data-theme="light"] .icon-btn:hover{background:var(--fill-2)}
+html[data-theme="light"] :is(.link-arrow,.brand b,.hero-title .l1,.sec-title,.stat b,.tile h3,.card-title,.feat-title,.price b,.crumbs [aria-current],.result-count b,.ship b,.sum-row.total,.d-empty h3,.s-row input){color:var(--text)}
+html[data-theme="light"] :is(.nav a:hover,.nav a.active,.lang button:hover,.tab:hover,.tab[aria-pressed="true"],.crumbs a:hover,.pill:hover,.chk:hover span,.switch:hover,.seg button:hover,.rm:hover,.bag-no:hover,.bag-mini:hover,.menu nav a:hover,.menu nav a.active){color:var(--text)}
+html[data-theme="light"] .hdr.scrolled,html[data-theme="light"] .hdr.solid{background:rgba(255,255,255,.9);box-shadow:0 10px 30px -22px rgba(11,21,38,.3)}
+html[data-theme="light"] .logo-img{filter:none}
+html[data-theme="light"] :is(.lang,.lang button,.eyebrow,.concept-note,.pill,.chk span,.buy,.bag-btn){border-radius:2px}
+html[data-theme="light"] .hero-zone{background:radial-gradient(900px 620px at 80% 400px,rgba(27,163,214,.09),transparent 70%),linear-gradient(180deg,#fff 50%,var(--bg-alt))}
+html[data-theme="light"] .eyebrow{color:var(--navy)}
+html[data-theme="light"] .eyebrow .dot{background:var(--cyan);box-shadow:none;animation:none}
+html[data-theme="light"] .mouse{border-color:var(--subtle)}
+html[data-theme="light"] .mouse::after{background:var(--navy)}
+html[data-theme="light"] :is(.section-alt,.stats,.marquee){background:var(--bg-alt)}
+html[data-theme="light"] .shop-hero{background:var(--bg-alt)}
+html[data-theme="light"] .toolbar{background:linear-gradient(180deg,var(--bg) 70%,rgba(255,255,255,0))}
+html[data-theme="light"] :is(.f-group summary,.opt-label){color:var(--navy)}
+html[data-theme="light"] .marquee-group span.hi{color:var(--navy)}
+html[data-theme="light"] .cz,html[data-theme="light"] .card.feat{background:var(--surface);border-radius:4px}
+html[data-theme="light"] :is(.cz-f input,.cz-seg){background:var(--fill-2);border-radius:2px}
+html[data-theme="light"] .cz-f input::placeholder{color:var(--subtle)}
+html[data-theme="light"] .cz-f input:focus{background:var(--bg);box-shadow:inset 0 0 0 2px var(--steel)}
+html[data-theme="light"] :is(.cz-seg button,.feat-sizes button){border-radius:2px}
+html[data-theme="light"] :is(.cz-seg button[aria-pressed="true"],.feat-sizes button[aria-pressed="true"]){background:var(--navy);color:#fff}
+html[data-theme="light"] :is(.card-top,.skel .s-img){border-radius:4px}
+html[data-theme="light"] .feat .card-top{border-radius:0}
+html[data-theme="light"] .price.sale b{color:var(--accent)}
+html[data-theme="light"] :is(.badge-sale,.count-badge){background:var(--accent);color:#fff}
+html[data-theme="light"] .card:hover .card-title button{text-decoration-color:var(--steel)}
+html[data-theme="light"] .sw[aria-pressed="true"]::after,html[data-theme="light"] .color-row button[aria-pressed="true"]::after{border-color:var(--navy)}
+html[data-theme="light"] .quick-add{background:rgba(255,255,255,.94)}
+html[data-theme="light"] .qa-sizes button{background:var(--fill-2);color:var(--text)}
+html[data-theme="light"] .qa-sizes button:hover:not(:disabled){background:var(--navy);color:#fff}
+html[data-theme="light"] .card:hover .buy:not(:disabled),html[data-theme="light"] .card.pick .buy,html[data-theme="light"] .buy:focus-visible{background:var(--navy);color:#fff}
+html[data-theme="light"] .tile{background:radial-gradient(80% 80% at 75% 30%,#fff,var(--surface) 70%)}
+html[data-theme="light"] .tile::after{background:linear-gradient(0deg,rgba(241,243,246,.98),rgba(241,243,246,.1) 65%,transparent)}
+html[data-theme="light"] .tile .go{background:var(--bg);color:var(--navy)}
+html[data-theme="light"] .tile:hover .go{background:var(--navy);color:#fff}
+html[data-theme="light"] .news{background:var(--surface)}
+html[data-theme="light"] .news-form{background:var(--bg);border-radius:2px}
+html[data-theme="light"] .news-form:focus-within{background:var(--bg);box-shadow:0 0 0 2px var(--steel)}
+html[data-theme="light"] .input{border-radius:2px;box-shadow:inset 0 -1px 0 var(--line-strong)}
+html[data-theme="light"] .input:focus{box-shadow:inset 0 -2px 0 var(--steel)}
+html[data-theme="light"] .select select{border-radius:2px}
+html[data-theme="light"] .select select option{background:var(--bg);color:var(--text)}
+html[data-theme="light"] .range-fill{background:var(--navy)}
+html[data-theme="light"] .switch input:checked~i{background:var(--navy)}
+html[data-theme="light"] :is(.drawer,.modal,.search-panel){background:var(--bg);box-shadow:var(--shadow-2)}
+html[data-theme="light"] :is(.d-foot,.f-foot){background:var(--surface)}
+html[data-theme="light"] .modal .x{background:rgba(255,255,255,.9);color:var(--navy)}
+html[data-theme="light"] .qv-thumbs button{background:rgba(255,255,255,.6)}
+html[data-theme="light"] .qv-thumbs button[aria-pressed="true"]{background:#fff;border-color:var(--navy)}
+html[data-theme="light"] :is(.stepper button:hover,.s-item:hover,.s-item:focus-visible){background:var(--fill-2);color:var(--text)}
+html[data-theme="light"] .s-row input::placeholder{color:var(--subtle)}
+html[data-theme="light"] .menu{background:var(--bg)}
+html[data-theme="light"] .toast{background:rgba(255,255,255,.96);color:var(--text)}
+html[data-theme="light"] .toast .t-ic{background:var(--fill-2);color:var(--steel)}
+html[data-theme="light"] .bag-btn:hover{background:var(--surface-2)}
+html[data-theme="light"] .bag-btn.alt{color:var(--text)}
+/* Keep the dark footer from the light concept, with its own readable palette. */
+html[data-theme="light"] .footer{background:#0B1526;--text:#FFFFFF;--muted:#B5BFCE;--subtle:#A6B2C4;--steel:#8FAFD3;--ice:#CFE0F3;--cyan-hi:#5CC4EC;--fill-1:rgba(143,175,211,.08);--fill-2:rgba(143,175,211,.14);--fill-3:rgba(143,175,211,.22);color:var(--text)}
+@media (max-width:1023px){html[data-theme="light"] .filters{background:var(--bg)}}
+/* Make room for the extra header action at tablet and phone widths. */
+@media (min-width:1024px) and (max-width:1120px){.nav{display:none}.hdr-actions{margin-left:auto}.burger{display:grid}}
+@media (max-width:560px){.hdr-actions>a[href*="wish="]{display:none}.hdr-in{gap:12px}}
+@media (max-width:420px){.hdr-in{gap:8px}.hdr .logo{gap:8px}.hdr .logo-img{height:34px}.hdr .brand{font-size:11px;letter-spacing:.06em}.hdr-actions .icon-btn{width:36px;height:40px}}
+@media (max-width:359px){.hdr .logo{gap:6px}.hdr .logo-img{height:28px}.hdr .brand{font-size:10px}.sec-title{overflow-wrap:anywhere}}
 </style>
 </head>
 <body>
@@ -931,6 +1042,8 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 
 <!-- icon sprite (Lucide-style strokes) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
   <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
@@ -983,6 +1096,7 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
       <a href="#/shop?cat=souvenirs" data-nav="souvenirs" data-i18n="navSouv">Сувениры</a>
     </nav>
     <div class="hdr-actions">
+      <button class="icon-btn theme-toggle" id="themeToggle" type="button" data-action="theme" aria-label="Светлая тема" aria-pressed="false" title="Включить светлую тему"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg></button>
       <div class="lang" role="group" aria-label="Язык / Тіл / Language"><button type="button" data-action="lang" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-action="lang" data-lang="kz" aria-pressed="false">KZ</button><button type="button" data-action="lang" data-lang="en" aria-pressed="false">EN</button></div>
       <button class="icon-btn" data-action="open-search" aria-label="Поиск" data-i18n-attr="aria-label:aSearch"><svg class="ic"><use href="#i-search"/></svg></button>
       <a class="icon-btn" href="#/shop?wish=1" aria-label="Избранное" data-i18n-attr="aria-label:wishlist"><svg class="ic"><use href="#i-heart"/></svg><span class="count-badge" id="wishCount">0</span></a>
@@ -1314,6 +1428,16 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
 };
+function syncThemeControl() {
+  const light = document.documentElement.dataset.theme === 'light';
+  const button = $('#themeToggle');
+  button.setAttribute('aria-pressed', String(light));
+  button.setAttribute('aria-label', L('Светлая тема', 'Ашық тақырып', 'Light theme'));
+  button.title = light
+    ? L('Включить тёмную тему', 'Қою тақырыпты қосу', 'Switch to dark theme')
+    : L('Включить светлую тему', 'Ашық тақырыпты қосу', 'Switch to light theme');
+  $('use', button).setAttribute('href', light ? '#i-moon' : '#i-sun');
+}
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
 /* ── data ────────────────────────────────────────────── */
@@ -2562,6 +2686,14 @@ document.addEventListener('click', e => {
     case 'scroll': { const el = $(t.dataset.target); if (el) el.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); break; }
     case 'skip': e.preventDefault(); $('#app').focus(); break;
     case 'lang': setLang(t.dataset.lang); break;
+    case 'theme': {
+      const theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+      store.set('bs.theme', theme);
+      $('meta[name="theme-color"]').content = theme === 'light' ? '#FFFFFF' : '#0A2A5C';
+      syncThemeControl();
+      break;
+    }
     case 'stub': e.preventDefault(); toast(L('Раздел появится в полной версии магазина', 'Бұл бөлім дүкеннің толық нұсқасында болады', 'This section arrives with the full version of the store'), { icon: 'spark' }); break;
   }
 });
@@ -2640,6 +2772,7 @@ function applyStatic() {
   }));
   $$('[data-action="lang"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === LANG));
   document.documentElement.lang = HTML_LANG[LANG];
+  syncThemeControl();
 }
 function setLang(l) {
   if (l === LANG || !HTML_LANG[l]) return;
