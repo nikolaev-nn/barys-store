@@ -431,9 +431,11 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .tile.big h3{font-size:var(--fs-4)}
 .tile.wide{grid-column:span 4}
 .tile.wide .tile-art{left:50%;bottom:var(--sp-5)}
-.tile-art.set{display:flex;justify-content:center;align-items:flex-end;gap:var(--sp-2)}.tile-art.set svg{height:auto;width:20%;max-height:100%}
-@media (max-width:899px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:220px;gap:var(--sp-4)}.tile.wide{grid-column:span 2}.tile{padding:var(--sp-4)}.tile-art{top:var(--sp-4);left:var(--sp-4);right:var(--sp-4);bottom:88px}.tile.wide .tile-art{left:50%;bottom:var(--sp-4)}}
-@media (max-width:420px){.bento{grid-auto-rows:200px}.tile h3{font-size:var(--fs-2)}.tile.big h3{font-size:var(--fs-3)}.tile .go{display:none}}
+/* a waist-up photo stands on the tile's bottom edge, so the crop reads as the edge of the tile */
+.tile.wide .tile-art.photo{top:var(--sp-4);bottom:0;right:calc(var(--sp-5) + var(--h-1) + var(--sp-4));place-items:end center}
+.tile-art.photo img{width:auto;height:100%;max-width:100%;object-fit:contain;object-position:50% 100%}
+@media (max-width:899px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:220px;gap:var(--sp-4)}.tile.wide{grid-column:span 2}.tile{padding:var(--sp-4)}.tile-art{top:var(--sp-4);left:var(--sp-4);right:var(--sp-4);bottom:88px}.tile.wide .tile-art{left:50%;bottom:var(--sp-4)}.tile.wide .tile-art.photo{left:34%;bottom:0}}
+@media (max-width:420px){.bento{grid-auto-rows:200px}.tile.wide .tile-art.photo{right:var(--sp-4)}.tile h3{font-size:var(--fs-2)}.tile.big h3{font-size:var(--fs-3)}.tile .go{display:none}}
 
 /* stats */
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-5)}
@@ -604,6 +606,8 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 /* .lw = label on the left only while the stage is wide; narrow stages flip it right so it never leaves the card */
 .dc-pin.lw b{left:auto;right:18px;transform-origin:100% 50%}
 @container (max-width:520px){.dc-pin.lw b{left:18px;right:auto;transform-origin:0 50%}}
+/* .rw = label on the right only while the stage has room for it; narrower stages flip it left */
+@container (max-width:460px){.dc-pin.rw b{left:auto;right:18px;transform-origin:100% 50%}}
 @container (max-width:280px){.dc-pin b{display:none}}
 
 /* 01 cap: streetwear studio. Navy, ice spotlight, rim light, soft floor shadow */
@@ -620,7 +624,8 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-bomber .fx-softbox{right:-35%;top:-22%;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(207,224,243,.32),transparent)}
 /* VARSITY sits in the stage and is sized from its height (word = 5.64 × font-size), so it never reaches the copy */
 .dc-bomber .fx-word{position:absolute;left:var(--sp-4);top:var(--sp-5);writing-mode:vertical-rl;transform:rotate(180deg);font:800 min(112px,calc((100cqh - 2 * var(--sp-5)) / 5.64))/.9 var(--font-display);pointer-events:none;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16)}
-.dc-bomber .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
+/* shifted a little left so «Сатин с блеском» fits to the right of the person */
+.dc-bomber .dc-shot{--tx:-57%;--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
 .dc-bomber .dc-shot img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
 
 /* 04 down jacket: cold tech. Frost gradient, raking light, −30° type, falling snow */
@@ -1855,6 +1860,7 @@ function bagSVG() {
    A product shows its photo for the colour that was shot, the illustration for the others. */
 const PH = {
   cap: [1000, 773], bomberblue: [602, 1000], coat: [640, 1000], bag: [967, 1000], jersey: [793, 1000], puck: [1000, 849],
+  kids: [1000, 621],
   hoodielight: [601, 912], hoodienavy: [621, 912], kidshoodie: [690, 912], scarf: [751, 912], puckart: [912, 789], retrojersey: [776, 912], backpack: [616, 912], tumbler: [446, 912]
 };
 // the signed puck's photo (puckart) has no autographs: they are drawn over its face
@@ -2126,7 +2132,7 @@ function renderPicks() {
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i></div>
-    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[51, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [47, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [80, 52, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'l']])}</div>
+    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[42, 46, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [57, 28, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
@@ -2254,13 +2260,13 @@ const TILES = [
   { cat: 'winter', title: ['Шапки и шарфы', 'Бас киім мен шарф', 'Beanies & scarves'], pid: 'p8', color: 'cyan' },
   { cat: 'accessories', title: ['Аксессуары', 'Аксессуарлар', 'Accessories'], pid: 'p11', color: 'navy' },
   { cat: 'souvenirs', title: ['Сувениры', 'Кәдесыйлар', 'Souvenirs'], pid: 'p13', color: 'white' },
-  { cat: 'kids', title: ['Детям', 'Балаларға', 'Kids'], cls: 'wide', set: [['p24', 'ice'], ['p16', 'navy'], ['p17', 'ice'], ['p25', 'white'], ['p26', 'cyan']] }
+  { cat: 'kids', title: ['Детям', 'Балаларға', 'Kids'], cls: 'wide', photo: 'kids' }
 ];
 function renderBento() {
   $('#bento').innerHTML = TILES.map((t, i) => {
     const n = PRODUCTS.filter(p => p.cat === t.cat).length;
     return `<a class="tile rv ${t.cls || ''}" style="--d:${i % 4}" href="#/shop?cat=${t.cat}">
-      <div class="tile-art${t.set ? ' set' : ''}" aria-hidden="true">${(t.set || [[t.pid, t.color]]).map(([id, c]) => artSVG(PMAP[id], c, 'front')).join('')}</div>
+      <div class="tile-art${t.photo ? ' photo' : ''}" aria-hidden="true">${t.photo ? `<img src="${phSrc(t.photo)}" alt="" width="${PH[t.photo][0]}" height="${PH[t.photo][1]}" loading="lazy" decoding="async">` : artSVG(PMAP[t.pid], t.color, 'front')}</div>
       <div class="tile-txt"><h3>${L(...t.title)}</h3><p>${n} ${items(n)}</p></div>
       <span class="go" aria-hidden="true">${ic('arrow-ur', 'ic-sm')}</span></a>`;
   }).join('');
