@@ -431,6 +431,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .tile.big h3{font-size:var(--fs-4)}
 .tile.wide{grid-column:span 4}
 .tile.wide .tile-art{left:50%;bottom:var(--sp-5)}
+.tile-art.set{display:flex;justify-content:center;align-items:flex-end;gap:var(--sp-2)}.tile-art.set svg{height:auto;width:20%;max-height:100%}
 @media (max-width:899px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:220px;gap:var(--sp-4)}.tile.wide{grid-column:span 2}.tile{padding:var(--sp-4)}.tile-art{top:var(--sp-4);left:var(--sp-4);right:var(--sp-4);bottom:88px}.tile.wide .tile-art{left:50%;bottom:var(--sp-4)}}
 @media (max-width:420px){.bento{grid-auto-rows:200px}.tile h3{font-size:var(--fs-2)}.tile.big h3{font-size:var(--fs-3)}.tile .go{display:none}}
 
@@ -1509,7 +1510,10 @@ const RAW_EN = [
   ['Souvenir Mini Stick', '45 cm long, gift box'],
   ['Barys Pro SR Game Stick', 'Carbon, P92 curve, flex 75'],
   ['BARYS Varsity Bomber', 'Satin, striped rib trim, embroidered snow leopard'],
-  ['BARYS Arctic Down Jacket', 'Quilted fill, hood, wind-proof shell']
+  ['BARYS Arctic Down Jacket', 'Quilted fill, hood, wind-proof shell'],
+  ['BARYS Kids Hoodie', 'Soft fleece, kangaroo pocket'],
+  ['BARYS Kids T-shirt', '100% cotton, chest print'],
+  ['“Snow Cub” Kids Scarf', 'Soft knit, 120 cm']
 ];
 // Kazakh product names & subtitles, index-aligned with RAW
 const RAW_KZ = [
@@ -1535,7 +1539,10 @@ const RAW_KZ = [
   ['Кәдесый мини-таяқ', 'Ұзындығы 45 см, сыйлық қаптамасы'],
   ['Barys Pro SR ойын таяғы', 'Карбон, P92 иілімі, флекс 75'],
   ['BARYS Varsity бомбері', 'Атлас, жолақты рибана, кестеленген барыс'],
-  ['BARYS Arctic пуховигі', 'Сырылған жылытқыш, күләпара, желден қорғайтын мата']
+  ['BARYS Arctic пуховигі', 'Сырылған жылытқыш, күләпара, желден қорғайтын мата'],
+  ['BARYS балалар худиі', 'Жұмсақ флис, қалта-кенгуру'],
+  ['BARYS балалар футболкасы', '100% мақта, кеудесінде принт'],
+  ['«Барыс күшігі» балалар шарфы', 'Жұмсақ тоқыма, 120 см']
 ];
 // [name, team, cat, art, price, oldPrice, colors, sizes, rating, reviews, stock, flags, subtitle, extra]
 const RAW = [
@@ -1561,7 +1568,10 @@ const RAW = [
   ['Клюшка сувенирная мини', 'barys', 'gear', 'stick', 5990, 0, ['navy', 'white'], [], 4.6, 44, 30, '', 'Длина 45 см, подарочная упаковка'],
   ['Клюшка игровая Barys Pro SR', 'barys', 'gear', 'stick', 64990, 79990, ['black'], [], 4.8, 17, 6, '', 'Карбон, загиб P92, флекс 75'],
   ['Бомбер BARYS Varsity', 'barys', 'hoodie', 'bomber', 44990, 0, ['navy', 'black'], SZ('S', 'XXL'), 4.9, 36, 20, 'new hit', 'Сатин, рибана в полоску, вышитый барс', { num: 99, photo: { navy: 'bomberblue' } }],
-  ['Пуховик BARYS Arctic', 'barys', 'hoodie', 'bomber', 59990, 0, ['navy'], SZ('S', '3XL'), 4.9, 41, 18, 'new', 'Стёганый утеплитель, капюшон, ветрозащита', { photo: { navy: 'coat' } }]
+  ['Пуховик BARYS Arctic', 'barys', 'hoodie', 'bomber', 59990, 0, ['navy'], SZ('S', '3XL'), 4.9, 41, 18, 'new', 'Стёганый утеплитель, капюшон, ветрозащита', { photo: { navy: 'coat' } }],
+  ['Детское худи BARYS', 'barys', 'kids', 'hoodie', 12990, 0, ['navy', 'ice'], ['XS', 'S', 'M'], 4.8, 52, 30, 'new', 'Мягкий футер, карман-кенгуру'],
+  ['Детская футболка BARYS', 'barys', 'kids', 'tshirt', 5990, 0, ['white', 'navy'], ['XS', 'S', 'M'], 4.7, 41, 45, '', 'Хлопок 100%, принт на груди'],
+  ['Детский шарф «Барсёнок»', 'barys', 'kids', 'scarf', 3990, 0, ['ice', 'cyan'], [], 4.8, 27, 40, '', 'Мягкая вязка, 120 см', { text: 'BARYS' }]
 ];
 const ART_WORDS = { jersey: 'джерси форма свитер', hoodie: 'худи толстовка свитшот', tshirt: 'футболка', scarf: 'шарф', beanie: 'шапка', cap: 'кепка бейсболка', backpack: 'рюкзак сумка', bottle: 'бутылка', mug: 'кружка чашка', flag: 'флаг', keychain: 'брелок keyring', puck: 'шайба', stick: 'клюшка', bomber: 'бомбер куртка jacket' };
 const PRODUCTS = RAW.map((r, i) => {
@@ -2128,7 +2138,7 @@ function renderPicks() {
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(18)}</div></div>
     <div class="dc-stage">${dcShot('coat', [[30, 44, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [66, 17, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood')]])}</div>
-    <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для Астаны', 'Астана үшін жасалған', 'Built for Astana'), L('Здесь зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Мұнда қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter here outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
+    <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для настоящей зимы', 'Нағыз қысқа арналған', 'Built for real winter'), L('Зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
       <ul class="dc-specs"><li>${ic('snow')}${L('Утеплитель 300 г/м²', 'Жылытқыш 300 г/м²', '300 g/m² fill')}</li><li>${ic('shield')}${L('Ветрозащита', 'Желден қорғау', 'Wind-proof')}</li></ul>
       ${dcFoot('p23')}</div>
   </article>
@@ -2250,13 +2260,13 @@ const TILES = [
   { cat: 'winter', title: ['Шапки и шарфы', 'Бас киім мен шарф', 'Beanies & scarves'], pid: 'p7', color: 'cyan' },
   { cat: 'accessories', title: ['Аксессуары', 'Аксессуарлар', 'Accessories'], pid: 'p11', color: 'navy' },
   { cat: 'souvenirs', title: ['Сувениры', 'Кәдесыйлар', 'Souvenirs'], pid: 'p13', color: 'white' },
-  { cat: 'kids', title: ['Детям', 'Балаларға', 'Kids'], cls: 'wide', pid: 'p17', color: 'ice' }
+  { cat: 'kids', title: ['Детям', 'Балаларға', 'Kids'], cls: 'wide', set: [['p24', 'ice'], ['p16', 'navy'], ['p17', 'ice'], ['p25', 'white'], ['p26', 'cyan']] }
 ];
 function renderBento() {
   $('#bento').innerHTML = TILES.map((t, i) => {
     const n = PRODUCTS.filter(p => p.cat === t.cat).length;
     return `<a class="tile rv ${t.cls || ''}" style="--d:${i % 4}" href="#/shop?cat=${t.cat}">
-      <div class="tile-art" aria-hidden="true">${artSVG(PMAP[t.pid], t.color, 'front')}</div>
+      <div class="tile-art${t.set ? ' set' : ''}" aria-hidden="true">${(t.set || [[t.pid, t.color]]).map(([id, c]) => artSVG(PMAP[id], c, 'front')).join('')}</div>
       <div class="tile-txt"><h3>${L(...t.title)}</h3><p>${n} ${items(n)}</p></div>
       <span class="go" aria-hidden="true">${ic('arrow-ur', 'ic-sm')}</span></a>`;
   }).join('');
