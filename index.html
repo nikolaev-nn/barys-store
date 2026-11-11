@@ -597,18 +597,21 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-solid{background:var(--solid);color:var(--solid-ink)}
 .dc .link-arrow{align-self:flex-start;margin-top:var(--sp-2)}
 /* callouts: a dot on the detail, a label chip beside it */
-/* callout: a still anchor on the detail, a leader line that draws in once, then the label (no blinking) */
-.dc-pin{--gap:30px;position:absolute;left:var(--x);top:var(--y)}
+/* callout: a still anchor on the detail and a thin leader line that draws in once, ending at the label (no blinking).
+   The pin counter-rotates the shot's tilt, so line and label stay true to the screen. Direction = a class:
+   r / l = horizontal, d = straight down, ul / ur = 45° up-left / up-right; .flip turns r into l on narrow stages. */
+.dc-pin{--len:30px;--a:0deg;--ex:30px;--ey:0px;--lx:0%;--ly:-50%;position:absolute;left:var(--x);top:var(--y);transform:rotate(calc(-1 * var(--rot,0deg)));transform-origin:0 0}
 .dc-pin i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px rgba(5,20,52,.45),0 0 0 6px rgba(255,255,255,.2)}
-.dc-pin b{position:absolute;left:var(--gap);top:0;transform:translateY(-50%) rotate(calc(-1 * var(--rot,0deg)));transform-origin:0 50%;padding:5px 10px;border-radius:var(--r-3);background:var(--pin);color:#FFFFFF;font-size:var(--fs-1);font-weight:600;line-height:1.2;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.dc-pin b::before{content:"";position:absolute;top:50%;right:100%;width:calc(var(--gap) - 4px);height:1.5px;margin-top:-.75px;background:#FFFFFF;box-shadow:0 0 0 .75px rgba(5,20,52,.4);transform:scaleX(0);transform-origin:0 50%;transition:transform var(--dur-3) var(--ease) .3s}
-.dc.in .dc-pin b::before{transform:scaleX(1)}
-/* label on the left of the anchor: .l always, .lw while the stage is wide, .rw only when it is narrow */
-.dc-pin.l b,.dc-pin.lw b{left:auto;right:var(--gap);transform-origin:100% 50%}
-.dc-pin.l b::before,.dc-pin.lw b::before{right:auto;left:100%;transform-origin:100% 50%}
-@container (max-width:520px){.dc-pin.lw b{left:var(--gap);right:auto;transform-origin:0 50%}.dc-pin.lw b::before{left:auto;right:100%;transform-origin:0 50%}}
-@container (max-width:460px){.dc-bomber .dc-stage .dc-shot{--tx:-50%}.dc-pin.rw b{left:auto;right:var(--gap);transform-origin:100% 50%}.dc-pin.rw b::before{right:auto;left:100%;transform-origin:100% 50%}}
-@container (max-width:280px){.dc-pin b{display:none}}
+.dc-pin u{position:absolute;left:0;top:-.75px;width:var(--len);height:1.5px;background:#FFFFFF;box-shadow:0 0 0 .75px rgba(5,20,52,.4);transform-origin:0 50%;transform:rotate(var(--a)) scaleX(0);transition:transform var(--dur-3) var(--ease) .3s}
+.dc.in .dc-pin u{transform:rotate(var(--a)) scaleX(1)}
+.dc-pin b{position:absolute;left:var(--ex);top:var(--ey);transform:translate(var(--lx),var(--ly));padding:5px 10px;border-radius:var(--r-3);background:var(--pin);color:#FFFFFF;font-size:var(--fs-1);font-weight:600;line-height:1.2;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.dc-pin.l{--a:180deg;--ex:-30px;--lx:-100%}
+.dc-pin.d{--a:90deg;--ex:0px;--ey:30px;--lx:-50%;--ly:0%}
+.dc-pin.ul{--len:34px;--a:-135deg;--ex:-24px;--ey:-24px;--lx:-100%}
+.dc-pin.ur{--len:34px;--a:-45deg;--ex:24px;--ey:-24px}
+@container (max-width:460px){.dc-bomber .dc-stage .dc-shot{--tx:-50%}.dc-pin.flip.r{--a:180deg;--ex:-30px;--lx:-100%}}
+@container (max-width:400px){.dc-pin{left:var(--xn,var(--x))}}
+@container (max-width:280px){.dc-pin b,.dc-pin u{display:none}}
 
 /* 01 cap: streetwear studio. Navy, ice spotlight, rim light, soft floor shadow */
 .dc-cap1{background:radial-gradient(110% 90% at 78% 38%,#1D5BB0 0%,#0A2A5C 46%,#051634 100%)}
@@ -948,7 +951,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .hero-float{animation:none!important}
   .hero-px{transform:none;transition:none}
   .dc-coat .fx-snow i{animation:none;top:var(--y)}
-  .dc-pin b::before{transition:none}
+  .dc-pin u{transition:none}
 }
 </style>
 </head>
@@ -2110,7 +2113,8 @@ function cardHTML(p, i = 0) {
    colours, identical in both themes, like the footer. The jersey lives in the hero.
    Callout x/y are % of the photo box, so they stay on the detail at any size. */
 const PICKS = ['p10', 'p22', 'p23']; // products shown here; the "New" rail skips them
-const dcPins = pins => pins.map(([x, y, t, side]) => `<span class="dc-pin${side ? ' ' + side : ''}" style="--x:${x}%;--y:${y}%"><i></i><b>${t}</b></span>`).join('');
+// pin = [x%, y%, text, direction: r | l | d | ul | ur, 'flip' to turn r into l on narrow stages, x% to use on narrow stages]
+const dcPins = pins => pins.map(([x, y, t, dir = 'r', flip, xn]) => `<span class="dc-pin ${dir}${flip ? ' flip' : ''}" style="--x:${x}%;--y:${y}%${xn ? `;--xn:${xn}%` : ''}"><i></i><u></u><b>${t}</b></span>`).join('');
 const dcShot = (k, pins = [], cls = '') => `<div class="dc-shot ${cls}" style="--ar:${PH[k][0] / PH[k][1]}"><img src="${phSrc(k)}" alt="" width="${PH[k][0]}" height="${PH[k][1]}" loading="lazy" decoding="async">${dcPins(pins)}</div>`;
 const dcHead = (no, tag, title, lead) => `<p class="dc-tag"><span>${no}</span>${tag}</p><h3 class="dc-title">${title}</h3><p class="dc-lead">${lead}</p>`;
 function dcFoot(id) {
@@ -2128,17 +2132,17 @@ function renderPicks() {
   $('#picksGrid').innerHTML = `
   <article class="dc dc-cap1 wide rv" aria-label="${esc(pn(PMAP.p10))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-streak"></i><i class="fx-spot"></i><span class="fx-no">01</span><i class="fx-floor"></i></div>
-    <div class="dc-stage">${dcShot('cap', [[63, 23, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 90, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [9, 52, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
+    <div class="dc-stage">${dcShot('cap', [[60, 27, L('3D-вышивка', '3D кестелеу', '3D embroidery'), 'ur'], [72, 76, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'd'], [38, 66, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'ul', 0, 42]])}</div>
     <div class="dc-copy">${dcHead('01', L('Кепка · Streetwear', 'Кепка · Streetwear', 'Cap · Streetwear'), L('Барс на первом плане', 'Барыс алдыңғы қатарда', 'The leopard up front'), L('Объёмная вышивка, плотный хлопок и козырёк, который держит форму с первого дня.', 'Көлемді кестелеу, тығыз мақта және бірінші күннен пішінін сақтайтын күнқағар.', 'Raised embroidery, dense cotton and a visor that holds its shape from day one.'))}${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i></div>
-    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[49, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [53, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
+    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[60, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'r'], [53, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib'), 'r'], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'r', 'flip']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(26)}</div></div>
-    <div class="dc-stage">${dcShot('coat', [[26, 30, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [68, 21, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood')]])}</div>
+    <div class="dc-stage">${dcShot('coat', [[58, 47, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'ul', 0, 70], [66, 25, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood'), 'ur']])}</div>
     <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для настоящей зимы', 'Нағыз қысқа арналған', 'Built for real winter'), L('Зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
       <ul class="dc-specs"><li>${ic('snow')}${L('Утеплитель 300 г/м²', 'Жылытқыш 300 г/м²', '300 g/m² fill')}</li><li>${ic('shield')}${L('Ветрозащита', 'Желден қорғау', 'Wind-proof')}</li></ul>
       ${dcFoot('p23')}</div>
