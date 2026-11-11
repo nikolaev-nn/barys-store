@@ -475,7 +475,6 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .f-legal,.pay{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2) var(--sp-3)}
 .f-domain{font-weight:700;color:var(--text-1)}
 .concept-note{display:inline-flex;align-items:center;height:32px;padding:0 var(--sp-3);border-radius:var(--r-3);background:var(--surface-1);color:var(--text-2)}
-.pay-label{letter-spacing:.14em;text-transform:uppercase}
 .pay-list{display:flex;gap:var(--sp-2)}
 .pay-card{width:56px;height:36px;border-radius:var(--r-1);display:grid;place-items:center;background:#fff}
 .pay-card svg{width:42px;height:24px}
@@ -645,7 +644,9 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-coat .fx-snow .d0{opacity:.55}
 .dc-coat .fx-snow .d2{opacity:.7;filter:blur(1px)}
 @keyframes dcSnow{to{transform:translate3d(var(--dx),780px,0) rotate(var(--r))}}
-.dc-coat .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,96cqh * var(--ar))}
+/* shifted left so «Капюшон-стойка» fits to the right of the head; narrow stages also shrink the shot a little */
+.dc-coat .dc-shot{--tx:-60%;--ty:0%;top:auto;bottom:0;width:min(92cqw,96cqh * var(--ar))}
+@container (max-width:400px){.dc-coat .dc-stage .dc-shot{--tx:-64%;width:min(82cqw,96cqh * var(--ar))}}
 .dc-coat .dc-shot img{-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
 
 /* 03 bag: retail moment. Light wall, top spotlight, glossy floor: the bag stands on its own reflection (same size, no gap) */
@@ -1299,7 +1300,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
     <div class="f-bottom">
       <div class="f-legal"><span>© 2026 Barys Store</span><span class="f-domain">barys.store</span><span class="concept-note" data-i18n="conceptNote">Концепт редизайна, не официальный магазин</span></div>
       <div class="pay">
-        <span class="pay-label" id="payLbl" data-i18n="payLbl">Принимаем к оплате</span>
+        <span class="sr-only" id="payLbl" data-i18n="payLbl">Принимаем к оплате</span>
         <ul class="pay-list" aria-labelledby="payLbl">
           <li class="pay-card" title="Visa"><svg viewBox="0 0 42 24" role="img" aria-label="Visa"><text x="21" y="17" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-style="italic" font-size="14" letter-spacing="-.3" fill="#1A1F71">VISA</text><path d="M7 19.5h28" stroke="#F7B600" stroke-width="1.6" stroke-linecap="round"/></svg></li>
           <li class="pay-card" title="Mastercard"><svg viewBox="0 0 42 24" role="img" aria-label="Mastercard"><circle cx="16" cy="12" r="9" fill="#EB001B"/><circle cx="26" cy="12" r="9" fill="#F79E1B"/><path d="M21 4.5a9 9 0 0 1 0 15 9 9 0 0 1 0-15Z" fill="#FF5F00"/></svg></li>
@@ -2127,17 +2128,17 @@ function renderPicks() {
   $('#picksGrid').innerHTML = `
   <article class="dc dc-cap1 wide rv" aria-label="${esc(pn(PMAP.p10))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-streak"></i><i class="fx-spot"></i><span class="fx-no">01</span><i class="fx-floor"></i></div>
-    <div class="dc-stage">${dcShot('cap', [[60, 27, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 86, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [13, 58, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
+    <div class="dc-stage">${dcShot('cap', [[63, 23, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 90, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [9, 52, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
     <div class="dc-copy">${dcHead('01', L('Кепка · Streetwear', 'Кепка · Streetwear', 'Cap · Streetwear'), L('Барс на первом плане', 'Барыс алдыңғы қатарда', 'The leopard up front'), L('Объёмная вышивка, плотный хлопок и козырёк, который держит форму с первого дня.', 'Көлемді кестелеу, тығыз мақта және бірінші күннен пішінін сақтайтын күнқағар.', 'Raised embroidery, dense cotton and a visor that holds its shape from day one.'))}${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i></div>
-    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[46, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [53, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
+    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[49, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [53, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(26)}</div></div>
-    <div class="dc-stage">${dcShot('coat', [[30, 44, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [64, 25, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood'), 'l']])}</div>
+    <div class="dc-stage">${dcShot('coat', [[26, 30, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [68, 21, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood')]])}</div>
     <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для настоящей зимы', 'Нағыз қысқа арналған', 'Built for real winter'), L('Зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
       <ul class="dc-specs"><li>${ic('snow')}${L('Утеплитель 300 г/м²', 'Жылытқыш 300 г/м²', '300 g/m² fill')}</li><li>${ic('shield')}${L('Ветрозащита', 'Желден қорғау', 'Wind-proof')}</li></ul>
       ${dcFoot('p23')}</div>
