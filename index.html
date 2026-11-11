@@ -94,6 +94,15 @@
   --card-dot-edge:rgba(255,255,255,.32);
   --card-focus:#F5B642;
   --gold:#F5B642; --gold-hi:#FFC85E; --gold-ink:#1B1405; /* one primary action per view */
+  /* product surface: one light neutral behind every product image, the same in both themes
+     (most products are dark navy). Whatever sits on it uses the --on-product-* palette. */
+  --surface-product:#EEF1F5;
+  --on-product-ink:#0B1526; --on-product-ink-2:#4F5868;
+  --on-product-quiet:rgba(11,21,38,.06); --on-product-quiet-hi:rgba(11,21,38,.11);
+  --on-product-sel:#0A2A5C; --on-product-sel-ink:#FFFFFF;
+  --on-product-badge:#0D5C86; --on-product-badge-bg:rgba(13,92,134,.09);
+  --on-product-dot-edge:rgba(11,21,38,.24);
+  --on-product-focus:#1F5AA6;
   /* product cards: shape, spacing, motion (identical in both themes) */
   --r-card:18px; --r-ctl:10px; --r-badge:6px;
   --s-1:8px; --s-2:16px; --s-3:24px; --s-4:32px;
@@ -258,26 +267,25 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 /* category bento */
 .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(200px,19vw,270px);gap:20px}
 .tile{position:relative;overflow:hidden;border-radius:var(--r-lg);isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,2vw,28px);
-  background:radial-gradient(90% 90% at 80% 20%,rgba(143,175,211,.28),transparent 60%),linear-gradient(160deg,#16437F,#0B2858 70%);transition:border-color .4s,transform .6s var(--ease),box-shadow .6s var(--ease)}
+  transition:transform .6s var(--ease)}
 .tile::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--pattern);background-size:120px;opacity:.8}
-.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(4,17,42,.88) 0%,rgba(4,17,42,.2) 55%,transparent 80%);transition:opacity .5s}
-.tile-art{position:absolute;z-index:-1;right:-2%;top:2%;width:60%;height:74%;display:grid;place-items:center;transition:transform .9s var(--ease)}
-.tile-art svg{width:100%;height:100%;filter:drop-shadow(0 24px 30px rgba(0,0,0,.35))}
-.tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-2)}
+/* art stays in the upper part of the flat tile so it never runs under the title */
+.tile-art{position:absolute;z-index:-1;right:var(--s-2);top:var(--s-2);width:50%;height:44%;display:grid;place-items:center;transition:transform .9s var(--ease)}
+.tile-art svg{width:100%;height:100%}
+.tile:hover{transform:translateY(-4px)}
 .tile:hover .tile-art{transform:scale(1.08) rotate(-3deg)}
-.tile:hover::after{opacity:.75}
-.tile h3{font-family:var(--font-display);font-size:clamp(17px,1.5vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:#fff}
-.tile p{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:14px;margin-top:6px}
-.tile .go{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);transition:background-color .4s,color .4s,transform .5s var(--ease)}
+.tile h3{font-family:var(--font-display);font-size:clamp(17px,1.5vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:var(--card-ink)}
+.tile p{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--card-ink-2);font-size:14px;margin-top:6px}
+.tile .go{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--card-ink);background:var(--card-quiet);transition:background-color .4s,color .4s,transform .5s var(--ease)}
 .tile:hover .go{background:var(--accent);color:var(--accent-ink);transform:rotate(-45deg)}
 .tile.big{grid-column:span 2;grid-row:span 2}
-.tile.big .tile-art{width:80%;height:90%;right:-6%;top:-2%}
+.tile.big .tile-art{width:72%;height:68%}
 .tile.big h3{font-size:clamp(24px,2.6vw,40px)}
 .tile.wide{grid-column:span 4}
-.tile.wide .tile-art{width:38%;right:4%}
+.tile.wide .tile-art{width:38%;height:calc(100% - var(--s-4))}
 @media (max-width:899px){.bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px;gap:14px}.tile.big{grid-column:span 2;grid-row:span 2}.tile.wide{grid-column:span 2}.tile.wide .tile-art{width:55%}}
-@media (max-width:899px){.tile:not(.big):not(.wide) .tile-art{width:64%;height:60%;top:4%;right:-4%}}
-@media (max-width:420px){.bento{grid-auto-rows:160px}.tile p span{display:none}.tile h3{font-size:14.5px}}
+@media (max-width:899px){.tile:not(.big):not(.wide) .tile-art{width:60%;height:46%}}
+@media (max-width:420px){.bento{grid-auto-rows:160px}.tile p span{display:none}.tile h3{font-size:14.5px}.tile:not(.big):not(.wide) p{display:none}}
 
 /* stats */
 .stats{background:linear-gradient(180deg,var(--navy-700),var(--navy-800));padding:clamp(56px,7vw,96px) 0}
@@ -480,7 +488,7 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 .ship.done .ship-bar i{background:var(--accent)}
 .d-items{flex:1;overflow-y:auto;padding:8px 22px;overscroll-behavior:contain}
 .cline{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:16px 0;animation:rise .5s var(--ease) both}
-.line-img{width:84px;height:92px;border-radius:14px;overflow:hidden;position:relative;background:radial-gradient(110% 90% at 50% 18%,var(--bg0),var(--bg1))}
+.line-img{width:84px;height:92px;border-radius:14px;overflow:hidden;position:relative}
 .line-img svg{position:absolute;inset:8%;width:84%;height:84%}
 .cline h3{font-size:14.5px;font-weight:700;line-height:1.3}
 .cline .opts{font-size:12.5px;color:var(--subtle);margin-top:3px;display:flex;align-items:center;gap:6px}
@@ -508,8 +516,7 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 .modal{position:relative;width:min(1040px,100%);max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow:auto;display:grid;grid-template-columns:1.05fr 1fr;border-radius:28px;background:linear-gradient(180deg,var(--navy-700),var(--navy-800));box-shadow:0 60px 120px -40px rgba(0,0,0,.8);opacity:0;transform:translate3d(0,24px,0) scale(.96);transition:opacity .45s var(--ease),transform .6s var(--ease);overscroll-behavior:contain}
 .layer.open .modal{opacity:1;transform:none}
 .modal .x{position:absolute;top:14px;right:14px;z-index:3;background:rgba(10,42,92,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.qv-media{position:relative;min-height:440px;background:radial-gradient(110% 90% at 50% 18%,var(--bg0),var(--bg1));display:flex;flex-direction:column}
-.qv-media::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%230A2A5C' fill-opacity='.05'%3E%3Cpath d='M6 46C22 24 52 18 76 30 52 26 30 34 16 52z'/%3E%3Cpath d='M76 116c16-22 46-28 70-16-24-4-46 4-60 22z'/%3E%3C/g%3E%3C/svg%3E");background-size:140px}
+.qv-media{position:relative;min-height:440px;display:flex;flex-direction:column}
 .qv-stage{position:relative;flex:1;display:grid;place-items:center;padding:40px 40px 10px}
 .qv-stage svg{width:min(100%,420px);height:auto;aspect-ratio:1;animation:qvArt .6s var(--ease)}
 @keyframes qvArt{from{opacity:0;transform:scale(.94)}}
@@ -595,19 +602,16 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 
 /* ── tonal surfaces: depth by tone, never by outlines ── */
 .input,.select select{border:0}
-.line-img,.qv-media,.tp-art{background:#2F5A92;background:radial-gradient(75% 60% at 50% 44%,color-mix(in srgb,var(--glow,#1BA3D6) 24%,#5B83B5) 0%,#2F5A92 50%,#1A4178 100%)}
 .hdr.scrolled,.hdr.solid{box-shadow:0 14px 36px -26px rgba(0,0,0,.9)}
 .btn-ghost{background:var(--fill-2)}
 .btn-ghost:hover{background:var(--fill-3)}
 .eyebrow,.lang,.concept-note{background:var(--fill-1)}
 .team-item sup{background:var(--fill-2)}
 .tp-in{background:rgba(10,42,92,.8)}
-.tp-art{border-radius:8px}
 .stage-ring{display:none}
 .rail-nav button{background:var(--fill-2)}
 .rail-nav button:hover{background:var(--fill-3)}
 .tile{border-radius:var(--r-md)}
-.tile .go{background:rgba(255,255,255,.12)}
 .news-form{background:rgba(4,17,42,.55)}
 .news-form:focus-within{background:rgba(4,17,42,.75);box-shadow:none}
 .socials a{background:var(--fill-2)}
@@ -643,9 +647,6 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 .line-img{border-radius:var(--r-tile)}
 .stepper{background:var(--fill-1)}
 .stepper button{border-radius:10px}
-.qv-thumbs button{background:rgba(4,17,42,.25);opacity:.6;transition:opacity .3s,background-color .3s}
-.qv-thumbs button[aria-pressed="true"]{opacity:1;background:rgba(207,224,243,.22)}
-.qv-media::before{background:radial-gradient(110% 40% at 50% 100%,rgba(4,17,42,.35),transparent 70%)!important}
 .size-row button{background:var(--fill-1)}
 .size-row button:hover:not(:disabled){background:var(--fill-2)}
 .qv-buy .wish-lg{background:var(--fill-1)}
@@ -680,9 +681,7 @@ html[lang="kk"] .hero-title{font-size:calc(var(--fs-hero) * .84)}
 .marquee-group i{width:5px;height:5px;border-radius:50%;background:var(--cyan)}
 
 /* quick-view and cart thumbnails: tone picked for contrast with the product */
-.stage{position:relative;overflow:hidden;isolation:isolate;--pod:rgba(4,17,42,.28);background:radial-gradient(85% 70% at 50% 36%,#3F86DB 0%,#1D58AD 50%,#123E86 100%)}
-.stage[data-stage="cyan"]{background:radial-gradient(85% 70% at 50% 36%,#6AD6F8 0%,#1BA3D6 52%,#0E7CB2 100%)}
-.stage[data-stage="sand"]{background:radial-gradient(85% 70% at 50% 36%,#FFF6DF 0%,#F6D892 52%,#E2B55B 100%)}
+.stage{position:relative;overflow:hidden;isolation:isolate}
 .picks{padding-bottom:clamp(40px,5vw,72px)}
 
 /* cart: signature bag add-on */
@@ -766,27 +765,24 @@ html[data-theme="light"] .btn-ice{background:var(--text);color:var(--bg)}
 html[data-theme="light"] .btn-ice:hover{background:#2A3445}
 html[data-theme="light"] .icon-btn{border-radius:4px}
 html[data-theme="light"] .icon-btn:hover{background:var(--fill-2)}
-html[data-theme="light"] :is(.link-arrow,.brand b,.hero-title .l1,.sec-title,.stat b,.tile h3,.crumbs [aria-current],.result-count b,.ship b,.sum-row.total,.d-empty h3,.s-row input){color:var(--text)}
+html[data-theme="light"] :is(.link-arrow,.brand b,.hero-title .l1,.sec-title,.stat b,.crumbs [aria-current],.result-count b,.ship b,.sum-row.total,.d-empty h3,.s-row input){color:var(--text)}
 html[data-theme="light"] :is(.nav a:hover,.nav a.active,.lang button:hover,.tab:hover,.tab[aria-pressed="true"],.crumbs a:hover,.pill:hover,.chk:hover span,.switch:hover,.seg button:hover,.rm:hover,.bag-no:hover,.bag-mini:hover,.menu nav a:hover,.menu nav a.active){color:var(--text)}
 html[data-theme="light"] .hdr.scrolled,html[data-theme="light"] .hdr.solid{background:rgba(255,255,255,.9);box-shadow:0 10px 30px -22px rgba(11,21,38,.3)}
 html[data-theme="light"] .logo-img{filter:none}
 html[data-theme="light"] :is(.theme-toggle.icon-btn,.lang,.lang button,.eyebrow,.concept-note,.pill,.chk span,.bag-btn){border-radius:2px}
-html[data-theme="light"] .hero-zone{background:linear-gradient(180deg,#fff 50%,var(--bg-alt))}
+html[data-theme="light"] .hero-zone{background:var(--bg)}
 html[data-theme="light"] .eyebrow{color:var(--navy)}
 html[data-theme="light"] .eyebrow .dot{background:var(--cyan);box-shadow:none;animation:none}
 html[data-theme="light"] .mouse{border-color:var(--subtle)}
 html[data-theme="light"] .mouse::after{background:var(--navy)}
-html[data-theme="light"] :is(.section-alt,.stats,.marquee){background:var(--bg-alt)}
+html[data-theme="light"] :is(.stats,.marquee){background:var(--bg-alt)}
+html[data-theme="light"] .section-alt{background:var(--bg)} /* product tiles (#EEF1F5) sit on a white page */
 html[data-theme="light"] .shop-hero{background:var(--bg-alt)}
 html[data-theme="light"] .toolbar{background:linear-gradient(180deg,var(--bg) 70%,rgba(255,255,255,0))}
 html[data-theme="light"] :is(.f-group summary,.opt-label){color:var(--navy)}
 html[data-theme="light"] .marquee-group span.hi{color:var(--navy)}
 html[data-theme="light"] :is(.badge-sale,.count-badge){background:var(--accent);color:#fff}
 html[data-theme="light"] .color-row button[aria-pressed="true"]::after{border-color:var(--navy)}
-html[data-theme="light"] .tile{background:radial-gradient(80% 80% at 75% 30%,#fff,var(--surface) 70%)}
-html[data-theme="light"] .tile::after{background:linear-gradient(0deg,rgba(241,243,246,.98),rgba(241,243,246,.1) 65%,transparent)}
-html[data-theme="light"] .tile .go{background:var(--bg);color:var(--navy)}
-html[data-theme="light"] .tile:hover .go{background:var(--navy);color:#fff}
 html[data-theme="light"] .news{background:var(--surface)}
 html[data-theme="light"] .news-form{background:var(--bg);border-radius:2px}
 html[data-theme="light"] .news-form:focus-within{background:var(--bg);box-shadow:0 0 0 2px var(--steel)}
@@ -799,8 +795,6 @@ html[data-theme="light"] .switch input:checked~i{background:var(--navy)}
 html[data-theme="light"] :is(.drawer,.modal,.search-panel){background:var(--bg);box-shadow:var(--shadow-2)}
 html[data-theme="light"] :is(.d-foot,.f-foot){background:var(--surface)}
 html[data-theme="light"] .modal .x{background:rgba(255,255,255,.9);color:var(--navy)}
-html[data-theme="light"] .qv-thumbs button{background:rgba(255,255,255,.6)}
-html[data-theme="light"] .qv-thumbs button[aria-pressed="true"]{background:#fff;border-color:var(--navy)}
 html[data-theme="light"] :is(.stepper button:hover,.s-item:hover,.s-item:focus-visible){background:var(--fill-2);color:var(--text)}
 html[data-theme="light"] .s-row input::placeholder{color:var(--subtle)}
 html[data-theme="light"] .menu{background:var(--bg)}
@@ -823,23 +817,44 @@ html[data-theme="light"] .footer{background:#0B1526;--text:#FFFFFF;--muted:#B5BF
 :root{--card-name:16px;--card-price:16px}
 @media (max-width:600px){:root{--card-pad:16px;--card-name:15px;--card-price:15px}}
 
-.card,.cz{position:relative;display:flex;flex-direction:column;gap:var(--s-2);min-width:0;padding:var(--card-pad);border-radius:var(--r-card);background:var(--card);color:var(--card-ink);font-family:var(--font-body);font-weight:500}
+/* Product surface: every product image area (card image, builder, quick view, cart and search
+   thumbnails, bag add-on, category tiles) is one flat --surface-product tile. It re-points the
+   --card-* tokens at the --on-product-* palette, so anything placed on it (badges, wishlist,
+   quick add, builder controls) reads on the light surface in both themes. */
+:is(.card-top,.cz,.line-img,.qv-media,.bag-img,.tile){
+  --card:var(--surface-product);
+  --card-ink:var(--on-product-ink); --card-ink-2:var(--on-product-ink-2);
+  --card-quiet:var(--on-product-quiet); --card-quiet-hi:var(--on-product-quiet-hi);
+  --card-sel:var(--on-product-sel); --card-sel-ink:var(--on-product-sel-ink);
+  --card-badge:var(--on-product-badge); --card-badge-bg:var(--on-product-badge-bg);
+  --card-dot-edge:var(--on-product-dot-edge); --card-focus:var(--on-product-focus);
+  background:var(--surface-product)
+}
+:is(.line-img,.bag-img){border-radius:var(--r-ctl)}
+.tile{border-radius:var(--r-card)}
+.qv-thumbs button{border:0;background:var(--card-quiet);transition:background-color .2s}
+.qv-thumbs button[aria-pressed="true"]{background:var(--card-quiet-hi);box-shadow:inset 0 0 0 2px var(--card-sel)}
+
+/* catalogue cards: the image tile carries the surface; name and price sit on the page below it */
+.card,.cz{position:relative;display:flex;flex-direction:column;gap:var(--s-2);min-width:0;border-radius:var(--r-card);color:var(--card-ink);font-family:var(--font-body);font-weight:500}
+.card{padding:0;background:none}
+.cz{padding:var(--card-pad)}
 .card.enter{animation:cardIn .6s var(--card-ease) backwards;animation-delay:calc(var(--i,0) * 50ms)}
 @keyframes cardIn{from{opacity:0;transform:translate3d(0,16px,0)}}
 
-/* image: the hero of the tile, no backdrop of its own */
-.card-top{position:relative}
+/* image: the hero of the tile */
+.card-top{position:relative;padding:var(--s-2);border-radius:var(--r-card)}
 .media{position:relative;display:block;width:100%;aspect-ratio:1/1;cursor:pointer}
 .art{position:absolute;inset:14% 8% 4%;transition:transform .25s var(--card-ease)}
 .art svg{width:100%;height:100%;overflow:visible}
 @media (hover:hover){.card:hover .art{transform:scale(1.03)}}
 
 /* one quiet label per card */
-.card .badges{position:absolute;top:0;left:0;display:flex;pointer-events:none}
+.card .badges{position:absolute;top:var(--s-2);left:var(--s-2);display:flex;pointer-events:none}
 .card .badge{display:inline-flex;align-items:center;height:24px;padding:0 var(--s-1);border-radius:var(--r-badge);background:var(--card-badge-bg);color:var(--card-badge);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;line-height:1;white-space:nowrap}
 
 /* wishlist: bare icon, appears on hover/focus on desktop, always on touch */
-.card .wish{--r:var(--r-ctl);position:absolute;top:calc(var(--s-1) * -1);right:calc(var(--s-1) * -1);width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);color:var(--card-ink-2);transition:opacity .2s var(--card-ease),color .2s}
+.card .wish{--r:var(--r-ctl);position:absolute;top:var(--s-1);right:var(--s-1);width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);color:var(--card-ink-2);transition:opacity .2s var(--card-ease),color .2s}
 .card .wish:hover,.card .wish[aria-pressed="true"]{color:var(--card-ink)}
 .card .wish .ic{width:20px;height:20px}
 .card .wish[aria-pressed="true"] .ic{fill:currentColor;animation:heart .4s var(--card-ease)}
@@ -847,7 +862,7 @@ html[data-theme="light"] .footer{background:#0B1526;--text:#FFFFFF;--muted:#B5BF
 @media (hover:hover){.card .wish:not([aria-pressed="true"]){opacity:0}.card:hover .wish,.card:focus-within .wish{opacity:1}}
 
 /* quick add: sizes / add-to-cart revealed on hover or focus, on tap (+) for touch */
-.quick-add{position:absolute;left:0;right:0;bottom:0;padding-top:var(--s-1);background:var(--card);opacity:0;transform:translate3d(0,4px,0);pointer-events:none;transition:opacity .2s var(--card-ease),transform .25s var(--card-ease)}
+.quick-add{position:absolute;left:var(--s-2);right:var(--s-2);bottom:var(--s-2);padding-top:var(--s-1);background:var(--card);opacity:0;transform:translate3d(0,4px,0);pointer-events:none;transition:opacity .2s var(--card-ease),transform .25s var(--card-ease)}
 @media (hover:hover){.card:hover .quick-add,.card:focus-within .quick-add{opacity:1;transform:none;pointer-events:auto}}
 .card.pick .quick-add{opacity:1;transform:none;pointer-events:auto}
 .qa-label{margin:0 0 var(--s-1);font-size:13px;color:var(--card-ink-2)}
@@ -888,11 +903,11 @@ html[data-theme="light"] .footer{background:#0B1526;--text:#FFFFFF;--muted:#B5BF
 html :is(.card,.cz) :focus-visible{outline:2px solid var(--card-focus);outline-offset:2px;border-radius:var(--r,var(--r-badge))}
 
 /* skeleton mirrors the tile */
-.skel{display:flex;flex-direction:column;gap:var(--s-1);padding:var(--card-pad);border-radius:var(--r-card);background:var(--card)}
+.skel{display:flex;flex-direction:column;gap:var(--s-1)}
 .skel i{display:block;border-radius:var(--r-badge);background:var(--card-quiet);position:relative;overflow:hidden}
 .skel i::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,var(--card-quiet),transparent);animation:shimmer 1.2s var(--card-ease) infinite}
 @keyframes shimmer{to{transform:translateX(100%)}}
-.skel .s-img{aspect-ratio:1/1;margin-bottom:var(--s-2)}
+.skel .s-img{aspect-ratio:1/1;margin-bottom:var(--s-2);border-radius:var(--r-card);background:var(--surface-product)}
 .skel .s-t{height:16px;width:80%}
 .skel .s-p{height:16px;width:35%;margin-top:var(--s-3)}
 
@@ -944,9 +959,16 @@ html :is(.card,.cz) :focus-visible{outline:2px solid var(--card-focus);outline-o
 }
 
 /* jersey builder: the same tile with a form on it */
-.cz-stage{position:relative;aspect-ratio:16/10}
-.cz-stage #czArt{position:absolute;inset:2% 6%}
+/* Jersey at 90% of the card width (1.5x the old 16:10 stage), fully inside the card: the image box
+   starts at the card's top edge and the photo's own empty top band (~5.6%) is the gap above the
+   collar. Margin and padding percentages resolve against the width, so this holds at every size;
+   86.04% = garment bottom (95.6% of the image) x 90%. The preview is decorative: no clicks. */
+.cz-stage{position:relative;padding-top:calc(86.04% - var(--card-pad) + var(--s-1))}
+.cz-stage #czArt{position:absolute;top:0;left:5%;width:90%;aspect-ratio:1/1;margin-top:calc(-1 * var(--card-pad));pointer-events:none}
 .cz-stage svg{width:100%;height:100%;overflow:visible}
+/* builder photo: hidden until the photo has loaded, so prints never float on an empty stage */
+.jp{transition:opacity .3s var(--card-ease)}
+.jp.wait{opacity:0}
 .cz-form{display:flex;flex-direction:column;gap:var(--s-2)}
 .cz-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s-2)}
 .cz-head small{display:block;font-size:13px;color:var(--card-ink-2)}
@@ -1607,6 +1629,8 @@ function crest(cx, cy, w, ring) {
   const r = w * .42;
   return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#0A2A5C" stroke="${ring || '#CFE0F3'}" stroke-width="${r * .14}"/>${T(cx, cy + r * .36, r * 1.05, '#fff', 'B')}`;
 }
+// league patch: a plain white shield, 14×18 units centred on 0,0 (no league logo)
+const PATCH = c => `<path d="M-7 -8 H7 V2 Q7 8 0 10 Q-7 8 -7 2 Z" fill="#FFFFFF" stroke="${c}" stroke-width="1.4"/><path d="M-3.5 -2.5 H3.5 M-3.5 1.5 H3.5" stroke="${c}" stroke-width="1.3"/>`;
 const ART = {
   jersey(c, t, view, p, id) {
     const body = 'M64 28 L82 21 Q100 31 118 21 L136 28 L172 48 L190 100 L162 111 L154 90 L156 176 Q100 186 44 176 L46 90 L38 111 L10 100 L28 48 Z';
@@ -1634,7 +1658,7 @@ const ART = {
     // league patch: a plain shield on the left sleeve (seen on the viewer's right from the front)
     if (p.patch) {
       const x = view === 'front' ? 160 : 40, r = view === 'front' ? -21 : 21;
-      s += `<g transform="translate(${x} 64) rotate(${r})"><path d="M-7 -8 H7 V2 Q7 8 0 10 Q-7 8 -7 2 Z" fill="#FFFFFF" stroke="${t[0]}" stroke-width="1.4"/><path d="M-3.5 -2.5 H3.5 M-3.5 1.5 H3.5" stroke="${t[0]}" stroke-width="1.3"/></g>`;
+      s += `<g transform="translate(${x} 64) rotate(${r})">${PATCH(t[0])}</g>`;
     }
     return s;
   },
@@ -1847,6 +1871,76 @@ function artSVG(p, colorKey, view = 'front', custom) {
   return `<svg viewBox="0 0 200 200" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', другой ракурс', ', басқа ракурс', ', another angle') : ''}">${inner}</svg>`;
 }
 
+/* ── jersey builder: blank kit photos with the prints drawn on top ──
+   Each view is one SVG whose viewBox is the photo's pixel size, so prints scale with the photo.
+   Zones are photo pixels, measured from each PNG (alpha bounds, V-neck, yoke seam, side seams, stripes):
+   crest / patch = centre, width and rotation; name / number = box the text is fitted into.
+   Patch: the jersey's left sleeve, i.e. the viewer's right from the front and the viewer's left from the back. */
+const JERSEY_PHOTO = {
+  p1: { ink: '#FFFFFF', line: '#1BA3D6',
+    front: { src: 'assets/jersey-dark-front.png', w: 1254, h: 1254, crest: { cx: 627, cy: 448, w: 270 }, patch: { cx: 1017, cy: 470, w: 62, rot: -6 } },
+    back:  { src: 'assets/jersey-dark-back.png', w: 1254, h: 1254, name: { x: 406, y: 258, w: 440, h: 60 }, number: { x: 401, y: 350, w: 450, h: 280 }, patch: { cx: 226, cy: 465, w: 62, rot: 5 } } },
+  p2: { ink: '#0A2A5C', line: '#1BA3D6',
+    front: { src: 'assets/jersey-light-front.png', w: 1254, h: 1254, crest: { cx: 627, cy: 448, w: 270 }, patch: { cx: 1017, cy: 470, w: 62, rot: -6 } },
+    back:  { src: 'assets/jersey-light-back.png', w: 1254, h: 1254, name: { x: 426, y: 262, w: 400, h: 54 }, number: { x: 418, y: 345, w: 416, h: 255 }, patch: { cx: 262, cy: 460, w: 58, rot: 6 } } }
+};
+const PHOTO = {}; // src -> 'wait' | 'ok' | 'err', set by photoProbe()
+const PRINT_FONT = "Unbounded, 'Arial Black', sans-serif";
+const measureCtx = document.createElement('canvas').getContext('2d');
+// width and cap height per 1px of font size, in whichever face is loaded right now
+function printMetrics(txt) {
+  measureCtx.font = `800 100px ${PRINT_FONT}`;
+  const m = measureCtx.measureText(txt);
+  return { w: m.width / 100, cap: m.actualBoundingBoxAscent / 100 };
+}
+// one line of lettering, as large as fits the box, centred in it.
+// Numbers are sized for two of the widest digit, so 9 and 99 print at the same height.
+function printText(txt, z, k, ls, outline, digits) {
+  const cap = printMetrics(digits ? '0' : 'H').cap || .72;
+  const w = digits ? Math.max(...[...'0123456789'].map(d => printMetrics(d).w)) * 2 : printMetrics(txt).w;
+  const size = Math.min(z.h / cap, z.w / (w + ls * txt.length));
+  return `<text x="${z.x + z.w / 2 + ls * size / 2}" y="${z.y + z.h / 2 + cap * size / 2}" text-anchor="middle" font-family="${PRINT_FONT}" font-weight="800" font-size="${size.toFixed(1)}" letter-spacing="${(ls * size).toFixed(1)}" fill="${k.ink}" stroke="${k.line}" stroke-width="${(outline * size).toFixed(1)}" stroke-linejoin="round" paint-order="stroke">${esc(txt)}</text>`;
+}
+// custom: { name, num, patch } exactly as entered; empty fields print nothing
+function jerseyPrints(kit, view, custom = {}) {
+  const k = JERSEY_PHOTO[kit], v = k[view], t = COLORS[PMAP[kit].colors[0]].trim;
+  let s = '';
+  if (view === 'front') s += crest(v.crest.cx, v.crest.cy, v.crest.w, t[0]);
+  else {
+    if (custom.name) s += printText(custom.name, v.name, k, .06, .07, false);
+    if (custom.num) s += printText(String(custom.num), v.number, k, 0, .05, true);
+  }
+  if (custom.patch) s += `<g transform="translate(${v.patch.cx} ${v.patch.cy}) rotate(${v.patch.rot}) scale(${v.patch.w / 14})">${PATCH(t[0])}</g>`;
+  return s;
+}
+const jerseyLabel = (kit, view) => esc(pn(PMAP[kit])) + (view === 'back' ? L(', другой ракурс', ', басқа ракурс', ', another angle') : '');
+// photo + prints, or the SVG illustration once the photo has failed to load
+function jerseyArt(kit, view, custom) {
+  const v = JERSEY_PHOTO[kit][view];
+  photoProbe(v.src);
+  const st = PHOTO[v.src];
+  if (st === 'err') return artSVG(PMAP[kit], PMAP[kit].colors[0], view, custom);
+  return `<svg class="jp${st === 'ok' ? '' : ' wait'}" data-k="${kit}-${view}" viewBox="0 0 ${v.w} ${v.h}" role="img" aria-label="${jerseyLabel(kit, view)}"><image class="jp-photo" href="${v.src}" width="${v.w}" height="${v.h}"/><g class="jp-print">${jerseyPrints(kit, view, custom)}</g></svg>`;
+}
+// builder lines in the cart: the kit colour the photos show, with a print or a patch
+const isBuilt = l => !!(l.custom && JERSEY_PHOTO[l.id] && l.color === PMAP[l.id].colors[0]);
+const lineArt = l => isBuilt(l) ? jerseyArt(l.id, l.custom.name ? 'back' : 'front', l.custom) : artSVG(PMAP[l.id], l.color, l.custom && l.custom.name ? 'back' : 'front', l.custom);
+function refreshJerseyThumbs() {
+  $$('#cartItems .cline').forEach(n => { const l = cart.find(x => x.key === n.dataset.key); if (l && isBuilt(l)) $('.line-img', n).innerHTML = lineArt(l); });
+}
+// Probe each photo once (shares the HTTP cache with the <image>, whose own load events are unreliable):
+// on load reveal every SVG waiting for it, on error swap to the SVG illustration.
+function photoProbe(src) {
+  if (PHOTO[src]) return;
+  PHOTO[src] = 'wait';
+  const im = new Image();
+  im.onload = () => { PHOTO[src] = 'ok'; $$('svg.jp.wait').forEach(s => { if ($('.jp-photo', s).getAttribute('href') === src) s.classList.remove('wait'); }); };
+  im.onerror = () => { PHOTO[src] = 'err'; if ($('#czArt')) czArt(); refreshJerseyThumbs(); };
+  im.src = src;
+}
+// lettering is fitted with font metrics: fit again once Unbounded is in
+if (document.fonts) document.fonts.load(`800 16px ${PRINT_FONT}`).then(() => { if ($('#czArt')) czArt(); refreshJerseyThumbs(); }, () => {});
+
 /* ── state ───────────────────────────────────────────── */
 let cart = (store.get('bs.cart', []) || []).filter(l => l && PMAP[l.id] && COLORS[l.color]);
 const wish = new Set((store.get('bs.wish', []) || []).filter(id => PMAP[id]));
@@ -2022,12 +2116,21 @@ const CZ = { kit: 'p1', size: 'M', print: false, name: '', num: '', patch: false
 const czClean = v => v.replace(/[^A-Za-zА-Яа-яЁёӘәҒғҚқҢңӨөҰұҮүҺһІі \-]/g, '').toUpperCase().slice(0, 12);
 const czExtras = () => (CZ.print || CZ.patch) ? { ...(CZ.print ? { name: CZ.name.trim(), num: CZ.num } : {}), ...(CZ.patch ? { patch: true } : {}) } : null;
 const czPrice = () => PMAP[CZ.kit].price + (CZ.print ? CUSTOM_FEE : 0) + (CZ.patch ? PATCH_FEE : 0);
-function czArt() {
-  const p = PMAP[CZ.kit];
-  $('#czArt').innerHTML = artSVG(p, p.colors[0], CZ.print ? 'back' : 'front', czExtras() || undefined);
+// Photo of the visible view with the prints on top. While kit and view stay the same,
+// only the prints are redrawn, so typing or re-rendering the form never reloads the photo.
+function czArt(keep) {
+  const view = CZ.print ? 'back' : 'front', el = $('#czArt'), x = czExtras() || {};
+  const cur = keep || $('svg.jp', el);
+  if (cur && cur.dataset.k === `${CZ.kit}-${view}` && PHOTO[JERSEY_PHOTO[CZ.kit][view].src] !== 'err') {
+    if (cur.parentNode !== el) el.replaceChildren(cur);
+    cur.setAttribute('aria-label', jerseyLabel(CZ.kit, view));
+    $('.jp-print', cur).innerHTML = jerseyPrints(CZ.kit, view, x);
+    return;
+  }
+  el.innerHTML = jerseyArt(CZ.kit, view, x);
 }
 function renderHero() {
-  const p = PMAP[CZ.kit];
+  const p = PMAP[CZ.kit], keep = $('#czArt svg.jp');
   if (p.soldOut.includes(CZ.size) || !p.sizes.includes(CZ.size)) CZ.size = defaultSize(p);
   const tile = (action, v, on, label, price, role = 'radio') => `<button class="cz-tile" type="button" data-action="${action}" data-v="${v}" role="${role}" aria-${role === 'radio' ? 'checked' : 'pressed'}="${on}"><span>${label}</span>${price ? `<em>+${fmt(price)}</em>` : ''}</button>`;
   $('#heroVisual').innerHTML = `<div class="cz">
@@ -2054,7 +2157,7 @@ function renderHero() {
       ${CZ.print || CZ.patch ? `<p class="cz-note">${L('Изготовим за 3–5 дней', '3–5 күнде дайындаймыз', 'Made in 3–5 days')}</p>` : ''}
     </form>
   </div>`;
-  czArt();
+  czArt(keep);
 }
 // Re-render after a choice and keep keyboard focus on the same control.
 function czUpdate(t) {
@@ -2367,7 +2470,7 @@ function addToCart(id, size, color, qty = 1, custom) {
 function lineHTML(l, i) {
   const p = PMAP[l.id];
   return `<div class="cline" data-key="${l.key}" style="animation-delay:${i * 60}ms">
-    <div class="line-img stage" data-stage="${STAGE[l.color]}">${artSVG(p, l.color, l.custom && l.custom.name ? 'back' : 'front', l.custom)}</div>
+    <div class="line-img stage" data-stage="${STAGE[l.color]}">${lineArt(l)}</div>
     <div>
       <h3>${esc(pn(p))}</h3>
       <div class="opts"><i style="--c:${COLORS[l.color].hex}"></i>${coln(l.color)}${l.size ? ` · ${L('Размер', 'Өлшем', 'Size')} ${l.size}` : ''}${l.custom && l.custom.name ? ` · ${esc(l.custom.name)} №${esc(l.custom.num)}` : ''}${l.custom && l.custom.patch ? ` · ${L('нашивка КХЛ', 'КХЛ жапсырмасы', 'KHL patch')}` : ''}</div>
