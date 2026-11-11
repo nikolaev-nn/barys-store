@@ -618,9 +618,10 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 /* 02 bomber: fashion editorial. Deep navy, softbox from above, VARSITY set vertical */
 .dc-bomber{background:linear-gradient(160deg,#103472 0%,#061A3F 55%,#030D22 100%)}
 .dc-bomber .fx-softbox{right:-35%;top:-22%;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(207,224,243,.32),transparent)}
-.dc-bomber .fx-word{left:var(--sp-4);top:var(--sp-5);writing-mode:vertical-rl;transform:rotate(180deg);font:800 112px/.9 var(--font-display);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16)}
+/* VARSITY sits in the stage and is sized from its height (word = 5.64 × font-size), so it never reaches the copy */
+.dc-bomber .fx-word{position:absolute;left:var(--sp-4);top:var(--sp-5);writing-mode:vertical-rl;transform:rotate(180deg);font:800 min(112px,calc((100cqh - 2 * var(--sp-5)) / 5.64))/.9 var(--font-display);pointer-events:none;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16)}
 .dc-bomber .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
-.dc-bomber .dc-shot img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
+.dc-bomber .dc-shot img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
 
 /* 04 down jacket: cold tech. Frost gradient, raking light, −30° type, falling snow */
 .dc-coat,.dc-bag{
@@ -634,7 +635,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-coat .fx-snow i{position:absolute;top:-12px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;background:#FFFFFF;box-shadow:0 0 8px rgba(255,255,255,.9);animation:dcSnow var(--t) linear infinite;animation-delay:var(--dl)}
 @keyframes dcSnow{to{transform:translate3d(40px,780px,0)}}
 .dc-coat .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,96cqh * var(--ar))}
-.dc-coat .dc-shot img{-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent);filter:drop-shadow(0 26px 36px rgba(10,42,92,.38))}
+.dc-coat .dc-shot img{-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
 
 /* 03 bag: retail moment. Light wall, top spotlight, floor with reflection */
 .dc-bag{--pin:rgba(10,42,92,.85);background:linear-gradient(180deg,#E6EFF8 0%,#F5F9FC 100%)}
@@ -673,7 +674,6 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .dc-title{font-size:var(--fs-4)}
   .dc-cap1 .fx-no{font-size:160px}
   .dc-cap1 .dc-shot{width:min(82cqw,78cqh * var(--ar))}
-  .dc-bomber .fx-word{font-size:84px}
   .dc-coat .fx-temp{font-size:120px}
 }
 
@@ -2109,8 +2109,8 @@ function renderPicks() {
     <div class="dc-copy">${dcHead('01', L('Кепка · Streetwear', 'Кепка · Streetwear', 'Cap · Streetwear'), L('Барс на первом плане', 'Барыс алдыңғы қатарда', 'The leopard up front'), L('Объёмная вышивка, плотный хлопок и козырёк, который держит форму с первого дня.', 'Көлемді кестелеу, тығыз мақта және бірінші күннен пішінін сақтайтын күнқағар.', 'Raised embroidery, dense cotton and a visor that holds its shape from day one.'))}${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
-    <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i><span class="fx-word">VARSITY</span></div>
-    <div class="dc-stage">${dcShot('bomberblue', [[51, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [47, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [80, 52, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'l']])}</div>
+    <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i></div>
+    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[51, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [47, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [80, 52, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'l']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
