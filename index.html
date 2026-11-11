@@ -632,8 +632,13 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-coat .fx-beam{inset:0;background:linear-gradient(105deg,transparent 28%,rgba(255,255,255,.85) 44%,transparent 60%)}
 .dc-coat .fx-temp{right:var(--sp-4);top:var(--sp-2);font:800 168px/1 var(--font-display);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px rgba(20,112,166,.22)}
 .dc-coat .fx-snow{inset:0}
-.dc-coat .fx-snow i{position:absolute;top:-12px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;background:#FFFFFF;box-shadow:0 0 8px rgba(255,255,255,.9);animation:dcSnow var(--t) linear infinite;animation-delay:var(--dl)}
-@keyframes dcSnow{to{transform:translate3d(40px,780px,0)}}
+/* crystal flakes: blue core on a white halo reads on both the pale top and the deeper bottom; d0 far, d1 mid, d2 near (soft focus) */
+.dc-coat .fx-snow i{position:absolute;top:-32px;left:var(--x);width:var(--s);height:var(--s);animation:dcSnow var(--t) linear infinite;animation-delay:var(--dl)}
+.dc-coat .fx-snow svg{display:block;width:100%;height:100%;overflow:visible;fill:none;stroke:rgba(20,112,166,.6);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.dc-coat .fx-snow .halo{stroke:#FFFFFF;stroke-width:3.4}
+.dc-coat .fx-snow .d0{opacity:.55}
+.dc-coat .fx-snow .d2{opacity:.7;filter:blur(1px)}
+@keyframes dcSnow{to{transform:translate3d(var(--dx),780px,0) rotate(var(--r))}}
 .dc-coat .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,96cqh * var(--ar))}
 .dc-coat .dc-shot img{-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
 
@@ -1005,6 +1010,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></symbol>
   <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M4.5 7 19.5 17M19.5 7 4.5 17M9 4l3 2 3-2M9 20l3-2 3 2"/></symbol>
+  <symbol id="i-flake" viewBox="-12 -12 24 24"><path transform="rotate(0)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/><path transform="rotate(60)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/><path transform="rotate(120)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/><path transform="rotate(180)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/><path transform="rotate(240)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/><path transform="rotate(300)" d="M0 0V-10.5M0-4.6l-2.6-2.6M0-4.6l2.6-2.6M0-7.9l-1.7-1.7M0-7.9l1.7-1.7"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></symbol>
   <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
   <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
@@ -1478,7 +1484,7 @@ const RAW_EN = [
   ['“Snow Leopard” Hoodie', 'Heavy 380 gsm fleece, embroidery'],
   ['BARYS ASTANA Oversized Hoodie', 'Relaxed fit, brushed inside'],
   ['“Hockey is our game” T-shirt', '100% cotton, chest print'],
-  ['BARYS Fan Scarf', 'Double-sided knitted scarf, 150 cm'],
+  null, // p7 «Шарф болельщика BARYS»: removed for now; the slot keeps later ids stable
   ['“Bäri alğa!” Scarf', 'Jacquard knit with the club chant'],
   ['BARYS Pom-pom Beanie', 'Double knit, fleece lining'],
   ['Embroidered Logo Cap', 'Adjustable strap, cotton'],
@@ -1507,7 +1513,7 @@ const RAW_KZ = [
   ['«Қар барысы» худиі', 'Тығыз футер 380 г/м², кестелеу'],
   ['BARYS ASTANA оверсайз худиі', 'Еркін силуэт, іші жүнді'],
   ['«Hockey is our game» футболкасы', '100% мақта, кеудедегі принт'],
-  ['BARYS жанкүйер шарфы', 'Екі жақты тоқыма шарф, 150 см'],
+  null, // p7 «Шарф болельщика BARYS»: removed for now; the slot keeps later ids stable
   ['«Бәрі алға!» шарфы', 'Ұраны бар жаккард тоқыма'],
   ['BARYS шашақты бас киімі', 'Қос тоқыма, флис астар'],
   ['Логотипі кестеленген кепка', 'Реттелетін ілгек, мақта'],
@@ -1532,33 +1538,34 @@ const RAW_KZ = [
 const RAW = [
   ['Игровое джерси BARYS 25/26 (домашняя)', 'barys', 'jersey', 'jersey', 34990, 0, ['navy'], SZ('S', '3XL'), 4.9, 212, 40, 'new hit', 'Домашняя форма сезона, вышитая эмблема', { num: 17, photo: { navy: 'jersey' } }],
   ['Игровое джерси BARYS 25/26 (гостевая)', 'barys', 'jersey', 'jersey', 34990, 0, ['white'], SZ('S', '3XL'), 4.8, 148, 25, 'new', 'Гостевой комплект, дышащая сетка', { num: 91 }],
-  ['Ретро-джерси BARYS 1999', 'barys', 'jersey', 'jersey', 29990, 37490, ['cyan'], SZ('M', 'XXL'), 4.7, 64, 4, '', 'Лимитированная серия к юбилею клуба', { num: 99 }],
-  ['Худи «Снежный барс»', 'barys', 'hoodie', 'hoodie', 24990, 0, ['navy', 'grey', 'black'], SZ('XS', '3XL'), 4.8, 301, 60, 'hit', 'Плотный футер 380 г/м², вышивка'],
-  ['Худи оверсайз BARYS ASTANA', 'barys', 'hoodie', 'hoodie', 27990, 0, ['ice', 'navy'], SZ('S', 'XXL'), 4.7, 86, 35, 'new', 'Свободный силуэт, начёс внутри'],
+  ['Ретро-джерси BARYS 1999', 'barys', 'jersey', 'jersey', 29990, 37490, ['cyan'], SZ('M', 'XXL'), 4.7, 64, 4, '', 'Лимитированная серия к юбилею клуба', { num: 99, photo: { cyan: 'retrojersey' } }],
+  ['Худи «Снежный барс»', 'barys', 'hoodie', 'hoodie', 24990, 0, ['navy', 'grey', 'black'], SZ('XS', '3XL'), 4.8, 301, 60, 'hit', 'Плотный футер 380 г/м², вышивка', { photo: { navy: 'hoodienavy' } }],
+  ['Худи оверсайз BARYS ASTANA', 'barys', 'hoodie', 'hoodie', 27990, 0, ['ice', 'navy'], SZ('S', 'XXL'), 4.7, 86, 35, 'new', 'Свободный силуэт, начёс внутри', { photo: { ice: 'hoodielight' } }],
   ['Футболка «Hockey is our game»', 'barys', 'hoodie', 'tshirt', 9990, 0, ['white', 'navy', 'black'], SZ('XS', '3XL'), 4.6, 174, 80, 'hit', 'Хлопок 100%, принт на груди', { text: ['HOCKEY', 'IS OUR', 'GAME'] }],
-  ['Шарф болельщика BARYS', 'barys', 'winter', 'scarf', 6990, 0, ['navy', 'cyan'], [], 4.9, 412, 120, 'hit', 'Двусторонний вязаный шарф, 150 см', { text: 'BARYS' }],
-  ['Шарф «Бәрі алға!»', 'barys', 'winter', 'scarf', 7990, 0, ['cyan', 'white'], [], 4.8, 96, 45, 'new', 'Жаккардовая вязка с кричалкой', { text: 'БӘРІ АЛҒА' }],
+  null, // p7 «Шарф болельщика BARYS»: removed for now; the slot keeps later ids stable
+  ['Шарф «Бәрі алға!»', 'barys', 'winter', 'scarf', 7990, 0, ['cyan', 'white'], [], 4.8, 96, 45, 'new', 'Жаккардовая вязка с кричалкой', { text: 'БӘРІ АЛҒА', photo: { cyan: 'scarf' } }],
   ['Шапка с помпоном BARYS', 'barys', 'winter', 'beanie', 7490, 0, ['navy', 'white', 'cyan'], [], 4.7, 188, 70, '', 'Двойная вязка, флисовая подкладка'],
   ['Кепка с вышитым логотипом', 'barys', 'winter', 'cap', 8990, 0, ['navy', 'black', 'white'], [], 4.8, 203, 55, 'hit', 'Регулируемая застёжка, хлопок', { photo: { navy: 'cap' } }],
-  ['Рюкзак Team Astana', 'barys', 'accessories', 'backpack', 21990, 0, ['navy', 'black'], [], 4.8, 77, 16, '', 'Отделение для ноутбука 15", 24 л'],
+  ['Рюкзак Team Astana', 'barys', 'accessories', 'backpack', 21990, 0, ['navy', 'black'], [], 4.8, 77, 16, '', 'Отделение для ноутбука 15", 24 л', { photo: { navy: 'backpack' } }],
   ['Бутылка спортивная BARYS 750 мл', 'barys', 'accessories', 'bottle', 4990, 0, ['navy', 'white'], [], 4.6, 58, 90, '', 'Тритан без BPA, клапан-поилка'],
-  ['Кружка термо BARYS', 'barys', 'souvenirs', 'mug', 6490, 0, ['navy', 'white'], [], 4.8, 143, 48, 'hit', 'Сталь, 350 мл, крышка-слайдер', { lid: true }],
+  ['Кружка термо BARYS', 'barys', 'souvenirs', 'mug', 6490, 0, ['navy', 'white'], [], 4.8, 143, 48, 'hit', 'Сталь, 350 мл, крышка-слайдер', { lid: true, photo: { white: 'tumbler' } }],
   ['Флаг болельщика BARYS 90×135', 'barys', 'souvenirs', 'flag', 5990, 0, ['navy'], [], 4.9, 121, 35, 'hit', 'Для трибуны и выездных матчей'],
   ['Брелок «Барыс»', 'barys', 'souvenirs', 'keychain', 1990, 0, ['navy', 'cyan'], [], 4.7, 88, 4, '', 'Металл, эмаль, карабин'],
   ['Детское джерси BARYS', 'barys', 'kids', 'jersey', 19990, 0, ['navy', 'white'], ['XS', 'S', 'M'], 4.9, 64, 26, 'new', 'Как у взрослых, только меньше', { num: 1 }],
   ['Детская шапка «Барсёнок»', 'barys', 'kids', 'beanie', 4990, 5990, ['ice', 'cyan'], [], 4.8, 39, 18, '', 'С помпоном и мягким отворотом'],
   ['Шайба коллекционная BARYS', 'barys', 'gear', 'puck', 2990, 0, ['black'], [], 4.9, 256, 150, 'hit', 'Официальная игровая шайба', { photo: { black: 'puck' } }],
-  ['Шайба с автографами команды', 'barys', 'gear', 'puck', 14990, 0, ['black'], [], 5.0, 9, 2, 'new', 'Подписи игроков основного состава', { sign: true, photo: { black: 'puck' } }],
+  ['Шайба с автографами команды', 'barys', 'gear', 'puck', 14990, 0, ['black'], [], 5.0, 9, 2, 'new', 'Подписи игроков основного состава', { sign: true, photo: { black: 'puckart' } }],
   ['Клюшка сувенирная мини', 'barys', 'gear', 'stick', 5990, 0, ['navy', 'white'], [], 4.6, 44, 30, '', 'Длина 45 см, подарочная упаковка'],
   ['Клюшка игровая Barys Pro SR', 'barys', 'gear', 'stick', 64990, 79990, ['black'], [], 4.8, 17, 6, '', 'Карбон, загиб P92, флекс 75'],
   ['Бомбер BARYS Varsity', 'barys', 'hoodie', 'bomber', 44990, 0, ['navy', 'black'], SZ('S', 'XXL'), 4.9, 36, 20, 'new hit', 'Сатин, рибана в полоску, вышитый барс', { num: 99, photo: { navy: 'bomberblue' } }],
   ['Пуховик BARYS Arctic', 'barys', 'hoodie', 'bomber', 59990, 0, ['navy'], SZ('S', '3XL'), 4.9, 41, 18, 'new', 'Стёганый утеплитель, капюшон, ветрозащита', { photo: { navy: 'coat' } }],
-  ['Детское худи BARYS', 'barys', 'kids', 'hoodie', 12990, 0, ['navy', 'ice'], ['XS', 'S', 'M'], 4.8, 52, 30, 'new', 'Мягкий футер, карман-кенгуру'],
+  ['Детское худи BARYS', 'barys', 'kids', 'hoodie', 12990, 0, ['navy', 'ice'], ['XS', 'S', 'M'], 4.8, 52, 30, 'new', 'Мягкий футер, карман-кенгуру', { photo: { navy: 'kidshoodie' } }],
   ['Детская футболка BARYS', 'barys', 'kids', 'tshirt', 5990, 0, ['white', 'navy'], ['XS', 'S', 'M'], 4.7, 41, 45, '', 'Хлопок 100%, принт на груди'],
   ['Детский шарф «Барсёнок»', 'barys', 'kids', 'scarf', 3990, 0, ['ice', 'cyan'], [], 4.8, 27, 40, '', 'Мягкая вязка, 120 см', { text: 'BARYS' }]
 ];
 const ART_WORDS = { jersey: 'джерси форма свитер', hoodie: 'худи толстовка свитшот', tshirt: 'футболка', scarf: 'шарф', beanie: 'шапка', cap: 'кепка бейсболка', backpack: 'рюкзак сумка', bottle: 'бутылка', mug: 'кружка чашка', flag: 'флаг', keychain: 'брелок keyring', puck: 'шайба', stick: 'клюшка', bomber: 'бомбер куртка jacket' };
 const PRODUCTS = RAW.map((r, i) => {
+  if (!r) return null;
   const [name, team, cat, art, price, oldPrice, colors, sizes, rating, reviews, stock, flags, sub, extra] = r;
   const p = {
     id: 'p' + (i + 1), order: i, name, team, cat, art, price, oldPrice: oldPrice || 0, colors, sizes, rating, reviews, stock,
@@ -1568,7 +1575,7 @@ const PRODUCTS = RAW.map((r, i) => {
   };
   p.search = norm([name, sub, RAW_KZ[i][0], RAW_KZ[i][1], TEAMS[team].name, TEAMS[team].kz, TEAMS[team].latin, CATS[cat], CATS_KZ[cat], CATS_EN[cat], RAW_EN[i][0], RAW_EN[i][1], ART_WORDS[art] || ''].join(' '));
   return p;
-});
+}).filter(Boolean);
 const PMAP = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
 const PRICE_MAX = Math.ceil(Math.max(...PRODUCTS.map(p => p.price)) / 5000) * 5000;
 const FREE_SHIP = 30000, SHIP_COST = 1990, PAGE = 12;
@@ -1844,17 +1851,23 @@ function bagSVG() {
     ${T(100, 160, 8.5, '#FFFFFF', 'BARYS STORE', 'letter-spacing="3"')}
   </svg>`;
 }
-/* Product photos: background-free cutouts in assets/ph/cut, trimmed to the subject.
+/* Product photos: background-free cutouts in assets/ph, trimmed to the subject.
    A product shows its photo for the colour that was shot, the illustration for the others. */
-const PH = { cap: [1000, 773], bomberblue: [602, 1000], coat: [640, 1000], bag: [967, 1000], jersey: [793, 1000], puck: [1000, 849] };
-// the puck photo has no autographs: the signed puck draws them over the face (viewBox units)
-const PH_SIGN = '<path d="M64 76 q6 -9 12 -1 t12 -3 t10 2 M144 60 q5 -7 10 -1 t9 -3 M150 94 q7 -8 13 0 t11 -4 M72 150 q9 6 17 -2 t15 0 M118 158 q6 -7 12 -1 t10 -3 t10 3" stroke="#E7C27A" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
-const phSrc = k => `assets/ph/cut/${k}.webp`;
+const PH = {
+  cap: [1000, 773], bomberblue: [602, 1000], coat: [640, 1000], bag: [967, 1000], jersey: [793, 1000], puck: [1000, 849],
+  hoodielight: [601, 912], hoodienavy: [621, 912], kidshoodie: [690, 912], scarf: [751, 912], puckart: [912, 789], retrojersey: [776, 912], backpack: [616, 912], tumbler: [446, 912]
+};
+// the signed puck's photo (puckart) has no autographs: they are drawn over its face
+// (coordinates of a full 200 fit; photoSVG scales them with the photo)
+const PH_SIGN = '<path d="M36 62 q6 -8 12 -1 t12 -3 t9 2 M118 40 q5 -6 10 -1 t9 -2 M42 104 q8 5 15 -2 t13 0 M138 112 q6 -7 12 -1 t10 -3 t9 3 M162 72 q5 -6 9 0 t8 -3" stroke="#E7C27A" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+const PH_FIT = 176;
+const phSrc = k => `assets/ph/${k}.webp`;
 function photoSVG(p, k, view) {
-  const [w, h] = PH[k], s = 200 / Math.max(w, h), iw = w * s, ih = h * s;
+  // fit into PH_FIT of the 200 box: the illustrations keep a similar margin, so photos sit at the same scale
+  const [w, h] = PH[k], s = PH_FIT / Math.max(w, h), iw = w * s, ih = h * s;
   // "another angle" = a closer crop on the upper-middle of the shot (crest, embroidery)
   const vb = view === 'back' ? '45 30 110 110' : '0 0 200 200';
-  return `<svg class="ph" viewBox="${vb}" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', деталь', ', бөлшек', ', detail') : ''}"><image href="${phSrc(k)}" x="${(200 - iw) / 2}" y="${(200 - ih) / 2}" width="${iw}" height="${ih}"/>${p.extra.sign ? PH_SIGN : ''}</svg>`;
+  return `<svg class="ph" viewBox="${vb}" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', деталь', ', бөлшек', ', detail') : ''}"><image href="${phSrc(k)}" x="${(200 - iw) / 2}" y="${(200 - ih) / 2}" width="${iw}" height="${ih}"/>${p.extra.sign ? `<g transform="translate(${(200 - PH_FIT) / 2} ${(200 - PH_FIT) / 2}) scale(${PH_FIT / 200})">${PH_SIGN}</g>` : ''}</svg>`;
 }
 function artSVG(p, colorKey, view = 'front', custom) {
   const ph = !custom && p.extra.photo && p.extra.photo[colorKey || p.colors[0]];
@@ -2100,7 +2113,10 @@ function dcFoot(id) {
     <button class="btn btn-sm dc-solid" type="button" data-action="buy" data-id="${id}" aria-label="${L('В корзину', 'Себетке', 'Add to cart')}: ${esc(pn(p))}">${ic('bag')}<span>${p.sizes.length ? L('Размер', 'Өлшем', 'Size') : L('В корзину', 'Себетке', 'Add')}</span></button>
   </div></div>`;
 }
-const snow = n => Array.from({ length: n }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--y:${(i * 53) % 90}%;--s:${4 + (i * 7) % 6}px;--t:${7 + (i * 3) % 6}s;--dl:${-(i * 1.3).toFixed(1)}s"></i>`).join('');
+const snow = n => Array.from({ length: n }, (_, i) => {
+  const d = i % 3, s = [8, 13, 22][d] + (i * 5) % 5, t = [17, 12, 8][d] + (i % 4), dir = i % 2 ? 1 : -1;
+  return `<i class="d${d}" style="--x:${(i * 37) % 100}%;--y:${(i * 53) % 90}%;--s:${s}px;--t:${t}s;--dl:${-((i * 1.7) % t).toFixed(1)}s;--dx:${dir * (20 + (i * 7) % 40)}px;--r:${dir * (120 + (i * 29) % 180)}deg"><svg><use class="halo" href="#i-flake"/><use href="#i-flake"/></svg></i>`;
+}).join('');
 function renderPicks() {
   $('#picksGrid').innerHTML = `
   <article class="dc dc-cap1 wide rv" aria-label="${esc(pn(PMAP.p10))}">
@@ -2114,7 +2130,7 @@ function renderPicks() {
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
-    <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(18)}</div></div>
+    <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(26)}</div></div>
     <div class="dc-stage">${dcShot('coat', [[30, 44, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [64, 25, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood'), 'l']])}</div>
     <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для настоящей зимы', 'Нағыз қысқа арналған', 'Built for real winter'), L('Зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
       <ul class="dc-specs"><li>${ic('snow')}${L('Утеплитель 300 г/м²', 'Жылытқыш 300 г/м²', '300 g/m² fill')}</li><li>${ic('shield')}${L('Ветрозащита', 'Желден қорғау', 'Wind-proof')}</li></ul>
@@ -2235,7 +2251,7 @@ function renderRail() {
 const TILES = [
   { cat: 'hoodie', title: ['Одежда', 'Киім', 'Apparel'], cls: 'big', pid: 'p4', color: 'navy' },
   { cat: 'jersey', title: ['Джерси', 'Джерси', 'Jerseys'], pid: 'p3', color: 'cyan' },
-  { cat: 'winter', title: ['Шапки и шарфы', 'Бас киім мен шарф', 'Beanies & scarves'], pid: 'p7', color: 'cyan' },
+  { cat: 'winter', title: ['Шапки и шарфы', 'Бас киім мен шарф', 'Beanies & scarves'], pid: 'p8', color: 'cyan' },
   { cat: 'accessories', title: ['Аксессуары', 'Аксессуарлар', 'Accessories'], pid: 'p11', color: 'navy' },
   { cat: 'souvenirs', title: ['Сувениры', 'Кәдесыйлар', 'Souvenirs'], pid: 'p13', color: 'white' },
   { cat: 'kids', title: ['Детям', 'Балаларға', 'Kids'], cls: 'wide', set: [['p24', 'ice'], ['p16', 'navy'], ['p17', 'ice'], ['p25', 'white'], ['p26', 'cyan']] }
