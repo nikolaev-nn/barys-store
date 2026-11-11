@@ -518,13 +518,14 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .card-rating{align-items:center;gap:6px}
 .card-rating .ic{width:14px;height:14px;fill:currentColor;stroke:none}
 .card-rating b{font-weight:600;color:var(--text-1)}
-.swatches{display:flex;align-items:center;height:20px;margin-left:-5px}
+/* the selected ring (1.5px outline + 2px offset) lines up with the text: hit-area inset minus 3.5px */
+.swatches{display:flex;align-items:center;height:20px;margin-left:-1.5px}
 .sw{position:relative;width:20px;height:20px;display:grid;place-items:center;border-radius:50%}
 .sw::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px var(--border)}
 .sw[aria-pressed="true"]::before{outline:1.5px solid var(--text-1);outline-offset:2px}
 .sw-more{margin-left:var(--sp-1);font-size:var(--fs-1);color:var(--text-2)}
 /* touch: same 10px dot, 32px tap area */
-@media (pointer:coarse){.swatches{height:32px;margin-left:-11px}.sw{width:32px;height:32px}}
+@media (pointer:coarse){.swatches{height:32px;margin-left:-7.5px}.sw{width:32px;height:32px}}
 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2)}
 .price{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 var(--sp-2)}
 .price b{font-size:var(--fs-2);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -615,26 +616,11 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-cap1 .dc-shot::after{content:"";position:absolute;z-index:-1;left:12%;right:6%;bottom:-10%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,6,20,.6),transparent)}
 
 /* 02 bomber: fashion editorial. Deep navy, softbox from above, VARSITY set vertical */
-.dc-bomber{grid-row:span 2;background:linear-gradient(160deg,#103472 0%,#061A3F 55%,#030D22 100%)}
+.dc-bomber{background:linear-gradient(160deg,#103472 0%,#061A3F 55%,#030D22 100%)}
 .dc-bomber .fx-softbox{right:-35%;top:-22%;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(207,224,243,.32),transparent)}
 .dc-bomber .fx-word{left:var(--sp-4);top:var(--sp-5);writing-mode:vertical-rl;transform:rotate(180deg);font:800 112px/.9 var(--font-display);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16)}
 .dc-bomber .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
 .dc-bomber .dc-shot img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
-
-/* 03 cap: bold graphic. Saturated blue, type rows, white band, hard offset shadow */
-.dc-cap2{background:linear-gradient(115deg,#0C3A88 0%,#1667C6 48%,#3FB0E6 100%)}
-.dc-cap2 .fx-rows{inset:-30% -20%;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 62%);mask-image:linear-gradient(90deg,transparent 30%,#000 62%);display:flex;flex-direction:column;justify-content:center;transform:rotate(-12deg)}
-.dc-cap2 .fx-rows span{position:static;font:800 84px/1.02 var(--font-display);white-space:nowrap;color:rgba(255,255,255,.07);animation:dcDrift 40s linear infinite alternate}
-.dc-cap2 .fx-rows span:nth-child(odd){color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.22);animation-direction:alternate-reverse}
-.dc-cap2 .fx-band{left:58%;top:-30%;width:20%;height:160%;background:#FFFFFF;transform:rotate(16deg)}
-.dc-cap2 .macro{--tx:-44%;--rot:9deg;--zoom:1.18;width:min(104cqw,90cqh * var(--ar))}
-.dc-cap2 .macro img{filter:drop-shadow(16px 20px 0 rgba(5,20,52,.38))}
-@keyframes dcDrift{to{transform:translateX(-240px)}}
-.dc-pair{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
-.dc-pair span{flex-basis:100%;font-size:var(--fs-1);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
-.dc-pair button{width:var(--h-3);height:var(--h-3);padding:6px;border-radius:50%;background:#EEF1F5;box-shadow:0 0 0 2px rgba(255,255,255,0);transition:transform var(--dur-2) var(--ease)}
-.dc-pair button svg{width:100%;height:100%}
-@media (hover:hover){.dc-pair button:hover{transform:translateY(-3px)}}
 
 /* 04 down jacket: cold tech. Frost gradient, raking light, −30° type, falling snow */
 .dc-coat,.dc-bag{
@@ -650,7 +636,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-coat .dc-shot{--ty:0%;top:auto;bottom:0;width:min(92cqw,96cqh * var(--ar))}
 .dc-coat .dc-shot img{-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent);filter:drop-shadow(0 26px 36px rgba(10,42,92,.38))}
 
-/* 05 bag: retail moment. Light wall, top spotlight, floor with reflection */
+/* 03 bag: retail moment. Light wall, top spotlight, floor with reflection */
 .dc-bag{--pin:rgba(10,42,92,.85);background:linear-gradient(180deg,#E6EFF8 0%,#F5F9FC 100%)}
 .dc-bag .fx-light{left:50%;top:-6%;width:120%;height:80%;transform:translateX(-50%);background:radial-gradient(50% 70% at 50% 0%,#FFFFFF,transparent 72%)}
 .dc-bag .dc-stage::before{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(#C9DBEC,rgba(201,219,236,0));border-top:1px solid rgba(10,42,92,.12)}
@@ -660,12 +646,11 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-mirror{position:absolute;left:50%;top:78%;--ar:1.19;aspect-ratio:var(--ar);transform:translateX(-50%) scaleY(-1);opacity:.16;-webkit-mask-image:linear-gradient(to top,#000,transparent 45%);mask-image:linear-gradient(to top,#000,transparent 45%)}
 .dc-mirror img{width:100%;height:100%}
 
-/* layout: three wide cards on the left, bomber and bag on the right */
+/* layout: cap + bomber, then bag + down jacket */
 .dc-cap1{grid-column:1/8;grid-row:1}
-.dc-bomber{grid-column:8/13;grid-row:1/3}
-.dc-cap2{grid-column:1/8;grid-row:2}
-.dc-bag{grid-column:1/6;grid-row:3;min-height:680px}
-.dc-coat{grid-column:6/13;grid-row:3}
+.dc-bomber{grid-column:8/13;grid-row:1;min-height:680px}
+.dc-bag{grid-column:1/6;grid-row:2;min-height:680px}
+.dc-coat{grid-column:6/13;grid-row:2}
 @media (min-width:768px){
   .dc.wide,.dc-coat{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-rows:1fr}
   :is(.dc.wide,.dc-coat) .dc-copy{grid-area:1/1;justify-content:flex-end}
@@ -677,7 +662,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .dc{grid-column:auto!important;grid-row:auto!important}
   .dc.wide,.dc-coat{grid-column:1/-1!important;min-height:440px}
   .dc-bomber,.dc-bag{min-height:640px}
-  .dc-cap2{order:1}.dc-coat{order:2}
+  .dc-coat{order:2}
 }
 @media (max-width:767px){
   .drop{grid-template-columns:minmax(0,1fr)}
@@ -690,7 +675,6 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .dc-cap1 .dc-shot{width:min(82cqw,78cqh * var(--ar))}
   .dc-bomber .fx-word{font-size:84px}
   .dc-coat .fx-temp{font-size:120px}
-  .dc-cap2 .fx-band{left:56%;top:-20%;height:62%}
 }
 
 /* ── shop page ────────────────────────────────────────── */
@@ -953,7 +937,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .hero-float{animation:none!important}
   .hero-px{transform:none;transition:none}
   .dc-coat .fx-snow i{animation:none;top:var(--y)}
-  .dc-pin i::after,.dc-cap2 .fx-rows span{animation:none}
+  .dc-pin i::after{animation:none}
 }
 </style>
 </head>
@@ -1546,7 +1530,7 @@ const RAW_KZ = [
 ];
 // [name, team, cat, art, price, oldPrice, colors, sizes, rating, reviews, stock, flags, subtitle, extra]
 const RAW = [
-  ['Игровое джерси BARYS 25/26 (домашняя)', 'barys', 'jersey', 'jersey', 34990, 0, ['navy'], SZ('S', '3XL'), 4.9, 212, 40, 'new hit', 'Домашняя форма сезона, вышитая эмблема', { num: 17 }],
+  ['Игровое джерси BARYS 25/26 (домашняя)', 'barys', 'jersey', 'jersey', 34990, 0, ['navy'], SZ('S', '3XL'), 4.9, 212, 40, 'new hit', 'Домашняя форма сезона, вышитая эмблема', { num: 17, photo: { navy: 'jersey' } }],
   ['Игровое джерси BARYS 25/26 (гостевая)', 'barys', 'jersey', 'jersey', 34990, 0, ['white'], SZ('S', '3XL'), 4.8, 148, 25, 'new', 'Гостевой комплект, дышащая сетка', { num: 91 }],
   ['Ретро-джерси BARYS 1999', 'barys', 'jersey', 'jersey', 29990, 37490, ['cyan'], SZ('M', 'XXL'), 4.7, 64, 4, '', 'Лимитированная серия к юбилею клуба', { num: 99 }],
   ['Худи «Снежный барс»', 'barys', 'hoodie', 'hoodie', 24990, 0, ['navy', 'grey', 'black'], SZ('XS', '3XL'), 4.8, 301, 60, 'hit', 'Плотный футер 380 г/м², вышивка'],
@@ -1563,8 +1547,8 @@ const RAW = [
   ['Брелок «Барыс»', 'barys', 'souvenirs', 'keychain', 1990, 0, ['navy', 'cyan'], [], 4.7, 88, 4, '', 'Металл, эмаль, карабин'],
   ['Детское джерси BARYS', 'barys', 'kids', 'jersey', 19990, 0, ['navy', 'white'], ['XS', 'S', 'M'], 4.9, 64, 26, 'new', 'Как у взрослых, только меньше', { num: 1 }],
   ['Детская шапка «Барсёнок»', 'barys', 'kids', 'beanie', 4990, 5990, ['ice', 'cyan'], [], 4.8, 39, 18, '', 'С помпоном и мягким отворотом'],
-  ['Шайба коллекционная BARYS', 'barys', 'gear', 'puck', 2990, 0, ['black'], [], 4.9, 256, 150, 'hit', 'Официальная игровая шайба'],
-  ['Шайба с автографами команды', 'barys', 'gear', 'puck', 14990, 0, ['black'], [], 5.0, 9, 2, 'new', 'Подписи игроков основного состава', { sign: true }],
+  ['Шайба коллекционная BARYS', 'barys', 'gear', 'puck', 2990, 0, ['black'], [], 4.9, 256, 150, 'hit', 'Официальная игровая шайба', { photo: { black: 'puck' } }],
+  ['Шайба с автографами команды', 'barys', 'gear', 'puck', 14990, 0, ['black'], [], 5.0, 9, 2, 'new', 'Подписи игроков основного состава', { sign: true, photo: { black: 'puck' } }],
   ['Клюшка сувенирная мини', 'barys', 'gear', 'stick', 5990, 0, ['navy', 'white'], [], 4.6, 44, 30, '', 'Длина 45 см, подарочная упаковка'],
   ['Клюшка игровая Barys Pro SR', 'barys', 'gear', 'stick', 64990, 79990, ['black'], [], 4.8, 17, 6, '', 'Карбон, загиб P92, флекс 75'],
   ['Бомбер BARYS Varsity', 'barys', 'hoodie', 'bomber', 44990, 0, ['navy', 'black'], SZ('S', 'XXL'), 4.9, 36, 20, 'new hit', 'Сатин, рибана в полоску, вышитый барс', { num: 99, photo: { navy: 'bomberblue' } }],
@@ -1860,15 +1844,17 @@ function bagSVG() {
     ${T(100, 160, 8.5, '#FFFFFF', 'BARYS STORE', 'letter-spacing="3"')}
   </svg>`;
 }
-/* Product photos: background-free cutouts in assets/ph/cut (originals in assets/ph).
+/* Product photos: background-free cutouts in assets/ph/cut, trimmed to the subject.
    A product shows its photo for the colour that was shot, the illustration for the others. */
-const PH = { cap: [744, 552], bomberblue: [529, 1000], coat: [494, 1000], bag: [539, 452] };
+const PH = { cap: [1000, 773], bomberblue: [602, 1000], coat: [640, 1000], bag: [967, 1000], jersey: [793, 1000], puck: [1000, 849] };
+// the puck photo has no autographs: the signed puck draws them over the face (viewBox units)
+const PH_SIGN = '<path d="M64 76 q6 -9 12 -1 t12 -3 t10 2 M144 60 q5 -7 10 -1 t9 -3 M150 94 q7 -8 13 0 t11 -4 M72 150 q9 6 17 -2 t15 0 M118 158 q6 -7 12 -1 t10 -3 t10 3" stroke="#E7C27A" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
 const phSrc = k => `assets/ph/cut/${k}.webp`;
 function photoSVG(p, k, view) {
   const [w, h] = PH[k], s = 200 / Math.max(w, h), iw = w * s, ih = h * s;
   // "another angle" = a closer crop on the upper-middle of the shot (crest, embroidery)
   const vb = view === 'back' ? '45 30 110 110' : '0 0 200 200';
-  return `<svg class="ph" viewBox="${vb}" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', деталь', ', бөлшек', ', detail') : ''}"><image href="${phSrc(k)}" x="${(200 - iw) / 2}" y="${(200 - ih) / 2}" width="${iw}" height="${ih}"/></svg>`;
+  return `<svg class="ph" viewBox="${vb}" role="img" aria-label="${esc(pn(p))}${view === 'back' ? L(', деталь', ', бөлшек', ', detail') : ''}"><image href="${phSrc(k)}" x="${(200 - iw) / 2}" y="${(200 - ih) / 2}" width="${iw}" height="${ih}"/>${p.extra.sign ? PH_SIGN : ''}</svg>`;
 }
 function artSVG(p, colorKey, view = 'front', custom) {
   const ph = !custom && p.extra.photo && p.extra.photo[colorKey || p.colors[0]];
@@ -2116,28 +2102,20 @@ function dcFoot(id) {
 }
 const snow = n => Array.from({ length: n }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--y:${(i * 53) % 90}%;--s:${4 + (i * 7) % 6}px;--t:${7 + (i * 3) % 6}s;--dl:${-(i * 1.3).toFixed(1)}s"></i>`).join('');
 function renderPicks() {
-  const pair = ['p4', 'p22', 'p6'];
   $('#picksGrid').innerHTML = `
   <article class="dc dc-cap1 wide rv" aria-label="${esc(pn(PMAP.p10))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-streak"></i><i class="fx-spot"></i><span class="fx-no">01</span><i class="fx-floor"></i></div>
-    <div class="dc-stage">${dcShot('cap', [[52, 37, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 86, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [13, 58, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
+    <div class="dc-stage">${dcShot('cap', [[54, 40, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 86, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [13, 58, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
     <div class="dc-copy">${dcHead('01', L('Кепка · Streetwear', 'Кепка · Streetwear', 'Cap · Streetwear'), L('Барс на первом плане', 'Барыс алдыңғы қатарда', 'The leopard up front'), L('Объёмная вышивка, плотный хлопок и козырёк, который держит форму с первого дня.', 'Көлемді кестелеу, тығыз мақта және бірінші күннен пішінін сақтайтын күнқағар.', 'Raised embroidery, dense cotton and a visor that holds its shape from day one.'))}${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i><span class="fx-word">VARSITY</span></div>
-    <div class="dc-stage">${dcShot('bomberblue', [[46, 40, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [52, 22, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [80, 52, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'l']])}</div>
+    <div class="dc-stage">${dcShot('bomberblue', [[51, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [47, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [80, 52, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'l']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
-  </article>
-  <article class="dc dc-cap2 wide rv" aria-label="${esc(pn(PMAP.p10))}">
-    <div class="dc-fx" aria-hidden="true"><div class="fx-rows">${'<span>BARYS BARYS BARYS BARYS</span>'.repeat(6)}</div><i class="fx-band"></i></div>
-    <div class="dc-stage">${dcShot('cap', [], 'macro')}</div>
-    <div class="dc-copy">${dcHead('03', L('Кепка · Style', 'Кепка · Style', 'Cap · Style'), L('Носи как хочешь', 'Қалай қаласаң, солай ки', 'Wear it your way'), L('С худи на матч, с бомбером в город, с футболкой на лёд. Одна кепка, три образа.', 'Матчқа худимен, қалаға бомбермен, мұзға футболкамен. Бір кепка, үш образ.', 'With a hoodie to the game, a bomber in town, a tee on the ice. One cap, three looks.'))}
-      <div class="dc-pair"><span>${L('С чем носить', 'Немен кию керек', 'Wear it with')}</span>${pair.map(id => `<button type="button" data-action="quick" data-id="${id}" aria-label="${esc(pn(PMAP[id]))}">${artSVG(PMAP[id], PMAP[id].colors[0])}</button>`).join('')}</div>
-      ${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-beam"></i><span class="fx-temp">−30°</span><div class="fx-snow">${snow(18)}</div></div>
-    <div class="dc-stage">${dcShot('coat', [[30, 44, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [66, 17, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood')]])}</div>
+    <div class="dc-stage">${dcShot('coat', [[30, 44, L('Стёганый утеплитель', 'Сырылған жылытқыш', 'Quilted fill'), 'lw'], [64, 25, L('Капюшон-стойка', 'Тік күләпара', 'Stand-up hood'), 'l']])}</div>
     <div class="dc-copy">${dcHead('04', L('Пуховик · −30 °C', 'Пуховик · −30 °C', 'Down jacket · −30 °C'), L('Сделан для настоящей зимы', 'Нағыз қысқа арналған', 'Built for real winter'), L('Зима длиннее сезона. Объём держит тепло, плотная ткань не пускает ветер.', 'Қыс маусымнан ұзақ. Көлем жылуды сақтайды, тығыз мата желді өткізбейді.', 'Winter outlasts the season. The loft keeps heat in, the dense shell keeps wind out.'))}
       <ul class="dc-specs"><li>${ic('snow')}${L('Утеплитель 300 г/м²', 'Жылытқыш 300 г/м²', '300 g/m² fill')}</li><li>${ic('shield')}${L('Ветрозащита', 'Желден қорғау', 'Wind-proof')}</li></ul>
       ${dcFoot('p23')}</div>
@@ -2145,7 +2123,7 @@ function renderPicks() {
   <article class="dc dc-bag rv" style="--d:1" aria-labelledby="dcBagT">
     <div class="dc-fx" aria-hidden="true"><i class="fx-light"></i><i class="fx-floor"></i></div>
     <div class="dc-stage">${dcShot('bag')}<div class="dc-mirror" aria-hidden="true"><img src="${phSrc('bag')}" alt="" loading="lazy" decoding="async"></div></div>
-    <div class="dc-copy"><p class="dc-tag"><span>05</span>${L('Barys Store · Упаковка', 'Barys Store · Қаптама', 'Barys Store · Packaging')}</p><h3 class="dc-title" id="dcBagT">${L('Покупку приятно нести', 'Сатып алғанды көтеру жағымды', 'A bag worth carrying')}</h3><p class="dc-lead">${L('Плотный матовый картон, текстильные ручки и барс в белой печати. Каждый заказ упакуем в фирменный пакет бесплатно.', 'Тығыз күңгірт картон, мата тұтқалар және ақ баспадағы барыс. Әр тапсырысты фирмалық пакетке тегін саламыз.', 'Heavy matte board, textile handles, the leopard in white print. Every order ships in it, free.')}</p>
+    <div class="dc-copy"><p class="dc-tag"><span>03</span>${L('Barys Store · Упаковка', 'Barys Store · Қаптама', 'Barys Store · Packaging')}</p><h3 class="dc-title" id="dcBagT">${L('Покупку приятно нести', 'Сатып алғанды көтеру жағымды', 'A bag worth carrying')}</h3><p class="dc-lead">${L('Плотный матовый картон, текстильные ручки и барс в белой печати. Каждый заказ упакуем в фирменный пакет бесплатно.', 'Тығыз күңгірт картон, мата тұтқалар және ақ баспадағы барыс. Әр тапсырысты фирмалық пакетке тегін саламыз.', 'Heavy matte board, textile handles, the leopard in white print. Every order ships in it, free.')}</p>
       <ul class="dc-specs"><li>${ic('package')}${L('В каждом заказе', 'Әр тапсырыста', 'In every order')}</li><li>${ic('spark')}${L('Готов к подарку', 'Сыйлыққа дайын', 'Gift-ready')}</li></ul>
       <a class="link-arrow" href="#/shop"><span>${L('Выбрать подарок', 'Сыйлық таңдау', 'Find a gift')}</span>${ic('arrow')}</a></div>
   </article>`;
