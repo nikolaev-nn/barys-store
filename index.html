@@ -397,7 +397,8 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 
 /* marquee: one tone, slow, small */
 .marquee{overflow:hidden;padding:var(--sp-3) 0;border-block:1px solid var(--border)}
-.marquee-track{display:flex;width:max-content;animation:marq 120s linear infinite}
+/* two identical groups, each at least a screen wide (--n repeats of the words), so the -50% loop never shows a gap; time scales with --n to keep the speed */
+.marquee-track{display:flex;width:max-content;animation:marq calc(120s * var(--n,1)) linear infinite}
 .marquee-group{display:flex;align-items:center;gap:var(--sp-5);padding-right:var(--sp-5)}
 .marquee-group span{font-size:var(--fs-1);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);white-space:nowrap}
 .marquee-group i{width:4px;height:4px;border-radius:50%;background:var(--text-3)}
@@ -597,17 +598,17 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .dc-solid{background:var(--solid);color:var(--solid-ink)}
 .dc .link-arrow{align-self:flex-start;margin-top:var(--sp-2)}
 /* callouts: a dot on the detail, a label chip beside it */
-.dc-pin{position:absolute;left:var(--x);top:var(--y)}
-.dc-pin i{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 4px rgba(92,196,236,.4)}
-.dc-pin i::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid #FFFFFF;animation:pinPulse 2.4s var(--ease) infinite}
-.dc-pin b{position:absolute;left:18px;top:0;transform:translateY(-50%) rotate(calc(-1 * var(--rot,0deg)));transform-origin:0 50%;padding:5px 10px;border-radius:var(--r-3);background:var(--pin);color:#FFFFFF;font-size:var(--fs-1);font-weight:600;line-height:1.2;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.dc-pin.l b{left:auto;right:18px;transform-origin:100% 50%}
-@keyframes pinPulse{from{transform:scale(1);opacity:.9}to{transform:scale(2.2);opacity:0}}
-/* .lw = label on the left only while the stage is wide; narrow stages flip it right so it never leaves the card */
-.dc-pin.lw b{left:auto;right:18px;transform-origin:100% 50%}
-@container (max-width:520px){.dc-pin.lw b{left:18px;right:auto;transform-origin:0 50%}}
-/* .rw = label on the right only while the stage has room for it; narrower stages flip it left */
-@container (max-width:460px){.dc-pin.rw b{left:auto;right:18px;transform-origin:100% 50%}}
+/* callout: a still anchor on the detail, a leader line that draws in once, then the label (no blinking) */
+.dc-pin{--gap:30px;position:absolute;left:var(--x);top:var(--y)}
+.dc-pin i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px rgba(5,20,52,.45),0 0 0 6px rgba(255,255,255,.2)}
+.dc-pin b{position:absolute;left:var(--gap);top:0;transform:translateY(-50%) rotate(calc(-1 * var(--rot,0deg)));transform-origin:0 50%;padding:5px 10px;border-radius:var(--r-3);background:var(--pin);color:#FFFFFF;font-size:var(--fs-1);font-weight:600;line-height:1.2;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.dc-pin b::before{content:"";position:absolute;top:50%;right:100%;width:calc(var(--gap) - 4px);height:1.5px;margin-top:-.75px;background:#FFFFFF;box-shadow:0 0 0 .75px rgba(5,20,52,.4);transform:scaleX(0);transform-origin:0 50%;transition:transform var(--dur-3) var(--ease) .3s}
+.dc.in .dc-pin b::before{transform:scaleX(1)}
+/* label on the left of the anchor: .l always, .lw while the stage is wide, .rw only when it is narrow */
+.dc-pin.l b,.dc-pin.lw b{left:auto;right:var(--gap);transform-origin:100% 50%}
+.dc-pin.l b::before,.dc-pin.lw b::before{right:auto;left:100%;transform-origin:100% 50%}
+@container (max-width:520px){.dc-pin.lw b{left:var(--gap);right:auto;transform-origin:0 50%}.dc-pin.lw b::before{left:auto;right:100%;transform-origin:0 50%}}
+@container (max-width:460px){.dc-bomber .dc-stage .dc-shot{--tx:-50%}.dc-pin.rw b{left:auto;right:var(--gap);transform-origin:100% 50%}.dc-pin.rw b::before{right:auto;left:100%;transform-origin:100% 50%}}
 @container (max-width:280px){.dc-pin b{display:none}}
 
 /* 01 cap: streetwear studio. Navy, ice spotlight, rim light, soft floor shadow */
@@ -625,7 +626,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 /* VARSITY sits in the stage and is sized from its height (word = 5.64 × font-size), so it never reaches the copy */
 .dc-bomber .fx-word{position:absolute;left:var(--sp-4);top:var(--sp-5);writing-mode:vertical-rl;transform:rotate(180deg);font:800 min(112px,calc((100cqh - 2 * var(--sp-5)) / 5.64))/.9 var(--font-display);pointer-events:none;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16)}
 /* shifted a little left so «Сатин с блеском» fits to the right of the person */
-.dc-bomber .dc-shot{--tx:-57%;--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
+.dc-bomber .dc-shot{--tx:-60%;--ty:0%;top:auto;bottom:0;width:min(92cqw,98cqh * var(--ar))}
 .dc-bomber .dc-shot img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
 
 /* 04 down jacket: cold tech. Frost gradient, raking light, −30° type, falling snow */
@@ -947,7 +948,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
   .hero-float{animation:none!important}
   .hero-px{transform:none;transition:none}
   .dc-coat .fx-snow i{animation:none;top:var(--y)}
-  .dc-pin i::after{animation:none}
+  .dc-pin b::before{transition:none}
 }
 </style>
 </head>
@@ -2127,12 +2128,12 @@ function renderPicks() {
   $('#picksGrid').innerHTML = `
   <article class="dc dc-cap1 wide rv" aria-label="${esc(pn(PMAP.p10))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-streak"></i><i class="fx-spot"></i><span class="fx-no">01</span><i class="fx-floor"></i></div>
-    <div class="dc-stage">${dcShot('cap', [[54, 40, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 86, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [13, 58, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
+    <div class="dc-stage">${dcShot('cap', [[60, 27, L('3D-вышивка', '3D кестелеу', '3D embroidery')], [80, 86, L('Изогнутый козырёк', 'Иілген күнқағар', 'Curved visor'), 'l'], [13, 58, L('Хлопковый твил', 'Мақта твил', 'Cotton twill'), 'lw']])}</div>
     <div class="dc-copy">${dcHead('01', L('Кепка · Streetwear', 'Кепка · Streetwear', 'Cap · Streetwear'), L('Барс на первом плане', 'Барыс алдыңғы қатарда', 'The leopard up front'), L('Объёмная вышивка, плотный хлопок и козырёк, который держит форму с первого дня.', 'Көлемді кестелеу, тығыз мақта және бірінші күннен пішінін сақтайтын күнқағар.', 'Raised embroidery, dense cotton and a visor that holds its shape from day one.'))}${dcFoot('p10')}</div>
   </article>
   <article class="dc dc-bomber rv" style="--d:1" aria-label="${esc(pn(PMAP.p22))}">
     <div class="dc-fx" aria-hidden="true"><i class="fx-softbox"></i></div>
-    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[42, 46, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [57, 28, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
+    <div class="dc-stage"><span class="fx-word" aria-hidden="true">VARSITY</span>${dcShot('bomberblue', [[46, 45, L('Вышитый барс', 'Кестеленген барыс', 'Embroidered crest'), 'l'], [53, 29, L('Рибана в полоску', 'Жолақты рибана', 'Striped rib')], [93, 56, L('Сатин с блеском', 'Жылтыр атлас', 'Satin shell'), 'rw']])}</div>
     <div class="dc-copy">${dcHead('02', L('Бомбер · City', 'Бомбер · City', 'Bomber · City'), L('Город тоже арена', 'Қала да — арена', 'The city is an arena too'), L('Гладкий сатин, полосатая рибана, металлическая молния. Его носят и те, кто не смотрит хоккей.', 'Тегіс атлас, жолақты рибана, металл сыдырма. Хоккей көрмейтіндер де киеді.', 'Smooth satin, striped rib, metal zip. Worn even by people who never watch hockey.'))}${dcFoot('p22')}</div>
   </article>
   <article class="dc dc-coat rv" aria-label="${esc(pn(PMAP.p23))}">
@@ -2243,7 +2244,9 @@ const skelHTML = n => Array.from({ length: n }, () => '<div class="skel" aria-hi
 /* ── landing: teams, marquee, rail, bento ────────────── */
 function buildLanding() {
   const words = ['Barys Store', 'Official merch', 'Astana', 'Hockey is our game', 'Бәрі алға!', 'Est. 1999'];
-  const grp = `<div class="marquee-group">${words.map(w => `<span>${w}</span><i></i>`).join('')}</div>`;
+  const n = Math.max(2, Math.ceil(Math.max(screen.width, innerWidth) / 800)); // one set of words is ~940px wide
+  const grp = `<div class="marquee-group">${Array(n).fill(words).flat().map(w => `<span>${w}</span><i></i>`).join('')}</div>`;
+  $('#marquee').style.setProperty('--n', n);
   $('#marquee').innerHTML = grp + grp;
 }
 function renderRail() {
