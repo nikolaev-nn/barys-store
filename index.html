@@ -522,6 +522,8 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .sw::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px var(--border)}
 .sw[aria-pressed="true"]::before{outline:1.5px solid var(--text-1);outline-offset:2px}
 .sw-more{margin-left:var(--sp-1);font-size:var(--fs-1);color:var(--text-2)}
+/* touch: same 10px dot, 32px tap area */
+@media (pointer:coarse){.swatches{height:32px;margin-left:-11px}.sw{width:32px;height:32px}}
 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2)}
 .price{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 var(--sp-2)}
 .price b{font-size:var(--fs-2);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -539,6 +541,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .grid{--cols:4;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--sp-7) var(--sp-5)}
 .grid.c3{--cols:3}
 @media (max-width:1280px){#grid{--cols:3}}
+@media (min-width:1024px){.is-wish #grid:not(.c3){--cols:4}} /* no filter sidebar in the wishlist */
 @media (max-width:899px){.grid,.grid.c3,#grid{--cols:2;gap:var(--sp-6) var(--sp-4)}}
 .grid.list{--cols:1!important;row-gap:var(--sp-5)}
 .grid.list .card{flex-direction:row;align-items:center;gap:var(--sp-5)}
@@ -769,6 +772,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .select select{-webkit-appearance:none;appearance:none;height:var(--h-1);padding:0 40px 0 var(--sp-4);border:0;border-radius:var(--r-3);background:var(--surface-1);font-size:var(--fs-1);font-weight:600;cursor:pointer;outline:0}
 .select select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .select select option{background:var(--bg-deep);color:var(--text-1)}
+@media (pointer:coarse){.select select{font-size:var(--fs-2)}} /* under 16px, iOS zooms the page on tap */
 .select .ic{position:absolute;right:var(--sp-3);top:50%;transform:translateY(-50%);pointer-events:none;width:16px;height:16px;color:var(--text-3)}
 .seg.density button,.seg.view-seg button{padding:0;width:32px}
 .active-chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-4)}
@@ -779,6 +783,11 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .empty{text-align:center;padding:var(--sp-8) var(--sp-5);border-radius:var(--r-2);background:var(--surface-1)}
 .empty-ill{width:120px;margin:0 auto var(--sp-5)}
 .empty h3{font-family:var(--font-display);font-size:var(--fs-4);text-transform:uppercase}
+.empty-ic{display:grid;place-items:center;width:96px;height:96px;margin:0 auto var(--sp-5);border-radius:50%;background:var(--surface-1);color:var(--text-2)}
+.empty-ic .ic{width:40px;height:40px;stroke-width:1.4}
+/* wishlist: the catalogue grid without the catalogue's filters, tabs and filter chips */
+.is-wish :is(.filters,.sheet-backdrop,.open-filters,.cat-tabs,.active-chips){display:none}
+.is-wish .shop-layout{grid-template-columns:minmax(0,1fr)}
 .empty p{max-width:380px;margin:var(--sp-3) auto var(--sp-5);color:var(--text-2)}
 .more{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);margin-top:var(--sp-7);color:var(--text-2);font-size:var(--fs-1)}
 .more-bar{width:220px;height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
@@ -907,6 +916,7 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
 .s-row .ic{color:var(--text-3)}
 .s-row input{flex:1;min-width:0;height:var(--h-3);background:none;border:0;outline:0;font-family:var(--font-display);font-size:var(--fs-4);font-weight:600;color:var(--text-1)}
 .s-row input::placeholder{color:var(--text-3)}
+@media (max-width:560px){.s-row input{height:var(--h-2);font-family:var(--font-body);font-size:var(--fs-3)}.s-row input::placeholder{text-overflow:ellipsis}}
 .s-hints{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-4)}
 .s-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-2);margin-top:var(--sp-3)}
 .s-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2);border-radius:var(--r-2);text-align:left}
@@ -1248,6 +1258,12 @@ html[lang="kk"] .hero-title{font-size:min(64px,8.6cqi)}
         <h3 data-i18n="nothing">Ничего не найдено</h3>
         <p data-i18n="emptyText">Попробуйте изменить запрос или ослабить фильтры. Шайба где-то рядом.</p>
         <button class="btn btn-ice" data-action="reset" data-i18n="resetFull">Сбросить фильтры</button>
+      </div>
+      <div class="empty" id="emptyWish" hidden>
+        <div class="empty-ic" aria-hidden="true"><svg class="ic"><use href="#i-heart"/></svg></div>
+        <h3 data-i18n="wishEmpty">В избранном пока пусто</h3>
+        <p data-i18n="wishEmptyText">Нажмите на сердечко у товара, и он появится здесь.</p>
+        <a class="btn" href="#/shop" data-i18n="toShop">В каталог</a>
       </div>
       <div class="more" id="more" hidden>
         <span id="moreText"></span>
@@ -2332,6 +2348,8 @@ function applyParams(params) {
   if (S.min > S.max) [S.min, S.max] = [S.max, S.min];
   S.stock = params.get('stock') === '1'; S.sale = params.get('sale') === '1'; S.isNew = params.get('new') === '1'; S.wish = params.get('wish') === '1';
   if (SORTS[params.get('sort')]) S.sort = params.get('sort');
+  // the wishlist has no filter UI, so filters carried in the URL would hide items with no way to clear them
+  if (S.wish) { const sort = S.sort; resetState(); Object.assign(S, { wish: true, sort }); }
 }
 function toParams() {
   const p = new URLSearchParams();
@@ -2410,6 +2428,7 @@ addEventListener('resize', debounce(moveTabInd, 120));
 if (document.fonts) document.fonts.ready.then(() => moveTabInd());
 function renderHead(n) {
   const title = shopTitle();
+  $('#page-shop').classList.toggle('is-wish', S.wish);
   $('#shopTitleText').textContent = title;
   $('#crumbs').innerHTML = `<a href="#/">${L('Главная', 'Басты бет', 'Home')}</a>${ic('right')}` + (title === ALL_T() ? `<span aria-current="page">${L('Каталог', 'Каталог', 'Catalogue')}</span>` : `<a href="#/shop">${L('Каталог', 'Каталог', 'Catalogue')}</a>${ic('right')}<span aria-current="page">${esc(title)}</span>`);
   ['', '2'].forEach(s => { $('#resultCount' + s).textContent = n; $('#resultWord' + s).textContent = items(n); });
@@ -2425,7 +2444,7 @@ function renderShop(loading = true) {
   renderChips();
   clearTimeout(loadT);
   if (loading) {
-    grid.hidden = false; $('#empty').hidden = true; $('#more').hidden = true;
+    grid.hidden = false; $('#empty').hidden = $('#emptyWish').hidden = true; $('#more').hidden = true;
     grid.setAttribute('aria-busy', 'true');
     grid.innerHTML = skelHTML(Math.max(4, Math.min(S.limit, LIST.length || 4)));
     loadT = setTimeout(() => { loadT = 0; renderGrid(); }, 400 + Math.random() * 200);
@@ -2436,7 +2455,8 @@ function renderGrid() {
   const show = LIST.slice(0, S.limit);
   grid.innerHTML = show.map((p, i) => cardHTML(p, i % PAGE)).join('');
   grid.hidden = !LIST.length;
-  $('#empty').hidden = !!LIST.length;
+  $('#empty').hidden = !!LIST.length || S.wish;
+  $('#emptyWish').hidden = !!LIST.length || !S.wish;
   updateMore();
 }
 function updateMore() {
@@ -2917,6 +2937,7 @@ const KZ = {
   h1: 'Жеткізу және төлем', h2: 'Айырбастау және қайтару', h3: 'Өлшемдер кестесі', h4: 'Байланыс', k1: 'Матчтарға билеттер', k3: 'Абонементтер', payLbl: 'Төлем түрлері',
   pkKicker: 'Коллекция 25/26', pkTitle: 'Тек трибунаға <em>ғана емес</em>',
   newsKicker: 'Жаңалықтар', shopKicker: 'Barys Store · Каталог', c_jersey: 'Джерси', k2: 'Барыс Арена', conceptNote: 'Редизайн концепті, ресми дүкен емес',
+  wishEmpty: 'Таңдаулыларда әзірге бос', wishEmptyText: 'Тауардағы жүрекшені басыңыз, ол осында пайда болады.',
   cart: 'Себет', sLabel: 'Не іздейміз?', phSearch: 'Не іздейміз? Джерси, шарф, шайба…'
 };
 const EN = {
@@ -2942,6 +2963,7 @@ const EN = {
   fHelp: 'Help', fClub: 'Club', c_jersey: 'Jerseys', c_hoodie: 'Apparel', c_winter: 'Beanies & scarves', sale: 'Sale',
   h1: 'Delivery & payment', h2: 'Exchanges & returns', h3: 'Size guide', h4: 'Contacts', k1: 'Match tickets', k2: 'Barys Arena', k3: 'Season tickets', payLbl: 'We accept',
   conceptNote: 'Concept redesign, not an official store',
+  wishEmpty: 'Your wishlist is empty', wishEmptyText: 'Tap the heart on any product and it will show up here.',
   cart: 'Cart', sLabel: 'What are you looking for?', phSearch: 'What are you looking for? Jersey, scarf, puck…'
 };
 const DICT = { kz: KZ, en: EN };
